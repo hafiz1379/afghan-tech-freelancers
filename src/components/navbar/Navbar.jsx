@@ -40,7 +40,7 @@ const Navbar = () => {
           {!currentUser && <button className="bg-main hover:bg-accent text-white px-4 py-2 rounded-lg">Join</button>}
           {currentUser && (
             <div className="flex gap-2 items-center cursor-pointer relative">
-              <img className="h-8 w-8 rounded-2xl" src="" alt="" />
+              <img className="h-8 w-8 rounded-2xl" src="/images/man.png" alt="" />
               <span>{currentUser?.username}</span>
               {open && <div className="absolute top-12 right-0 p-5 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light">
                 {
