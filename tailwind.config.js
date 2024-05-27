@@ -64,9 +64,9 @@ module.exports = {
         8: "8px",
       },
       flex_center: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       },
     },
   },
