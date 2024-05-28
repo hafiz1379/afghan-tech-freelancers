@@ -23,7 +23,7 @@ const responsive = {
 
 function Slide({ children }) {
   return (
-    <div>
+    <div className="py-20">
       <Carousel
         className="flex gap-3"
         responsive={responsive}
