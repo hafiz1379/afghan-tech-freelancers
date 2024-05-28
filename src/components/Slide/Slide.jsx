@@ -25,10 +25,11 @@ function Slide({ children }) {
   return (
     <div>
       <Carousel
+        className="flex gap-3"
         responsive={responsive}
         infinite={true}
         autoPlay={true}
-        autoPlaySpeed={3000}
+        autoPlaySpeed={5000}
         keyBoardControl={true}
         transitionDuration={500}
       >
