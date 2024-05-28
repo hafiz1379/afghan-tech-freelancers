@@ -32,6 +32,15 @@ function Features() {
   );
 }
 
-
-
+const FeatureItem = ({ title, description }) => {
+  return (
+    <div className="flex items-start justify-center flex-col mb-4">
+      <div className="flex items-center gap-1 mb-1">
+        <FaRegCheckCircle className="text-green-600" size={24} />
+        <h3 className="text-xl font-semibold text-gray-600">{title}</h3>
+      </div>
+      <p className="text-sm md:text-base text-gray-500">{description}</p>
+    </div>
+  );
+};
 export default Features;
