@@ -182,3 +182,22 @@ export const gigs = [
     username: "Wilton Hunt",
   },
 ];
+
+export const features = [
+  {
+    title: "Basics of Web Development",
+    desc: "Web development is exciting, offering opportunities to create dynamic and engaging websites and applications.",
+  },
+  {
+    title: "Top Freelance Platforms 2024",
+    desc: "Upwork, Freelancer, and Toptal provide excellent projects and great opportunities for software developers.",
+  },
+  {
+    title: "Successful Freelance Career",
+    desc: "Succeeding in freelancing is rewarding, with a strong portfolio and happy clients leading to numerous benefits.",
+  },
+  {
+    title: "Tools for Remote Dev Teams",
+    desc: "Git, Jira, Trello, Slack, and Zoom ensure seamless collaboration and success for remote development teams.",
+  },
+];
