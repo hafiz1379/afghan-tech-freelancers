@@ -6,6 +6,7 @@ import { cards } from "../../temporary/data";
 import CategoryCard from "../../components/categoryCard/CategoryCard";
 import Features from "../../components/features/Features";
 
+
 const Home = () => {
   return (
     <div>

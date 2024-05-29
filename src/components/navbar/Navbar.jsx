@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-nav bg-opacity-80 sticky top-0">
+    <nav className="w-full bg-nav bg-opacity-80 sticky top-0 z-20">
       <div className="flex justify-between items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-56 h-16">
         {/* Logo */}
         <div className="flex items-center space-x-1">
