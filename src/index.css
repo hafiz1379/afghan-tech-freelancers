@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.h2,
+h2 {
+  @apply font-semibold font-poppins text-gray-700 text-2xl my-3;
+}
+
+p {
+  @apply text-gray-500 leading-7 font-normal
+}
