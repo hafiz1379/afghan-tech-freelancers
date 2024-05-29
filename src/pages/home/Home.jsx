@@ -5,7 +5,7 @@ import Slide from "../../components/Slide/Slide";
 import { cards } from "../../temporary/data";
 import CategoryCard from "../../components/categoryCard/CategoryCard";
 import Features from "../../components/features/Features";
-import Gigs from "../gigs/Gigs";
+
 
 const Home = () => {
   return (
@@ -18,7 +18,6 @@ const Home = () => {
         ))}
       </Slide>
       <Features />
-      <Gigs />
     </div>
   );
 };
