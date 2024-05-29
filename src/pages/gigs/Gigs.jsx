@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { gigs } from "../../data";
 import GigCard from "../../components/gigCard/GigCard";
+import { FaChevronDown } from "react-icons/fa";
 
 const Gigs = () => {
   const [sort, setSort] = useState("sales");
@@ -29,7 +30,7 @@ const Gigs = () => {
           <div className="flex items-center gap-2 relative">
             <span className="text-gray-500 font-light">Sort By</span>
             <span className="font-medium cursor-pointer" onClick={() => setOpen(!open)}>{sort === "sales" ? "Best Selling" : "Newest"}</span>
-            <img src="./images/down.png" alt="down" className="w-4 cursor-pointer" onClick={() => setOpen(!open)} />
+            <FaChevronDown className="text-gray-500 w-4 h-4 cursor-pointer" onClick={() => setOpen(!open)} />
             {open && (
               <div className="p-2 bg-white rounded-sm border border-gray-300 absolute top-8 right-0 text-gray-600">
                 {sort === "sales" ? (
