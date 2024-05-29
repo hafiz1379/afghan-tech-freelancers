@@ -167,4 +167,70 @@ const Review = () => {
     </div>
   );
 };
+const Stars = () => {
+  return (
+    <div className="flex gap-[1px] items-center text-gray-500">
+      {Array.from({ length: 5 }, (v, i) => i).map((value) => (
+        <HiStar key={value} size={28} className="text-orange-300" />
+      ))}
 
+      <span className="inline-block ml-2 font-bold text-lg">5</span>
+    </div>
+  );
+};
+
+const Seller = () => {
+  return (
+    <div className="mt-10 flex flex-col text-gray-600">
+      <h2>About the seller</h2>
+      <div className="flex items-center gap-8">
+        <img
+          className="max-w-24 max-h-24 rounded-full object-cover"
+          src="https://avatars.githubusercontent.com/u/117447018?v=4"
+          alt=""
+        />
+
+        <div className="flex flex-col gap-1 items-start">
+          <span className="font-semibold text-xl text-gray-700">
+            Hafizullah Rasa
+          </span>
+          <Stars />
+          <button className="bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold">
+            Contact Me
+          </button>
+        </div>
+      </div>
+      <div className="border-gray-400 border p-6 rounded-sm mt-6">
+        <div className="grid md:grid-cols-2 gap-4 font-semibold">
+          <div className="md:col-span-1">
+            <div className="flex flex-wrap justify-start gap-4 my-3">
+              <span className="title">From</span>
+              <span className="description">Afghanistan</span>
+            </div>
+            <div className="flex flex-wrap justify-start gap-4 my-3">
+              <span className="title">Ave responsive time</span>
+              <span className="description">5 hours</span>
+            </div>
+          </div>
+          <div className="md:col-span-1">
+            <div className="flex flex-wrap justify-start gap-4 my-3">
+              <span className="title">Language</span>
+              <span className="description">Dari, Pashto, English</span>
+            </div>
+            <div className="flex flex-wrap justify-start gap-4 my-3">
+              <span className="title">From</span>
+              <span className="description">Afghanistan</span>
+            </div>
+          </div>
+        </div>
+        <hr className="my-2" />
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius facere
+          alias odit earum ad. Animi quas sit dolorem iure nesciunt!
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Gig;
