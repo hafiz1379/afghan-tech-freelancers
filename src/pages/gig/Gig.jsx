@@ -76,3 +76,49 @@ const Gig = () => {
   );
 };
 
+const Price = () => {
+  return (
+    <div className="border rounded p-5 flex flex-col gap-2 md:sticky md:top-32">
+      <div className="price font-bold font-poppins text-gray-600 flex justify-between mb-2.5 ">
+        <h3>Full responsive website</h3>
+        <span>$ 99.5</span>
+      </div>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
+        voluptates corporis unde est nam! Et?
+      </p>
+      <div className="details flex items-center justify-between my-3">
+        <div className="item flex gap-1 items-center">
+          <MdAccessTime size={24} />
+          <p className="font-semibold">2 days delivery</p>
+        </div>
+        <div className="item flex gap-1 items-center">
+          <HiOutlineRefresh size={24} />
+          <p className="font-semibold">3 Revisions</p>
+        </div>
+      </div>
+      <div className="features">
+        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
+          <FaCheck className="text-green-500" />
+          <span>Feature 1</span>
+        </div>
+        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
+          <FaCheck className="text-green-500" />
+          <span>Feature 2</span>
+        </div>
+        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
+          <FaCheck className="text-green-500" />
+          <span>Feature 3</span>
+        </div>
+        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
+          <FaCheck className="text-green-500" />
+          <span>Feature 4</span>
+        </div>
+      </div>
+      <button className="w-full p-3 bg-green-500 hover:bg-green-600 transition duration-200 text-white rounded">
+        Continue
+      </button>
+    </div>
+  );
+};
+
