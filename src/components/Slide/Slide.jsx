@@ -21,11 +21,11 @@ const responsive = {
   },
 };
 
-function Slide({ children }) {
+function Slide({ children, className }) {
   return (
-    <div className="py-20">
+    <div className={`py-20 ${className}`}>
       <Carousel
-        className="flex gap-3"
+        className="flex gap-3 w-full"
         responsive={responsive}
         infinite={true}
         autoPlay={true}
