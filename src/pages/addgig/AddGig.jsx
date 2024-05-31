@@ -33,7 +33,23 @@ const Add = () => {
               <button>Create</button>
             </form>
           </div>
-          <div className="right"></div>
+          <div className="right">
+            <label htmlFor="service">Service Title</label>
+            <input type="text" placeholder="(e.g): One page website" />
+            <label htmlFor="short-description">Short Description</label>
+            <textarea placeholder="Short description of you service"></textarea>
+            <label htmlFor="delivery-time">Delivery Time (e.g: 3 days)</label>
+            <input type="number" min={1} />
+            <label htmlFor="revision-num">Revision Number</label>
+            <input type="number" min={1} />
+            <label htmlFor="add-features">Add Features</label>
+            <input type="text" placeholder="e.g page design" />
+            <input type="text" placeholder="e.g file uploading" />
+            <input type="text" placeholder="e.g setting up a domain" />
+            <input type="text" placeholder="e.g hosting" />
+            <label htmlFor="price">Price</label>
+            <input type="number" min={1} />
+          </div>
         </div>
       </div>
     </div>
