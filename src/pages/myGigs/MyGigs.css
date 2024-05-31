@@ -1,0 +1,7 @@
+.table-even-row:nth-child(even) {
+  background-color: rgb(238, 238, 238);
+}
+
+.td-padding {
+  padding: 12px 0px;
+}
