@@ -3,10 +3,10 @@ import React from "react";
 const Add = () => {
   return (
     <div>
-      <div className="container">
+      <div className="p-12">
         <h1>Add new gig</h1>
-        <div className="sections">
-          <div className="left">
+        <div className="sections grid md:grid-cols-2 gap-5 ">
+          <div className="md:col-span-1 border p-3 rounded">
             <form action="#">
               <label htmlFor="title"></label>
               <input
@@ -30,10 +30,12 @@ const Add = () => {
               <input type="file" multiple />
               <label htmlFor="image-description">Description</label>
               <textarea placeholder="A brief description to introduce your product to customer"></textarea>
-              <button>Create</button>
+              <button className="bg-blue-600 border text-white rounded px-4 py-1">
+                Create
+              </button>
             </form>
           </div>
-          <div className="right">
+          <div className="md:col-span-1 border p-3 rounded">
             <label htmlFor="service">Service Title</label>
             <input type="text" placeholder="(e.g): One page website" />
             <label htmlFor="short-description">Short Description</label>
