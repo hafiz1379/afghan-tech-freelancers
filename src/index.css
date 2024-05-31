@@ -8,7 +8,11 @@ h2 {
 }
 
 p {
-  @apply text-gray-500 leading-7 font-normal
+  @apply text-gray-500 leading-7 font-normal;
+}
+
+.breadcrumb {
+  @apply font-semibold text-sm text-gray-400 uppercase;
 }
 
 
