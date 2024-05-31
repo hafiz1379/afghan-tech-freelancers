@@ -15,4 +15,12 @@ p {
   @apply font-semibold text-sm text-gray-400 uppercase;
 }
 
+label {
+  @apply text-gray-600 text-lg;
+}
 
+input,
+select,
+textarea {
+  @apply p-2 border rounded border-gray-400;
+}
