@@ -9,7 +9,7 @@ const Gig = () => {
     <div className="grid lg:grid-cols-3 px-4 md:px-10 sm:p-6 md:mt-6 lg:gap-8 relative">
       {/* Left */}
       <div className="lg:col-span-2 flex flex-col gap-4">
-        <span className="font-semibold text-sm text-gray-400">
+        <span className="breadcrumb">
           ATF &gt;&gt; Responsive Web Design
         </span>
         <h1 className="text-2xl font-bold font-poppins">
