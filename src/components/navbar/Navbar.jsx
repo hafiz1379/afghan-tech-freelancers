@@ -33,13 +33,15 @@ const Navbar = () => {
           <span className="text-main text-2xl sm:text-3xl lg:text-4xl text-green-500">.</span>
         </div>
         {/* Menu Items */}
-        <div className="hidden sm:flex gap-4 text-white items-center md:text-xl font-medium" onClick={() => setOpen(!open)}>
-          <span className="cursor-pointer">Home</span>
+        <div className="hidden sm:flex gap-4 text-white items-center md:text-xl font-medium" >
+        <Link to="/" className="cursor-pointer">
+            Home
+          </Link>
           <span className="cursor-pointer">Become a Seller</span>
           {!currentUser?.isSeller && <span className="cursor-pointer">Sign in</span>}
           {!currentUser && <button className="bg-main hover:bg-accent text-white px-4 py-2 rounded-lg">Join</button>}
           {currentUser && (
-            <div className="flex gap-2 items-center cursor-pointer relative">
+            <div className="flex gap-2 items-center cursor-pointer relative" onClick={() => setOpen(!open)}>
               <img className="h-8 w-8 rounded-2xl" src="https://avatars.githubusercontent.com/u/117447018?v=4" alt="Profile picture" />
               <span>{currentUser?.username}</span>
               {open && <div className="absolute top-12 right-0 p-5 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light">
