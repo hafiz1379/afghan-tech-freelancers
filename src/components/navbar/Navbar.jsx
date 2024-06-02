@@ -24,7 +24,7 @@ const Navbar = () => {
 
   return (
     <nav className="w-full bg-nav bg-opacity-80 sticky top-0 z-20">
-      <div className="flex justify-between items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-56 h-16">
+      <div className="flex justify-between items-center px-4 sm:px-8 md:px-10 lg:px-24 xl:px-14 h-16">
         {/* Logo */}
         <div className="flex items-center space-x-1">
           <Link to="/">
@@ -33,14 +33,16 @@ const Navbar = () => {
           <span className="text-main text-2xl sm:text-3xl lg:text-4xl text-green-500">.</span>
         </div>
         {/* Menu Items */}
-        <div className="hidden sm:flex gap-4 text-white items-center md:text-xl font-medium" onClick={() => setOpen(!open)}>
-          <span className="cursor-pointer">Home</span>
+        <div className="hidden sm:flex gap-4 text-white items-center md:text-xl font-medium" >
+        <Link to="/" className="cursor-pointer">
+            Home
+          </Link>
           <span className="cursor-pointer">Become a Seller</span>
           {!currentUser?.isSeller && <span className="cursor-pointer">Sign in</span>}
           {!currentUser && <button className="bg-main hover:bg-accent text-white px-4 py-2 rounded-lg">Join</button>}
           {currentUser && (
-            <div className="flex gap-2 items-center cursor-pointer relative">
-              <img className="h-8 w-8 rounded-2xl" src="/images/man.png" alt="" />
+            <div className="flex gap-2 items-center cursor-pointer relative" onClick={() => setOpen(!open)}>
+              <img className="h-8 w-8 rounded-2xl" src="https://avatars.githubusercontent.com/u/117447018?v=4" alt="Profile picture" />
               <span>{currentUser?.username}</span>
               {open && <div className="absolute top-12 right-0 p-5 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light">
                 {
@@ -78,7 +80,7 @@ const Navbar = () => {
           {currentUser && (
             <div>
               <div className="flex gap-2 items-center cursor-pointer" onClick={toggleUserMenu}>
-                <img className="h-8 w-8 rounded-2xl" src="" alt="" />
+                <img className="h-8 w-8 rounded-2xl" src="https://avatars.githubusercontent.com/u/117447018?v=4" alt="Profile picture" />
                 <span>{currentUser?.username}</span>
               </div>
               {isUserMenuOpen && (
