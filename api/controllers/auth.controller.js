@@ -28,15 +28,14 @@ export const login = async (req, res, next) => {
       return next(createError(404, "There is no user with this information"));
 
     const isCorrect = bcrypt.compareSync(req.body.password, user.password);
-    if (!isCorrect) 
-      return next(createError(400, "Wrong password or username"));
+    if (!isCorrect) return next(createError(400, "Wrong password or username"));
 
     const token = jwt.sign(
       {
         id: user._id,
         isSeller: user.isSeller,
       },
-      process.env.JWT_KEY
+      process.env.JWT_KEY,
     );
 
     const { password, ...info } = user._doc;
@@ -48,13 +47,20 @@ export const login = async (req, res, next) => {
       .status(200)
       .send(info);
   } catch (error) {
-    next(error)
+    next(error);
     console.log(error);
   }
 };
 
 export const logout = async (req, res) => {
   try {
+    res
+      .clearCookie("accessToken", {
+        sameSite: "none",
+        secure: true,
+      })
+      .status(200)
+      .send("User has been logged out");
   } catch (error) {
     console.log(error);
   }
