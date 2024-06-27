@@ -26,6 +26,13 @@ app.use("/api/v1/reviews", reviewRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
 
+app.use((err, req, res, next) =>{
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong";
+
+  return res.status(errorStatus).send(errorMessage);
+})
+
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO);
