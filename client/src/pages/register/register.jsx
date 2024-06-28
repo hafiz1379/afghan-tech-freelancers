@@ -1,5 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import newRequest from "../../utils/newRequest";
+import uploead from "../../utils/upload";
+import { useNavigate } from "react-router-dom";
+
 
 function Register() {
   // State to hold the selected file
@@ -16,33 +20,41 @@ function Register() {
     desc: "",
   });
 
+    const navigate = useNavigate();
+
   // Function to handle input changes for text fields
   const handleChange = (e) => {
     setUser((prev) => {
-      const updatedUser = {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-      console.log(updatedUser); // Log the updated user state
-      return updatedUser;
-    });
+        return { ...prev, [e.target.name]: e.target.value};
+      }); 
   };
 
   // Function to handle checkbox change for seller status
   const handleSeller = (e) => {
-    setUser((prev) => {
-      const updatedUser = {
-        ...prev,
-        [e.target.name]: e.target.checked,
-      };
-      console.log(updatedUser); // Log the updated user state
-      return updatedUser;
-    });
-  };
+    setUser((prev) => { 
+        return {...prev, isSeller: e.target.checked};
+  });
+    };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const url = await uploead(file);
+    try {
+        await newRequest.post("auth/register", {
+            ...user,
+            img: url,
+        });
+        navigate("/")
+    }catch(err){
+        console.log(err);
+    }
+    }
 
   return (
     <div className="container mx-auto p-4 lg:px-14">
-      <form action="" className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <div className="lg:flex lg:space-x-16">
           <div className="lg:w-1/2 space-y-4">
             <h1 className="text-2xl font-bold">Create a new account</h1>
