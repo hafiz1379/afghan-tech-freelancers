@@ -1,8 +1,20 @@
 import Gig from "../models/gig.model.js";
 import createError from "../utils/createError.js";
 
+// GET ALL GIGS OR GET ALL BY FILTER
 export const getAllGigs = async (req, res, next) => {
   try {
+    const q = req.query;
+
+    const filters = {
+      ...(q.cat && { cat: q.cat }),
+      ...((q.min || q.max) && {
+        price: { ...(q.min && { $gt: q.min }), ...(q.max && { $ls: q.max }) },
+      }),
+      ...(q.search && { title: { $regex: q.search, $options: "i" } }),
+    };
+    const gigs = await Gig.find(filters);
+    res.status(200).json(gigs);
   } catch (error) {}
 };
 
@@ -39,8 +51,13 @@ export const deleteGig = async (req, res, next) => {
     next(error);
   }
 };
+
+// GET A GIG BY ID
 export const getGig = async (req, res, next) => {
   try {
+    const gig = await Gig.findById(req.params.id);
+    if (!gig) return next(createError(404, "Gig not found"));
+    res.status(200).json(gig);
   } catch (error) {
     next(error);
   }
