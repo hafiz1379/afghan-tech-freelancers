@@ -1,7 +1,8 @@
 import User from "./../models/user.model.js";
 import createError from "../utils/createError.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import express from "express";
 
 // Register a new user
 export const register = async (req, res, next) => {
@@ -24,11 +25,12 @@ export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
 
-    if (!user)
-      return next(createError(404, "There is no user with this information"));
-
-    const isCorrect = bcrypt.compareSync(req.body.password, user.password);
-    if (!isCorrect) return next(createError(400, "Wrong password or username"));
+    const isCorrect = bcrypt.compareSync(
+      req.body.password || "",
+      user.password,
+    );
+    if (!isCorrect || !user)
+      return next(createError(400, "Wrong password or username"));
 
     const token = jwt.sign(
       {
