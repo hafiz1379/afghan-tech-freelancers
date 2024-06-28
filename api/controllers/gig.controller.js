@@ -6,7 +6,6 @@ export const getAllGigs = async (req, res, next) => {
   } catch (error) {}
 };
 
-
 // CREATE A NEW GIG
 export const createGig = async (req, res, next) => {
   try {
@@ -25,8 +24,17 @@ export const createGig = async (req, res, next) => {
     next(error);
   }
 };
+
+// DELETE AN EXISTING GIG
 export const deleteGig = async (req, res, next) => {
   try {
+    const gig = await Gig.findById(req.params.id);
+    if (gig.userId !== req.userId) {
+      return next(createError(403, "You can delete only your gig"));
+    }
+
+    await Gig.findByIdAndDelete(req.params.id);
+    res.status(200).send("Gig has been deleted");
   } catch (error) {
     next(error);
   }
