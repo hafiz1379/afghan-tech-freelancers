@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
+
 import userRoute from "./routes/user.route.js";
 import conversationRoute from "./routes/conversation.route.js";
 import gigRoute from "./routes/gig.route.js";
@@ -15,6 +17,7 @@ dotenv.config();
 
 // MIDDLEWARES
 app.use(express.json());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(cookieParser());
 
 // ROUTES
@@ -26,12 +29,12 @@ app.use("/api/v1/reviews", reviewRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
 
-app.use((err, req, res, next) =>{
+app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong";
 
   return res.status(errorStatus).send(errorMessage);
-})
+});
 
 const connect = async () => {
   try {
