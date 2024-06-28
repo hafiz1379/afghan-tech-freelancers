@@ -12,6 +12,7 @@ import AddGig from './pages/addgig/AddGig';
 import Messages from './pages/messages/Messages';
 import Message from './pages/message/Message';
 import Login from "./pages/login/Login";
+import Register from './pages/register/register';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
         { path: '/messages', element: <Messages /> },
         { path: '/message/:id', element: <Message /> },
         { path: '/login', element: <Login /> },
+        { path: '/register', element: <Register /> }
       ]
     }
   ]
