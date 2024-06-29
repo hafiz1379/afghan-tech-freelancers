@@ -5,7 +5,7 @@ const GigSchema = new Schema(
   {
     userId: {
       type: String,
-      required,
+      required: true,
     },
     title: {
       type: String,
@@ -66,7 +66,7 @@ const GigSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model("Gig", GigSchema);
