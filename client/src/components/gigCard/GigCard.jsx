@@ -17,7 +17,7 @@ const GigCard = ({ item }) => {
 
   return (
     <div className="w-full sm:w-1/2 lg:w-1/4 py-4 sm:px-2">
-      <Link to="/gig/123">
+      <Link to={`/gig/${item._id}`}>
         <div className=" rounded overflow-hidden shadow-md h-full">
           <img src={item.cover} alt="" className="w-full h-40 object-cover" />
           <div className="px-6 py-4">

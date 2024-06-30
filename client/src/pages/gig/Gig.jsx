@@ -1,123 +1,133 @@
 import React from "react";
+import Slide from "../../components/Slide/Slide";
 import { BiDislike, BiLike } from "react-icons/bi";
+import { useParams } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 import { HiOutlineRefresh, HiStar } from "react-icons/hi";
+import { useQuery } from "@tanstack/react-query";
 import { MdAccessTime } from "react-icons/md";
+import newRequest from "../../utils/newRequest";
 
 const Gig = () => {
+  const { id } = useParams();
+  const {
+    isPending,
+    error,
+    data: gig,
+  } = useQuery({
+    queryKey: ["gig"],
+    queryFn: () =>
+      newRequest
+        .get(`gigs/single/${id}`)
+        .then((res) => res.data)
+        .catch((err) => err),
+  });
+
+  const {
+    isPending: isLoadingUser,
+    error: userError,
+    data: userData,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: () =>
+      newRequest
+        .get(`users/${gig.userId}`)
+        .then((res) => res.data)
+        .catch((err) => err),
+  });
+
+  console.log(gig);
+  console.log("id", id);
   return (
     <div className="grid lg:grid-cols-3 px-4 md:px-10 sm:p-6 md:mt-6 lg:gap-8 relative">
-      {/* Left */}
-      <div className="lg:col-span-2 flex flex-col gap-4">
-        <span className="breadcrumb">
-          ATF &gt;&gt; Responsive Web Design
-        </span>
-        <h1 className="text-2xl font-bold font-poppins">
-          I wil create stunning, reponsive websites for you.
-        </h1>
+      {isPending ? (
+        "Loading"
+      ) : error ? (
+        "Something went wrong"
+      ) : (
+        <>
+          {/* Left */}
+          <div className="lg:col-span-2 flex flex-col gap-4">
+            <span className="breadcrumb">ATF &gt;&gt; {gig.cat}</span>
+            <h1 className="text-2xl font-bold font-poppins">{`${gig.title}`}</h1>
 
-        <div className="flex items-center gap-2 h-12">
-          <div className="h-12 w-12 rounded-full overflow-hidden">
-            <img
-              className="h-full object-cover"
-              src="https://avatars.githubusercontent.com/u/117447018?v=4"
-              alt=""
-            />
+            {isLoadingUser ? (
+              "Loading"
+            ) : userError ? (
+              "Something went wrong"
+            ) : (
+              <div className="flex items-center gap-2 h-12">
+                <div className="h-12 w-12 rounded-full overflow-hidden">
+                  <img className="h-full object-cover" src={userData.img ? userData.img : "/images/no avatar.jpg"} alt="" />
+                </div>
+                <span className="font-semibold text-2xl text-gray-500">{userData.username}</span>
+
+                {/* User Stars */}
+                {!isNaN(gig.totalStars / gig.starNumber) && <Stars amount={Math.round(gig.totalStars / gig.starNumber)} />}
+              </div>
+            )}
+
+            <div className="max-w-[500px] mx-auto my-6 rounded overflow-hidden">
+              <img
+                src={
+                  gig.images.length
+                    ? gig.images[0]
+                    : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+                }
+                alt=""
+              />
+            </div>
+            <h2 className="h2">About this job</h2>
+            <p className="text-gray-500 font-normal text-lg leading-7">{gig.desc}</p>
+
+            {isLoadingUser ? "Loading" : userError ? "Something went wrong." : <Seller data={userData} />}
+
+            <div className="mt-12">
+              <h2>Reviews</h2>
+              {[1, 3, 4, 5, 5].map((_, index) => (
+                <Review key={index} />
+              ))}
+            </div>
           </div>
-          <span className="font-semibold text-2xl text-gray-500">
-            Hafizullah Rasa
-          </span>
-          <Stars />
-        </div>
-
-        <div className="max-w-[500px] mx-auto my-6 rounded overflow-hidden">
-          <img
-            className="w-full"
-            src="https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
-        </div>
-        <h2 className="h2">About this job</h2>
-        <p className="text-gray-500 font-normal text-lg leading-7">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur,
-          ab, eligendi perspiciatis delectus sit libero modi excepturi molestias
-          repellat facere tempora animi maiores culpa, natus inventore
-          aspernatur eum obcaecati neque ratione nesciunt. Suscipit
-          exercitationem modi similique nemo, laboriosam, inventore alias nam,
-          consequatur quia voluptatibus earum autem harum hic blanditiis
-          repellendus. Hic itaque repudiandae mollitia harum deleniti cumque non
-          quam provident alias reiciendis, magnam, perspiciatis quas ullam quo
-          minus modi recusandae ab ut quaerat magni adipisci explicabo, illum
-          sint! Architecto inventore error laudantium alias eveniet, magni modi
-          ipsum dignissimos! Iure corrupti deserunt cumque repellendus possimus?
-          Vel eaque, nemo cum repellat excepturi quibusdam libero dolores
-          perspiciatis incidunt quis vero facilis ab amet voluptates?
-          Reprehenderit eligendi doloribus, autem nesciunt, nobis molestiae
-          libero eius aperiam excepturi quo rerum! Aspernatur voluptate quia
-          voluptatem quisquam distinctio animi vitae obcaecati delectus illo
-          earum! Animi nisi delectus consequuntur?
-        </p>
-
-        <Seller />
-
-        <div className="mt-12">
-          <h2>Reviews</h2>
-          {[1, 3, 4, 5, 5].map((_, index) => (
-            <Review key={index} />
-          ))}
-        </div>
-      </div>
-
-      {/* Right */}
-      <div className="lg:col-span-1">
-        <Price />
-      </div>
+          {/* Right */}
+          <div className="lg:col-span-1">
+            <Price data={gig} />
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
-const Price = () => {
+const Price = ({ data }) => {
   return (
     <div className="border rounded p-5 flex flex-col gap-2 md:sticky md:top-32">
       <div className="price font-bold font-poppins text-gray-600 flex justify-between mb-2.5 ">
-        <h3>Full responsive website</h3>
-        <span>$ 99.5</span>
+        <h3>{data.shortTitle}</h3>
+        <span>{data.price}</span>
       </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-        voluptates corporis unde est nam! Et?
-      </p>
+      <p>{data.shortDesc}</p>
       <div className="details flex items-center justify-between my-3">
         <div className="item flex gap-1 items-center">
           <MdAccessTime size={24} />
-          <p className="font-semibold">2 days delivery</p>
+          <p className="font-semibold">{data.deliveryTime} days delivery</p>
         </div>
-        <div className="item flex gap-1 items-center">
+        <div className="item flex gap-1 items-center justify-center">
           <HiOutlineRefresh size={24} />
-          <p className="font-semibold">3 Revisions</p>
+          <p className="font-semibold">{data.revisionNumber} Revisions</p>
         </div>
       </div>
       <div className="features">
-        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
-          <FaCheck className="text-green-500" />
-          <span>Feature 1</span>
-        </div>
-        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
-          <FaCheck className="text-green-500" />
-          <span>Feature 2</span>
-        </div>
-        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
-          <FaCheck className="text-green-500" />
-          <span>Feature 3</span>
-        </div>
-        <div className="item flex gap-2 text-gray-500 leading-8 items-center">
-          <FaCheck className="text-green-500" />
-          <span>Feature 4</span>
-        </div>
+        {data.features.map((feature) => {
+          return (
+            <div key={feature} className="item flex gap-2 text-gray-500 leading-8 items-center">
+              <FaCheck className="text-green-500" />
+              <span>{feature}</span>
+            </div>
+          );
+        })}
       </div>
-      <button className="w-full p-3 bg-green-500 hover:bg-green-600 transition duration-200 text-white rounded">
-        Continue
-      </button>
+      <button className="w-full p-3 bg-green-500 hover:bg-green-600 transition duration-200 text-white rounded">Continue</button>
     </div>
   );
 };
@@ -126,11 +136,7 @@ const Review = () => {
   return (
     <div className="flex flex-col gap-3 mb-10">
       <div className="flex items-center gap-4">
-        <img
-          className="w-16 h-16 rounded-full"
-          src="https://avatars.githubusercontent.com/u/76435157?v=4"
-          alt="Reza Merzaee"
-        />
+        <img className="w-16 h-16 rounded-full" src="https://avatars.githubusercontent.com/u/76435157?v=4" alt="Reza Merzaee" />
         <div className="flex flex-col gap-1 text-gray-500">
           <h4>Reza Merzaee</h4>
           <div className="flex items-center gap-1">
@@ -145,12 +151,10 @@ const Review = () => {
       </div>
       <Stars />
       <p className="mt-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
-        officia minima rem quisquam adipisci molestias esse aspernatur natus
-        ratione quos itaque ipsam, molestiae a nesciunt explicabo aperiam
-        officiis tenetur obcaecati veniam nemo aliquid impedit sequi cumque?
-        Labore dolor perferendis sed nisi eveniet, inventore quia in autem
-        repellendus reiciendis eum maiores.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto officia minima rem quisquam adipisci molestias esse
+        aspernatur natus ratione quos itaque ipsam, molestiae a nesciunt explicabo aperiam officiis tenetur obcaecati veniam nemo
+        aliquid impedit sequi cumque? Labore dolor perferendis sed nisi eveniet, inventore quia in autem repellendus reiciendis eum
+        maiores.
       </p>
       <div className="flex items-center gap-3 text-gray-500">
         <span className="font-semibold">Helpful? </span>
@@ -167,37 +171,33 @@ const Review = () => {
     </div>
   );
 };
-const Stars = () => {
+const Stars = ({ amount }) => {
   return (
     <div className="flex gap-[1px] items-center text-gray-500">
-      {Array.from({ length: 5 }, (v, i) => i).map((value) => (
+      {Array.from({ length: amount }, (v, i) => i).map((value) => (
         <HiStar key={value} size={28} className="text-orange-300" />
       ))}
 
-      <span className="inline-block ml-2 font-bold text-lg">5</span>
+      <span className="inline-block ml-2 font-bold text-lg">{amount}</span>
     </div>
   );
 };
 
-const Seller = () => {
+const Seller = ({data}) => {
   return (
     <div className="mt-10 flex flex-col text-gray-600">
       <h2>About the seller</h2>
       <div className="flex items-center gap-8">
         <img
           className="max-w-24 max-h-24 rounded-full object-cover"
-          src="https://avatars.githubusercontent.com/u/117447018?v=4"
+          src={data.img ? data.img : "/images/no avatar.jpg"}
           alt=""
         />
 
         <div className="flex flex-col gap-1 items-start">
-          <span className="font-semibold text-xl text-gray-700">
-            Hafizullah Rasa
-          </span>
+          <span className="font-semibold text-xl text-gray-700">{data.username}</span>
           <Stars />
-          <button className="bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold">
-            Contact Me
-          </button>
+          <button className="bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold">Contact Me</button>
         </div>
       </div>
       <div className="border-gray-400 border p-6 rounded-sm mt-6">
@@ -205,7 +205,7 @@ const Seller = () => {
           <div className="md:col-span-1">
             <div className="flex flex-wrap justify-start gap-4 my-3">
               <span className="title">From</span>
-              <span className="description">Afghanistan</span>
+              <span className="description">{data.country}</span>
             </div>
             <div className="flex flex-wrap justify-start gap-4 my-3">
               <span className="title">Ave responsive time</span>
@@ -224,9 +224,7 @@ const Seller = () => {
           </div>
         </div>
         <hr className="my-2" />
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius facere
-          alias odit earum ad. Animi quas sit dolorem iure nesciunt!
+        <p>{data.desc}
         </p>
       </div>
     </div>
