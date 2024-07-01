@@ -11,21 +11,27 @@ const Featured = () => {
           </h1>
           <div className="flex justify-between items-center rounded-md bg-white h-12">
             <div className="flex gap-2 items-center justify-center">
-            <MdSearch size={32} className="pl-1 text-gray-600" />
-              <input type="text" placeholder="Try" className="border-none outline-none h-12 sm:text-xl text-gray-600"/>
+              <MdSearch size={32} className="pl-1 text-gray-600 w-full" />
+              <input
+                type="text"
+                placeholder="Try"
+                className="border-none outline-none h-12 sm:text-xl text-gray-600"
+              />
             </div>
-            <button className="w-24 bg-main px-2 border-none cursor-pointer h-12 sm:text-xl">Search</button>
+            <button className="w-24 bg-main px-2 border-none cursor-pointer h-12 sm:text-xl">
+              Search
+            </button>
           </div>
-          <div className="flex items-center gap-3 flex-wrap"> 
+          <div className="flex items-center gap-3 flex-wrap">
             <span className="sm:text-xl font-bold">Popular:</span>
-            <button className="bg-transparent px-2 py-1 text-sm cursor-pointer border border-gray-300 rounded-3xl sm:text-xl">Web Design</button>
-            <button className="bg-transparent px-2 py-1 text-sm cursor-pointer border border-gray-300 rounded-3xl sm:text-xl">AI Service</button>
-            <button className="bg-transparent px-2 py-1 text-sm cursor-pointer border border-gray-300 rounded-3xl sm:text-xl">UI/UX</button>
-            <button className="bg-transparent px-2 py-1 text-sm cursor-pointer border border-gray-300 rounded-3xl sm:text-xl">Wordpress</button>
+            <button className="nav-btn">Web Design</button>
+            <button className="nav-btn">AI Service</button>
+            <button className="nav-btn">UI/UX</button>
+            <button className="nav-btn">Wordpress</button>
           </div>
         </div>
         <div>
-            <img src="/images/man.png" alt=""/>
+          <img src="/images/man.png" alt="" />
         </div>
       </div>
     </div>
