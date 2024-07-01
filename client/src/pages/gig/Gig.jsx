@@ -1,9 +1,7 @@
 import React from "react";
-import Slide from "../../components/Slide/Slide";
-import { BiDislike, BiLike } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
-import { HiOutlineRefresh, HiStar } from "react-icons/hi";
+import { HiOutlineRefresh } from "react-icons/hi";
 import { useQuery } from "@tanstack/react-query";
 import { MdAccessTime } from "react-icons/md";
 import newRequest from "../../utils/newRequest";
