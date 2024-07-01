@@ -13,3 +13,9 @@ export const deleteUser = async (req, res, next) => {
     return next(createError(404, "User could not be deleted"));
   }
 };
+
+export const getUser = async (req, res, next) => {  
+    const user = await User.findById(req.params.id);
+    if (!user) return next(createError(404, "User not found"));
+    res.status(200).send (user);
+};

@@ -13,7 +13,7 @@ export const getAllGigs = async (req, res, next) => {
       }),
       ...(q.search && { title: { $regex: q.search, $options: "i" } }),
     };
-    const gigs = await Gig.find(filters);
+    const gigs = await Gig.find(filters).sort({[q.sort]: -1});
     res.status(200).json(gigs);
   } catch (error) {}
 };
