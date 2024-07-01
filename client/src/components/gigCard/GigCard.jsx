@@ -35,6 +35,7 @@ const GigCard = ({ item }) => {
                 <span className="text-sm font-semibold">{data.username}</span>
               </div>
             )}
+            <h1 className="font-bold leading-6">{item.title}</h1>
             <p className="text-gray-700 text-base">{item.desc}</p>
             <div className="flex items-center mt-4">
               <FaStar className="text-yellow-500 w-4 h-4 mr-1" />
