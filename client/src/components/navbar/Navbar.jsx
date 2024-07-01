@@ -60,7 +60,7 @@ const Navbar = () => {
           {currentUser && (
             <div
               className="flex z-0 gap-2 items-center cursor-pointer relative"
-              onMouseOver={() => setOpen(true)}
+              onMouseEnter={() => setOpen(true)}
               onMouseLeave={() => setOpen(false)}
             >
               <img className="h-8 w-8 rounded-2xl" src={currentUser.img || "/images/no avatar.jpg"} alt="Profile picture" />
@@ -68,7 +68,7 @@ const Navbar = () => {
               {open && (
                 <div
                   className="absolute top-4 z-10 right-0 p-5 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light"
-                  onMouseOver={() => setOpen(true)}
+                  onMouseEnter={() => setOpen(true)}
                   onMouseLeave={() => setOpen(false)}
                 >
                   {currentUser?.isSeller && (
