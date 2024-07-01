@@ -28,7 +28,7 @@ const GigCard = ({ item }) => {
             ) : (
               <div className="flex items-center mb-2">
                 <img
-                  src={data.images || "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"}
+                  src={data.img || "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"}
                   alt=""
                   className="w-10 h-10 rounded-full mr-2"
                 />
