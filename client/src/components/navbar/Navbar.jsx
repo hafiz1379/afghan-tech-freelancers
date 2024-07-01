@@ -46,8 +46,8 @@ const Navbar = () => {
           <Link to="/" className="cursor-pointer">
             Home
           </Link>
-          <span className="cursor-pointer">Become a Seller</span>
-          {!currentUser?.isSeller && (
+          {!currentUser?.isSeller && <span className="cursor-pointer">Become a Seller</span>}
+          {!currentUser && (
             <Link to="/login" className="cursor-pointer">
               Sign in
             </Link>
