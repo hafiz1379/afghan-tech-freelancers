@@ -4,7 +4,6 @@ import newRequest from "../../utils/newRequest";
 import uploead from "../../utils/upload";
 import { useNavigate } from "react-router-dom";
 
-
 function Register() {
   // State to hold the selected file
   const [file, setFile] = useState(null);
@@ -20,37 +19,36 @@ function Register() {
     desc: "",
   });
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Function to handle input changes for text fields
   const handleChange = (e) => {
     setUser((prev) => {
-        return { ...prev, [e.target.name]: e.target.value};
-      }); 
+      return { ...prev, [e.target.name]: e.target.value };
+    });
   };
 
   // Function to handle checkbox change for seller status
   const handleSeller = (e) => {
-    setUser((prev) => { 
-        return {...prev, isSeller: e.target.checked};
-  });
-    };
-
+    setUser((prev) => {
+      return { ...prev, isSeller: e.target.checked };
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const url = await uploead(file);
     try {
-        await newRequest.post("auth/register", {
-            ...user,
-            img: url,
-        });
-        navigate("/")
-    }catch(err){
-        console.log(err);
+      await newRequest.post("auth/register", {
+        ...user,
+        img: url,
+      });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
     }
-    }
+  };
 
   return (
     <div className="container mx-auto p-4 lg:px-14">
@@ -63,9 +61,10 @@ function Register() {
                 Username
               </label>
               <input
+                required
                 type="text"
                 name="username"
-                placeholder="johndoe"
+                placeholder="Type your username"
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               />
@@ -75,9 +74,10 @@ function Register() {
                 Email
               </label>
               <input
+                required
                 type="email"
                 name="email"
-                placeholder="email"
+                placeholder="Type your email address."
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               />
@@ -87,9 +87,10 @@ function Register() {
                 Password
               </label>
               <input
+                required
                 type="password"
                 name="password"
-                placeholder="password"
+                placeholder="Enter a password"
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               />
@@ -98,13 +99,21 @@ function Register() {
               <label htmlFor="img" className="block">
                 Profile Picture
               </label>
+              <input type="file" onChange={(e) => setFile(e.target.files[0])} className="block w-full border rounded p-2" />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="phone" className="block">
+                Phone Number
+              </label>
               <input
-                type="file"
-                onChange={(e) => setFile(e.target.files[0])}
+                type="tel"
+                name="phone"
+                placeholder="Type your phone Number"
+                onChange={handleChange}
                 className="block w-full border rounded p-2"
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label htmlFor="country" className="block">
                 Country
               </label>
@@ -115,14 +124,12 @@ function Register() {
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               />
-            </div>
-            <button
-              type="submit"
-              className="block w-full bg-green-500 text-white py-2 rounded"
-            >
-              Register
-            </button>
+            </div> */}
           </div>
+
+          {/* ************ */}
+          {/* RIGHT COLUMN */}
+          {/* ************ */}
           <div className="lg:w-1/2 space-y-4 mt-12 lg:mt-0">
             <h1 className="text-2xl font-bold">I want to become a seller</h1>
             <div className="space-y-2">
@@ -130,25 +137,10 @@ function Register() {
                 <label htmlFor="isSeller" className="block">
                   Activate the seller account
                 </label>
-                <input
-                  type="checkbox"
-                  name="isSeller"
-                  onChange={handleSeller}
-                />
+                <input type="checkbox" name="isSeller" onChange={handleSeller} />
               </div>
             </div>
-            <div className="space-y-2">
-              <label htmlFor="phone" className="block">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                name="phone"
-                placeholder="Phone Number"
-                onChange={handleChange}
-                className="block w-full border rounded p-2"
-              />
-            </div>
+
             <div className="space-y-2">
               <label htmlFor="desc" className="block">
                 Description
@@ -161,6 +153,9 @@ function Register() {
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               ></textarea>
+              <button type="submit" className="block w-full bg-green-500 text-white py-2 rounded">
+                Register
+              </button>
             </div>
           </div>
         </div>
