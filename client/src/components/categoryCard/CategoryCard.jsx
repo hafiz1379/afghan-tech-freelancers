@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CategoryCard = ({ item }) => {
   return (
-    <Link to="/gigs?cat=design">
+    <Link to="/gigs">
       <div className="h-96 text-white rounded-xl m-2 cursor-pointer relative overflow-hidden">
         <img src={item.img} alt={item.title} className="w-full object-cover" />
         {/* Card description */}
@@ -12,9 +12,7 @@ const CategoryCard = ({ item }) => {
         </span>
 
         {/* Card Title */}
-        <span className="font-semibold text-lg absolute top-12 left-4 drop-shadow-lg bg-main px-3 rounded-full">
-          {item.title}
-        </span>
+        <span className="font-semibold text-lg absolute top-12 left-4 drop-shadow-lg bg-main px-3 rounded-full">{item.title}</span>
       </div>
     </Link>
   );
