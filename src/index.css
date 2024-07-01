@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nav-btn {
+  @apply bg-transparent px-2 py-1 text-sm cursor-pointer border border-gray-300 rounded-3xl sm:text-xl;
+}

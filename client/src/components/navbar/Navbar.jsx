@@ -52,11 +52,11 @@ const Navbar = () => {
           </Link>
           <span className="cursor-pointer">Become a Seller</span>
           {!currentUser?.isSeller && (
-            <span className="cursor-pointer">Sign in</span>
+            <Link to="/login" className="cursor-pointer">Sign in</Link>
           )}
           {!currentUser && (
             <Link
-              to="/login"
+              to="/register"
               className="bg-main hover:bg-accent text-white px-4 py-2 rounded-lg"
             >
               Join
@@ -105,11 +105,11 @@ const Navbar = () => {
           <span className="cursor-pointer">Home</span>
           <span className="cursor-pointer">Become a Seller</span>
           {!currentUser?.isSeller && (
-            <span className="cursor-pointer">Sign in</span>
+            <Link to='/login' className="cursor-pointer">Sign in</Link>
           )}
           {!currentUser && (
             <Link
-              to="/login"
+              to="/register"
               className="bg-main hover:bg-accent px-4 py-2 rounded-lg"
             >
               Join
