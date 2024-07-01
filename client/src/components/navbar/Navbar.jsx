@@ -67,19 +67,29 @@ const Navbar = () => {
               <span>{currentUser?.username}</span>
               {open && (
                 <div
-                  className="absolute top-4 z-10 right-0 p-5 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light"
+                  className="absolute top-4 z-10 right-0 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light"
                   onMouseEnter={() => setOpen(true)}
                   onMouseLeave={() => setOpen(false)}
                 >
                   {currentUser?.isSeller && (
                     <>
-                      <Link to="/myGigs">Gigs</Link>
-                      <Link to="/addGig">Add New Gigs</Link>
+                      <Link className="hover:bg-gray-300 p-2" to="/myGigs">
+                        My Gigs
+                      </Link>
+                      <Link className="hover:bg-gray-300 p-2" to="/addGig">
+                        Add New Gig
+                      </Link>
                     </>
                   )}
-                  <Link to="/orders">Orders</Link>
-                  <Link to="/messages">Messages</Link>
-                  <Link onClick={handleLogout}>Logout</Link>
+                  <Link className="hover:bg-gray-300 p-2" to="/orders">
+                    Orders
+                  </Link>
+                  <Link className="hover:bg-gray-300 p-2" to="/messages">
+                    Messages
+                  </Link>
+                  <Link className="hover:bg-gray-300 p-2" onClick={handleLogout}>
+                    Logout
+                  </Link>
                 </div>
               )}
             </div>
