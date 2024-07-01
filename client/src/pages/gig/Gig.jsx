@@ -140,7 +140,7 @@ const Seller = ({ data }) => {
         </div>
       </div>
       <div className="border-gray-400 border p-6 rounded-sm mt-6">
-        <div className="grid md:grid-cols-2 gap-4 font-semibold">
+        {/* <div className="grid md:grid-cols-2 gap-4 font-semibold">
           <div className="md:col-span-1">
             <div className="flex flex-wrap justify-start gap-4 my-3">
               <span className="title">From</span>
@@ -162,7 +162,7 @@ const Seller = ({ data }) => {
             </div>
           </div>
         </div>
-        <hr className="my-2" />
+        <hr className="my-2" /> */}
         <p>{data.desc}</p>
       </div>
     </div>
