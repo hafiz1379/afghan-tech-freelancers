@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Stars from "../Stars/Stars";
 import { BiDislike, BiLike } from "react-icons/bi";
 import { useQuery } from "@tanstack/react-query";
@@ -9,10 +9,15 @@ function Review({ reviewData }) {
     isPending,
     error,
     data: userData,
+    refetch
   } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["reviews"],
     queryFn: () => newRequest.get(`users/${reviewData.userId}`).then((res) => res.data),
   });
+
+  useEffect(() => {
+    refetch()
+  }, [userData])
 
   console.log(userData);
   
