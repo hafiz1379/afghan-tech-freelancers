@@ -7,7 +7,7 @@ const MessageSchema = new Schema(
       type: String,
       required: true,
     },
-    UserId: {
+    userId: {
       type: String,
       required: true,
     },
