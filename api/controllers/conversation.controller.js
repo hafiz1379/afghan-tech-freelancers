@@ -13,7 +13,7 @@ export const createConversation = async (req, res, next) => {
     const savedConversation = await newConversation.save();
     res.status(201).send(savedConversation);
   } catch (error) {
-    return next(createError(404, "Something went wrong from conversation"));
+    return next(error);
   }
 };
 

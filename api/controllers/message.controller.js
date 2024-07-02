@@ -3,6 +3,7 @@ import Message from "./../models/message.model.js";
 import Conversation from "./../models/conversation.model.js";
 
 export const createMessage = async (req, res, next) => {
+  console.log(req.userId)
   const newMessage = new Message({
     conversationId: req.body.conversationId,
     userId: req.userId,
@@ -25,7 +26,7 @@ export const createMessage = async (req, res, next) => {
     );
     res.status(201).send(savedMessage);
   } catch (error) {
-    return next(createError(404, "Problem from message controller: (createMessage)"));
+    return next(error);
   }
 };
 
