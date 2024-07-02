@@ -11,6 +11,6 @@ const router = express.Router();
 router.get("/", verifyToken, getAllConversations);
 router.post("/", verifyToken, createConversation);
 router.get("/single/:id", verifyToken, getSingleConversation);
-router.put("/", verifyToken, updateConversation);
+router.put("/:id", verifyToken, updateConversation);
 
 export default router;
