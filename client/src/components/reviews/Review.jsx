@@ -11,13 +11,13 @@ function Review({ reviewData }) {
     data: userData,
     refetch
   } = useQuery({
-    queryKey: ["reviews"],
+    queryKey: ["user", reviewData.userId],
     queryFn: () => newRequest.get(`users/${reviewData.userId}`).then((res) => res.data),
   });
 
   useEffect(() => {
     refetch()
-  }, [userData])
+  }, [reviewData.userId])
 
   console.log(userData);
   
