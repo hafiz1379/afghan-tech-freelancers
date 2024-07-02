@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Review from "./Review";
 import newRequest from "../../utils/newRequest";
 import { useQuery } from "@tanstack/react-query";
@@ -9,14 +9,19 @@ export default function ReviewContainer({ gigId }) {
     isPending,
     error,
     data: reviews,
+    refetch,
   } = useQuery({
-    queryKey: ["reviews"],
+    queryKey: [gigId],
     queryFn: () =>
       newRequest
         .get(`reviews/${gigId}`)
         .then((res) => res.data)
         .then((err) => err),
   });
+
+  useEffect(() => {
+    refetch;
+  }, [reviews]);
 
   console.log(reviews);
 
