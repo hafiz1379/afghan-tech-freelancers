@@ -67,7 +67,7 @@ const Messages = () => {
                     >
                       <td className="px-4 py-2 block md:table-cell text-nowrap">{currentUser.isSeller ? c.buyerId : c.sellerId}</td>
                       <td className="px-4 py-2 block md:table-cell">
-                        <Link to={`/message/${c.id}`} className="text-blue-500 hover:underline">
+                        <Link to={`/message/${c.id}`} className="text-blue-500 hover:underline" onClick={() => handleClick(c.id)}>
                           {c?.lastMessage?.substring(0, 100)}...
                         </Link>
                       </td>
