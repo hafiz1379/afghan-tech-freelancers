@@ -21,26 +21,26 @@ export default function ReviewContainer({ gigId }) {
   });
 
   useEffect(() => {
-    refetch;
+    refetch();
   }, [reviews]);
 
   console.log(reviews);
 
   const mutation = useMutation({
     mutationFn: (review) => {
-        return newRequest.post("/reviews", review);
+      return newRequest.post("/reviews", review);
     },
     onSuccess: () => {
-        queryClient.invalidateQueries("reviews");
+      queryClient.invalidateQueries("reviews");
     },
-});
+  });
 
-const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const desc = e.target[0].value;
     const star = e.target[1].value;
     mutation.mutate({ gigId, desc, star });
-};
+  };
 
   return (
     <div className="mt-12">
@@ -81,10 +81,7 @@ const handleSubmit = (e) => {
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
-          <button
-            type="submit"
-            className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-200"
-          >
+          <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-200">
             Send
           </button>
         </form>
