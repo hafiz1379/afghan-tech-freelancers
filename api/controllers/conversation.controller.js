@@ -19,7 +19,9 @@ export const createConversation = async (req, res, next) => {
 
 export const getAllConversations = async (req, res, next) => {
   try {
-    const allConversations = await Conversation.find(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId });
+    const allConversations = await Conversation.find(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }).sort({
+      updatedAt: -1,
+    });
     res.status(200).send(allConversations);
   } catch (error) {
     return next(createError(404, "Something went wrong from conversation"));
@@ -29,6 +31,7 @@ export const getAllConversations = async (req, res, next) => {
 export const getSingleConversation = async (req, res, next) => {
   try {
     const conversation = await Conversation.findOne({ id: req.params.id });
+    if (!conversation) return next(createError(404, "There is no conversation"));
     res.status(200).send(conversation);
   } catch (error) {
     return next(createError(404, "Something went wrong from conversation"));
