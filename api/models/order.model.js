@@ -19,7 +19,7 @@ const OrderSchema = new Schema(
         type: Number,
         required: true,
     },
-    seller: {
+    sellerId: {
         type: String,
         required: true,
     },
