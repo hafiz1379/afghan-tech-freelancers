@@ -1,7 +1,10 @@
 import express from "express";
-import {  } from "./../controllers/message.controller.js";
+import { createMessage, getMessages } from "./../controllers/message.controller.js";
+import { verifyToken } from "./../middleware/jwt.js";
 
 const router = express.Router();
-router.get("/test", );
+
+router.post("/", createMessage);
+router.get("/:id", getMessages);
 
 export default router;
