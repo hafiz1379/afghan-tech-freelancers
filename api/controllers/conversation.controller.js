@@ -41,8 +41,8 @@ export const updateConversation = async (req, res, next) => {
       { id: req.params.id },
       {
         $set: {
-          readBySeller: req.isSeller,
-          readByBuyer: !req.isSeller,
+          readBySeller: true,
+          readByBuyer: true,
         },
       },
       {
