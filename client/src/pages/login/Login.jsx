@@ -61,7 +61,7 @@ const Login = () => {
           Log in
         </button>
 
-        {error ? <p className="my-2 text-red-500">{error}</p> : <p></p>}
+        {error ? <p className="my-2 text-red-500">Invalid username or password</p> : <p></p>}
       </form>
     </div>
   );
