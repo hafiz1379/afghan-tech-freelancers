@@ -37,53 +37,59 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center space-x-1">
           <Link to="/">
-            <span className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold text-white">
-              ATF
-            </span>
+            <span className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-bold text-white">ATF</span>
           </Link>
-          <span className="text-main text-2xl sm:text-3xl lg:text-4xl text-green-500">
-            .
-          </span>
+          <span className="text-main text-2xl sm:text-3xl lg:text-4xl text-green-500">.</span>
         </div>
         {/* Menu Items */}
         <div className="hidden sm:flex gap-4 text-white items-center md:text-xl font-medium">
           <Link to="/" className="cursor-pointer">
             Home
           </Link>
-          <span className="cursor-pointer">Become a Seller</span>
-          {!currentUser?.isSeller && (
-            <Link to="/login" className="cursor-pointer">Sign in</Link>
+          {!currentUser?.isSeller && <span className="cursor-pointer">Become a Seller</span>}
+          {!currentUser && (
+            <Link to="/login" className="cursor-pointer">
+              Sign in
+            </Link>
           )}
           {!currentUser && (
-            <Link
-              to="/register"
-              className="bg-main hover:bg-accent text-white px-4 py-2 rounded-lg"
-            >
+            <Link to="/register" className="bg-main hover:bg-accent text-white px-4 py-2 rounded-lg">
               Join
             </Link>
           )}
           {currentUser && (
             <div
-              className="flex gap-2 items-center cursor-pointer relative"
-              onClick={() => setOpen(!open)}
+              className="flex z-0 gap-2 items-center cursor-pointer relative"
+              onMouseEnter={() => setOpen(true)}
+              onMouseLeave={() => setOpen(false)}
             >
-              <img
-                className="h-8 w-8 rounded-2xl"
-                src={currentUser.img || "/images/no avatar.jpg"}
-                alt="Profile picture"
-              />
+              <img className="h-8 w-8 rounded-2xl" src={currentUser.img || "/images/no avatar.jpg"} alt="Profile picture" />
               <span>{currentUser?.username}</span>
               {open && (
-                <div className="absolute top-12 right-0 p-5 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light">
+                <div
+                  className="absolute top-4 z-10 right-0 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-48 font-light"
+                  onMouseEnter={() => setOpen(true)}
+                  onMouseLeave={() => setOpen(false)}
+                >
                   {currentUser?.isSeller && (
                     <>
-                      <Link to="/myGigs">Gigs</Link>
-                      <Link to="/addGig">Add New Gigs</Link>
+                      <Link className="hover:bg-gray-300 p-2" to="/myGigs">
+                        My Gigs
+                      </Link>
+                      <Link className="hover:bg-gray-300 p-2" to="/addGig">
+                        Add New Gig
+                      </Link>
                     </>
                   )}
-                  <Link to="/orders">Orders</Link>
-                  <Link to="/messages">Messages</Link>
-                  <Link onClick={handleLogout}>Logout</Link>
+                  <Link className="hover:bg-gray-300 p-2" to="/orders">
+                    Orders
+                  </Link>
+                  <Link className="hover:bg-gray-300 p-2" to="/messages">
+                    Messages
+                  </Link>
+                  <Link className="hover:bg-gray-300 p-2" onClick={handleLogout}>
+                    Logout
+                  </Link>
                 </div>
               )}
             </div>
@@ -91,10 +97,7 @@ const Navbar = () => {
         </div>
         {/* Mobile Menu Button */}
         <div className="sm:hidden flex items-center">
-          <button
-            onClick={toggleMenu}
-            className="text-white focus:outline-none"
-          >
+          <button onClick={toggleMenu} className="text-white focus:outline-none">
             {isMenuOpen ? <CgClose size={25} /> : <RxHamburgerMenu size={25} />}
           </button>
         </div>
@@ -105,22 +108,18 @@ const Navbar = () => {
           <span className="cursor-pointer">Home</span>
           <span className="cursor-pointer">Become a Seller</span>
           {!currentUser?.isSeller && (
-            <Link to='/login' className="cursor-pointer">Sign in</Link>
+            <Link to="/login" className="cursor-pointer">
+              Sign in
+            </Link>
           )}
           {!currentUser && (
-            <Link
-              to="/register"
-              className="bg-main hover:bg-accent px-4 py-2 rounded-lg"
-            >
+            <Link to="/register" className="bg-main hover:bg-accent px-4 py-2 rounded-lg">
               Join
             </Link>
           )}
           {currentUser && (
             <div>
-              <div
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={toggleUserMenu}
-              >
+              <div className="flex gap-2 items-center cursor-pointer" onClick={toggleUserMenu}>
                 <img
                   className="h-8 w-8 rounded-2xl"
                   src="https://avatars.githubusercontent.com/u/117447018?v=4"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 import { HiOutlineRefresh } from "react-icons/hi";
@@ -14,8 +14,9 @@ const Gig = () => {
     isPending,
     error,
     data: gig,
+    refetch,
   } = useQuery({
-    queryKey: ["gig"],
+    queryKey: ["gigData", 1, "1"],
     queryFn: () =>
       newRequest
         .get(`gigs/single/${id}`)
@@ -27,8 +28,9 @@ const Gig = () => {
     isPending: isLoadingUser,
     error: userError,
     data: userData,
+    refetch: refetchUsers,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["userData", 2, "2"],
     queryFn: () =>
       newRequest
         .get(`users/${gig.userId}`)
@@ -36,8 +38,11 @@ const Gig = () => {
         .catch((err) => err),
   });
 
-  console.log(gig);
-  console.log("id", id);
+  useEffect(() => {
+    refetch();
+    refetchUsers();
+  }, [gig, userData]);
+
   return (
     <div className="grid lg:grid-cols-3 px-4 md:px-10 sm:p-6 md:mt-6 lg:gap-8 relative">
       {isPending ? (
@@ -58,7 +63,7 @@ const Gig = () => {
             ) : (
               <div className="flex items-center gap-2 h-12">
                 <div className="h-12 w-12 rounded-full overflow-hidden">
-                  <img className="h-full object-cover" src={userData.img ? userData.img : "/images/no avatar.jpg"} alt="" />
+                  <img className="h-full object-cover" src={userData.img || "/images/no avatar.jpg"} alt="" />
                 </div>
                 <span className="font-semibold text-2xl text-gray-500">{userData.username}</span>
 
@@ -74,7 +79,7 @@ const Gig = () => {
                     ? gig.images[0]
                     : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
                 }
-                alt=""
+                alt="Gig Image"
               />
             </div>
             <h2 className="h2">About this job</h2>
@@ -140,7 +145,7 @@ const Seller = ({ data }) => {
         </div>
       </div>
       <div className="border-gray-400 border p-6 rounded-sm mt-6">
-        <div className="grid md:grid-cols-2 gap-4 font-semibold">
+        {/* <div className="grid md:grid-cols-2 gap-4 font-semibold">
           <div className="md:col-span-1">
             <div className="flex flex-wrap justify-start gap-4 my-3">
               <span className="title">From</span>
@@ -162,7 +167,7 @@ const Seller = ({ data }) => {
             </div>
           </div>
         </div>
-        <hr className="my-2" />
+        <hr className="my-2" /> */}
         <p>{data.desc}</p>
       </div>
     </div>

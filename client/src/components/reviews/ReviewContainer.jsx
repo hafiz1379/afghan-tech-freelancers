@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Review from "./Review";
 import newRequest from "../../utils/newRequest";
 import { useQuery } from "@tanstack/react-query";
+import Alert from "../alert/Alert";
 
 export default function ReviewContainer({ gigId }) {
   const {
     isPending,
     error,
     data: reviews,
+    refetch,
   } = useQuery({
-    queryKey: ["reviews"],
+    queryKey: [gigId],
     queryFn: () =>
       newRequest
         .get(`reviews/${gigId}`)
@@ -17,21 +19,27 @@ export default function ReviewContainer({ gigId }) {
         .then((err) => err),
   });
 
+  useEffect(() => {
+    refetch;
+  }, [reviews]);
+
   console.log(reviews);
 
   return (
     <div className="mt-12">
       {isPending ? (
-        "Loading..."
+        <Alert message="Loading..." />
       ) : error ? (
-        "Something went wrong"
+        <Alert message="Something went wrong" />
       ) : (
         <>
           <h2>Reviews</h2>
 
-          {reviews.length
-            ? reviews.map((review) => <Review key={review._id} reviewData={review} />)
-            : "This gig doesn't have any review yet."}
+          {reviews.length ? (
+            reviews.map((review) => <Review key={review._id} reviewData={review} />)
+          ) : (
+            <Alert message="No review has been added to this Gig." />
+          )}
         </>
       )}
     </div>

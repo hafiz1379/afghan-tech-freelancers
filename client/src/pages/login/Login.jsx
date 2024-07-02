@@ -25,10 +25,7 @@ const Login = () => {
 
   return (
     <div>
-      <form
-        className="max-w-[400px] rounded border p-5 mx-auto my-auto mt-20"
-        onSubmit={handleSubmit}
-      >
+      <form className="max-w-[400px] rounded border p-5 mx-auto my-auto mt-20" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-semibold mb-2.5">Sign in</h1>
         <div className="my-4">
           <label htmlFor="username" className="block">
@@ -37,10 +34,11 @@ const Login = () => {
           <input
             type="text"
             name="username"
-            placeholder="e.g: John"
+            placeholder="Type username"
             id="username"
             className="block w-full"
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </div>
 
@@ -49,23 +47,21 @@ const Login = () => {
             Password
           </label>
           <input
+            required
             type="password"
             name="password"
-            placeholder="Type password"
+            placeholder="Type Password"
             id="password"
             className="block w-full"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <button
-          type="submit"
-          className="bg-green-400 text-white py-2 w-full my-2 rounded"
-        >
+        <button type="submit" className="bg-green-400 text-white py-2 w-full my-2 rounded">
           Log in
         </button>
 
-        {error ? <p className="my-2 text-red-500">{error}</p> : <p></p>}
+        {error ? <p className="my-2 text-red-500">Invalid username or password</p> : <p></p>}
       </form>
     </div>
   );
