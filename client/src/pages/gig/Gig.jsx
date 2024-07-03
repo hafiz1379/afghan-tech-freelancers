@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { useQuery } from "@tanstack/react-query";
@@ -90,7 +90,7 @@ const Gig = () => {
           </div>
           {/* Right */}
           <div className="lg:col-span-1">
-            <Price data={gig} />
+          <Price data={gig} id={id} />
           </div>
         </>
       )}
@@ -98,7 +98,7 @@ const Gig = () => {
   );
 };
 
-const Price = ({ data }) => {
+const Price = ({ data, id  }) => {
   return (
     <div className="border rounded p-5 flex flex-col gap-2 md:sticky md:top-32">
       <div className="price font-bold font-poppins text-gray-600 flex justify-between mb-2.5 ">
@@ -126,7 +126,9 @@ const Price = ({ data }) => {
           );
         })}
       </div>
+      <Link to={`/pay/${id}`}>
       <button className="w-full p-3 bg-green-500 hover:bg-green-600 transition duration-200 text-white rounded">Continue</button>
+      </Link> 
     </div>
   );
 };
