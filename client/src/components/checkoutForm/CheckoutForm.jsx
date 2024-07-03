@@ -81,17 +81,37 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form id="payment-form" onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg my-4">
 
-    <PaymentElement id="payment-element" options={paymentElementOptions} />
-    <button disabled={isLoading || !stripe || !elements} id="submit">
+    <div className="my-4">
+      <PaymentElement id="payment-element" className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-200" options={paymentElementOptions} />
+    </div>
+  
+    <button
+      disabled={isLoading || !stripe || !elements}
+      id="submit"
+      className={`w-full py-3 px-4 bg-green-500 hover:bg-green-600 transition duration-200 text-white rounded mt-4 ${
+        isLoading ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
+    >
       <span id="button-text">
-        {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+        {isLoading ? (
+          <div className="spinner" id="spinner"></div>
+        ) : (
+          "Pay now"
+        )}
       </span>
     </button>
+  
     {/* Show any error or success messages */}
-    {message && <div id="payment-message">{message}</div>}
+    {message && (
+      <div id="payment-message" className="mt-2 text-sm text-red-500">
+        {message}
+      </div>
+    )}
+  
   </form>
+  
   );
 };
 
