@@ -14,6 +14,8 @@ import Message from "./pages/message/Message";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/register";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import Success from "./pages/success/Success";
+import Pay from "./pages/pay/Pay";
 
 function App() {
   const queryCleint = new QueryClient();
@@ -45,6 +47,8 @@ function App() {
         { path: "/message/:id", element: <Message /> },
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
+        { path: "/pay/:id", element: <Pay /> },
+        { path: "/success", element: <Success /> },
       ],
     },
   ]);
