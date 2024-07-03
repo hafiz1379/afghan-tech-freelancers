@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdSearch } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Featured = () => {
+
+  const [input, setInput] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    navigate(`/gigs?search=${input}`);
+  };
+
   return (
     <div className="flex justify-center items-center h-[600px] bg-nav">
       <div className="flex items-center flex-col lg:flex-row text-white xl:gap-14 px-4 ">
@@ -16,9 +25,12 @@ const Featured = () => {
                 type="text"
                 placeholder="Try"
                 className="border-none outline-none h-12 sm:text-xl text-gray-600"
+                onChange={(e) => setInput(e.target.value)}
               />
             </div>
-            <button className="w-24 bg-main px-2 border-none cursor-pointer h-12 sm:text-xl">
+            <button className="w-24 bg-main px-2 border-none cursor-pointer h-12 sm:text-xl"
+            onClick={handleSubmit}
+            >
               Search
             </button>
           </div>
