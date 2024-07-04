@@ -1,7 +1,7 @@
 import getCurrentUser from "../utils/getCurentUser";
 
 export const initialState = {
-  userId: getCurrentUser()._id,
+  userId: getCurrentUser()?._id,
   title: "",
   cat: "",
   desc: "",
