@@ -10,6 +10,7 @@ const Add = () => {
   const [coverImg, setCoverImg] = useState(undefined);
   const [gigImages, setGigImages] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [feature, setFeature] = useState(false);
 
   const [state, dispatch] = useReducer(gigReducer, initialState);
   const navigate = useNavigate();
@@ -29,9 +30,8 @@ const Add = () => {
   };
 
   const handleFeatures = (e) => {
-    e.preventDefault();
-    dispatch({ type: "ADD_FEATURE", payload: e.target[0].value });
-    e.target[0].value = "";
+    dispatch({ type: "ADD_FEATURE", payload: feature });
+    setFeature("");
   };
 
   const handleUpload = async () => {
@@ -56,12 +56,13 @@ const Add = () => {
     mutation.mutate(state);
     navigate("/myGigs");
   };
+  console.log(state);
 
   return (
     <div className="p-4 lg:p-12">
       <h2 className="h2">Add new gig</h2>
       <div className="border rounded">
-        <form onSubmit={() => handleSubmit()} className="sections grid md:grid-cols-2 gap-8 ">
+        <form onSubmit={handleSubmit} className="sections grid md:grid-cols-2 gap-8 ">
           <div className="md:col-span-1 p-3 rounded">
             <div action="#" className="flex flex-col gap-2">
               <div className="my-2 flex flex-col">
@@ -129,7 +130,7 @@ const Add = () => {
               <input type="text" placeholder="(e.g): One page website" onChange={handleChange} name="shortTitle" />
             </div>
             <div className="my-2 flex flex-col items-stretch">
-              <Label>Short Description</Label>
+              <Label required>Short Description</Label>
               <textarea placeholder="Short description of you service" name="shortDesc" onChange={handleChange} required></textarea>
             </div>
             <div className="my-2 flex flex-col items-stretch">
@@ -143,12 +144,21 @@ const Add = () => {
 
             <div className="my-2 flex flex-col items-stretch gap-1">
               <label htmlFor="add-features">Add Features</label>
-              <form onSubmit={handleFeatures} className="flex gap-2">
-                <input type="text" placeholder="e.g page design" className="flex-grow" />
-                <button className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300">
+              <div className="flex gap-2">
+                <input
+                  value={feature}
+                  type="text"
+                  placeholder="e.g page design"
+                  className="flex-grow"
+                  onChange={(e) => setFeature(e.target.value)}
+                />
+                <button
+                  onClick={handleFeatures}
+                  className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300"
+                >
                   Add
                 </button>
-              </form>
+              </div>
 
               <div className="flex gap-2">
                 {state.features.map((f, index) => (
