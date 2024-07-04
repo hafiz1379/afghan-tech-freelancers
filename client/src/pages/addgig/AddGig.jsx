@@ -10,7 +10,7 @@ const Add = () => {
   const [coverImg, setCoverImg] = useState(undefined);
   const [gigImages, setGigImages] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [feature, setFeature] = useState(false);
+  const [feature, setFeature] = useState();
 
   const [state, dispatch] = useReducer(gigReducer, initialState);
   const navigate = useNavigate();
