@@ -1,84 +1,195 @@
-import React from "react";
+import { RiCloseLine } from "react-icons/ri";
+import React, { useReducer, useState } from "react";
+import { gigReducer, initialState } from "../../reducers/gigReducer";
+import upload from "../../utils/upload";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import newRequest from "../../utils/newRequest";
 
 const Add = () => {
+  const [coverImg, setCoverImg] = useState(undefined);
+  const [gigImages, setGigImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+
+  const [state, dispatch] = useReducer(gigReducer, initialState);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (gig) => {
+      return newRequest.post("gigs", gig);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("myGigs");
+    },
+  });
+
+  const handleChange = (e) => {
+    dispatch({ type: "CHANGE_INPUT", payload: { name: e.target.name, value: e.target.value } });
+  };
+
+  const handleFeatures = (e) => {
+    e.preventDefault();
+    dispatch({ type: "ADD_FEATURE", payload: e.target[0].value });
+    e.target[0].value = "";
+  };
+
+  const handleUpload = async () => {
+    setUploading(true);
+    try {
+      const cover = await upload(coverImg);
+      const images = await Promise.all(
+        [...gigImages].map(async (img) => {
+          const url = await upload(img);
+          return url;
+        }),
+      );
+      setUploading(false);
+      dispatch({ type: "ADD_IMAGES", payload: { cover, images } });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    mutation.mutate(state);
+    navigate("/myGigs");
+  };
+
   return (
     <div className="p-4 lg:p-12">
       <h2 className="h2">Add new gig</h2>
       <div className="border rounded">
-        <div className="sections grid md:grid-cols-2 gap-8 ">
+        <form onSubmit={() => handleSubmit()} className="sections grid md:grid-cols-2 gap-8 ">
           <div className="md:col-span-1 p-3 rounded">
-            <form action="#" className="flex flex-col gap-2">
+            <div action="#" className="flex flex-col gap-2">
               <div className="my-2 flex flex-col">
-                <label htmlFor="title">Title</label>
+                <Label required>Title</Label>
                 <input
                   type="text"
                   placeholder="I will do something that I'm very good at"
+                  name="title"
+                  onChange={handleChange}
+                  required
                 />
               </div>
+
               <div className="my-2 flex flex-col">
-                <label htmlFor="category">Category</label>
-                <select name="categories" id="categories">
+                <Label required>Categore</Label>
+                <select name="cat" id="cat" onChange={handleChange} required>
+                  <option value="---">___</option>
                   <option value="design">Design</option>
                   <option value="web">Web Development</option>
                   <option value="animation">Animation</option>
                   <option value="music">Music</option>
                 </select>
               </div>
-              <div className="my-2 flex flex-col">
-                <label htmlFor="cover-image">Cover Image</label>
-                <input type="file" />
+
+              <div className="grid grid-cols-2 items-end gap-2">
+                <div>
+                  <div className="my-2 flex flex-col">
+                    <Label required>Cover Image</Label>
+                    <input type="file" onChange={(e) => setCoverImg(e.target.files[0])} required />
+                  </div>
+
+                  <div className="my-2 flex flex-col">
+                    <label htmlFor="upload-image">Upload Images</label>
+                    <input type="file" multiple onChange={(e) => setGigImages(e.target.files)} />
+                  </div>
+                </div>
+
+                <div className="my-2">
+                  <button
+                    className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300 w-full"
+                    onClick={handleUpload}
+                  >
+                    {uploading ? "Uploading" : "Upload"}
+                  </button>
+                </div>
               </div>
+
               <div className="my-2 flex flex-col">
-                <label htmlFor="upload-image">Upload Images</label>
-                <input type="file" multiple />
-              </div>
-              <div className="my-2 flex flex-col">
-                <label htmlFor="image-description">Description</label>
+                <Label required>Description</Label>
                 <textarea
                   placeholder="A brief description to introduce your product to customer"
                   className="h-52"
+                  onChange={handleChange}
+                  name="desc"
+                  required
                 ></textarea>
               </div>
-            </form>
+            </div>
           </div>
+
+          {/* RIGHT PART */}
           <div className="md:col-span-1 p-3 rounded flex flex-col">
             <div className="my-2 flex flex-col items-stretch">
               <label htmlFor="service">Service Title</label>
+              <input type="text" placeholder="(e.g): One page website" onChange={handleChange} name="shortTitle" />
+            </div>
+            <div className="my-2 flex flex-col items-stretch">
+              <Label>Short Description</Label>
+              <textarea placeholder="Short description of you service" name="shortDesc" onChange={handleChange} required></textarea>
+            </div>
+            <div className="my-2 flex flex-col items-stretch">
+              <Label required>Delivery Time</Label>
+              <input type="number" min={1} onChange={handleChange} name="deliveryTime" required />
+            </div>
+            <div className="my-2 flex flex-col items-stretch">
+              <Label required>Revision Number</Label>
+              <input type="number" min={1} onChange={handleChange} name="revisionNumber" required />
+            </div>
 
-              <input type="text" placeholder="(e.g): One page website" />
-            </div>
-            <div className="my-2 flex flex-col items-stretch">
-              <label htmlFor="short-description">Short Description</label>
-              <textarea placeholder="Short description of you service"></textarea>
-            </div>
-            <div className="my-2 flex flex-col items-stretch">
-              <label htmlFor="delivery-time">Delivery Time (e.g: 3 days)</label>
-              <input type="number" min={1} />
-            </div>
-            <div className="my-2 flex flex-col items-stretch">
-              <label htmlFor="revision-num">Revision Number</label>
-              <input type="number" min={1} />
-            </div>
             <div className="my-2 flex flex-col items-stretch gap-1">
               <label htmlFor="add-features">Add Features</label>
-              <input type="text" placeholder="e.g page design" />
-              <input type="text" placeholder="e.g file uploading" />
-              <input type="text" placeholder="e.g setting up a domain" />
-              <input type="text" placeholder="e.g hosting" />
+              <form onSubmit={handleFeatures} className="flex gap-2">
+                <input type="text" placeholder="e.g page design" className="flex-grow" />
+                <button className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300">
+                  Add
+                </button>
+              </form>
+
+              <div className="flex gap-2">
+                {state.features.map((f, index) => (
+                  <div key={index + f}>
+                    <div className="h-8 text-sm bg-transparent text-red-600 border border-red-500 rounded-sm px-1 flex gap-3 items-center">
+                      <span>{f}</span>
+                      <RiCloseLine
+                        cursor="pointer"
+                        className="hover:bg-red-200"
+                        size={22}
+                        onClick={() => dispatch({ type: "REMOVE_FEATURE", payload: f })}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="my-2 flex flex-col items-stretch">
-              <label htmlFor="price">Price</label>
-              <input type="number" min={1} />
+              <Label required>Price</Label>
+              <input type="number" min={1} onChange={handleChange} name="price" required />
             </div>
             <div className="my-2 flex flex-col">
-              <button className="p-3 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300">
+              <button
+                type="submit"
+                className="p-3 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300"
+              >
                 Create
               </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
+  );
+};
+
+const Label = ({ children, required }) => {
+  return (
+    <label>
+      {children} <span className="text-red-500">{required && "*"}</span>
+    </label>
   );
 };
 
