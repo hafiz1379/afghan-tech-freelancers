@@ -2,7 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import "./index.css";
 import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/footer/footer";
+import Footer from "./components/footer/Footer";
 import Home from "./pages/home/Home";
 import Gig from "./pages/gig/Gig";
 import Gigs from "./pages/gigs/Gigs";
@@ -12,22 +12,17 @@ import AddGig from "./pages/addgig/AddGig";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import Login from "./pages/login/Login";
-import Register from "./pages/register/register";
-import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import Register from "./pages/register/Register";
 import Success from "./pages/success/Success";
 import Pay from "./pages/pay/Pay";
 
 function App() {
-  const queryCleint = new QueryClient();
-
   const Layout = () => {
     return (
       <div>
-        <QueryClientProvider client={queryCleint}>
-          <Navbar />
-          <Outlet />
-          <Footer />
-        </QueryClientProvider>
+        <Navbar />
+        <Outlet />
+        <Footer />
       </div>
     );
   };
