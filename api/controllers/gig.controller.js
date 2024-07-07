@@ -1,5 +1,6 @@
-import Gig from "../models/gig.model.js";
-import createError from "../utils/createError.js";
+/* eslint-disable import/extensions */
+import Gig from '../models/gig.model.js';
+import createError from '../utils/createError.js';
 
 // GET ALL GIGS OR GET ALL BY FILTER
 export const getAllGigs = async (req, res, next) => {
@@ -11,18 +12,20 @@ export const getAllGigs = async (req, res, next) => {
       ...((q.min || q.max) && {
         price: { ...(q.min && { $gt: q.min }), ...(q.max && { $ls: q.max }) },
       }),
-      ...(q.search && { title: { $regex: q.search, $options: "i" } }),
+      ...(q.search && { title: { $regex: q.search, $options: 'i' } }),
     };
-    const gigs = await Gig.find(filters).sort({[q.sort]: -1});
-    res.status(200).json(gigs);
-  } catch (error) {}
+    const gigs = await Gig.find(filters).sort({ [q.sort]: -1 });
+    return res.status(200).json(gigs);
+  } catch (error) {
+    return next(createError(500, 'Something went wrong from'));
+  }
 };
 
 // CREATE A NEW GIG
 export const createGig = async (req, res, next) => {
   try {
     if (!req.isSeller) {
-      return next(createError(403, "Only sellers can create gig"));
+      return next(createError(403, 'Only sellers can create gig'));
     }
 
     const newGig = new Gig({
@@ -31,9 +34,14 @@ export const createGig = async (req, res, next) => {
     });
     const savedGig = await newGig.save();
 
-    res.status(201).json(savedGig);
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        gig: savedGig,
+      },
+    });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -42,13 +50,13 @@ export const deleteGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
     if (gig.userId !== req.userId) {
-      return next(createError(403, "You can delete only your gig"));
+      return next(createError(403, 'You can delete only your gig'));
     }
 
     await Gig.findByIdAndDelete(req.params.id);
-    res.status(200).send("Gig has been deleted");
+    return res.status(200).send('Gig has been deleted');
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -56,9 +64,28 @@ export const deleteGig = async (req, res, next) => {
 export const getGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
-    if (!gig) return next(createError(404, "Gig not found"));
-    res.status(200).json(gig);
+    if (!gig) return next(createError(404, 'Gig not found'));
+    return res.status(200).json(gig);
   } catch (error) {
-    next(error);
+    return next(error);
+  }
+};
+
+export const getBasedOnCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  try {
+    const gigs = await Gig.find({ categoryId });
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        gigs,
+      },
+    });
+  } catch (error) {
+    return res.status(403).json({
+      status: 'error',
+      message: 'Something went wrong from the getBasedOnCategory',
+      error,
+    });
   }
 };
