@@ -1,22 +1,24 @@
-import React from "react";
-import { useState } from "react";
-import newRequest from "../../utils/newRequest";
-import uploead from "../../utils/upload";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useState } from 'react';
+import newRequest from '../../utils/newRequest';
+import Loading from '../../components/Loading/Loading';
+import uploead from '../../utils/upload';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   // State to hold the selected file
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // State to hold user information
   const [user, setUser] = useState({
-    username: "",
-    email: "",
-    password: "",
-    img: "",
-    country: "",
+    username: '',
+    email: '',
+    password: '',
+    img: '',
+    country: '',
     isSeller: false,
-    desc: "",
+    desc: '',
   });
 
   const navigate = useNavigate();
@@ -36,21 +38,27 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
 
-    const url = await uploead(file);
     try {
-      await newRequest.post("auth/register", {
+      const url = await uploead(file);
+      await newRequest.post('auth/register', {
         ...user,
         img: url,
       });
-      navigate("/");
+      const res = await newRequest.post('auth/login', { username: user.username, password: user.password });
+      localStorage.setItem('currentUser', JSON.stringify(res.data));
+      setIsLoading(false);
+      navigate('/');
     } catch (err) {
       console.log(err);
     }
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="container mx-auto p-4 lg:px-14">
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="lg:flex lg:space-x-16">
