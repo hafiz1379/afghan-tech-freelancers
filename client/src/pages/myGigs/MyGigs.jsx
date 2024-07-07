@@ -1,17 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";
-import getCurrentUser from "../../utils/getCurentUser";
-import newRequest from "../../utils/newRequest";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaTrash } from 'react-icons/fa';
+import getCurrentUser from '../../utils/getCurentUser';
+import newRequest from '../../utils/newRequest';
+import Alert from '../../components/alert/Alert';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 const MyGigs = () => {
   const currentUser = getCurrentUser();
   const queryClient = useQueryClient();
   const { isLoading, error, data } = useQuery({
-    queryKey: ["myGigs"],
+    queryKey: ['myGigs'],
     queryFn: () =>
-      newRequest.get(`gigs?userId=${currentUser.id}`).then((res) => {
+      newRequest.get(`gigs?userId=${currentUser._id}`).then((res) => {
         return res.data;
       }),
   });
@@ -21,7 +22,7 @@ const MyGigs = () => {
       return newRequest.delete(`gigs/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("myGigs");
+      queryClient.invalidateQueries('myGigs');
     },
   });
 
@@ -32,9 +33,9 @@ const MyGigs = () => {
   return (
     <div className="flex justify-center px-2">
       {isLoading ? (
-        "Loading"
+        <Alert message="Loading..." />
       ) : error ? (
-        "error"
+        <Alert message="Something went wrong" />
       ) : (
         <div className="md:px-8 py-6 w-full">
           <div className="flex justify-between items-center mb-4">

@@ -5,16 +5,8 @@ import createError from '../utils/createError.js';
 // GET ALL GIGS OR GET ALL BY FILTER
 export const getAllGigs = async (req, res, next) => {
   try {
-    const q = req.query;
-
-    const filters = {
-      ...(q.cat && { cat: q.cat }),
-      ...((q.min || q.max) && {
-        price: { ...(q.min && { $gt: q.min }), ...(q.max && { $ls: q.max }) },
-      }),
-      ...(q.search && { title: { $regex: q.search, $options: 'i' } }),
-    };
-    const gigs = await Gig.find(filters).sort({ [q.sort]: -1 });
+    const { query } = req;
+    const gigs = await Gig.find(query);
     return res.status(200).json(gigs);
   } catch (error) {
     return next(createError(500, 'Something went wrong from'));
