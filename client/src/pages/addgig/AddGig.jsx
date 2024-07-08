@@ -1,10 +1,11 @@
-import { RiCloseLine } from "react-icons/ri";
-import React, { useReducer, useState } from "react";
-import { gigReducer, initialState } from "../../reducers/gigReducer";
-import upload from "../../utils/upload";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import newRequest from "../../utils/newRequest";
+import { RiCloseLine } from 'react-icons/ri';
+import React, { useReducer, useState } from 'react';
+import { gigReducer, initialState } from '../../reducers/gigReducer';
+import upload from '../../utils/upload';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import newRequest from '../../utils/newRequest';
+import { Label } from '../../components/UtilComponents/Utils';
 
 const Add = () => {
   const [coverImg, setCoverImg] = useState(undefined);
@@ -18,20 +19,20 @@ const Add = () => {
 
   const mutation = useMutation({
     mutationFn: (gig) => {
-      return newRequest.post("gigs", gig);
+      return newRequest.post('gigs', gig);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("myGigs");
+      queryClient.invalidateQueries('myGigs');
     },
   });
 
   const handleChange = (e) => {
-    dispatch({ type: "CHANGE_INPUT", payload: { name: e.target.name, value: e.target.value } });
+    dispatch({ type: 'CHANGE_INPUT', payload: { name: e.target.name, value: e.target.value } });
   };
 
   const handleFeatures = (e) => {
-    dispatch({ type: "ADD_FEATURE", payload: feature });
-    setFeature("");
+    dispatch({ type: 'ADD_FEATURE', payload: feature });
+    setFeature('');
   };
 
   const handleUpload = async () => {
@@ -45,7 +46,7 @@ const Add = () => {
         }),
       );
       setUploading(false);
-      dispatch({ type: "ADD_IMAGES", payload: { cover, images } });
+      dispatch({ type: 'ADD_IMAGES', payload: { cover, images } });
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +55,7 @@ const Add = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     mutation.mutate(state);
-    navigate("/myGigs");
+    navigate('/myGigs');
   };
   console.log(state);
 
@@ -105,7 +106,7 @@ const Add = () => {
                     className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300 w-full"
                     onClick={handleUpload}
                   >
-                    {uploading ? "Uploading" : "Upload"}
+                    {uploading ? 'Uploading' : 'Upload'}
                   </button>
                 </div>
               </div>
@@ -169,7 +170,7 @@ const Add = () => {
                         cursor="pointer"
                         className="hover:bg-red-200"
                         size={22}
-                        onClick={() => dispatch({ type: "REMOVE_FEATURE", payload: f })}
+                        onClick={() => dispatch({ type: 'REMOVE_FEATURE', payload: f })}
                       />
                     </div>
                   </div>
@@ -192,14 +193,6 @@ const Add = () => {
         </form>
       </div>
     </div>
-  );
-};
-
-const Label = ({ children, required }) => {
-  return (
-    <label>
-      {children} <span className="text-red-500">{required && "*"}</span>
-    </label>
   );
 };
 
