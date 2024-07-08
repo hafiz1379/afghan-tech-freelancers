@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import newRequest from '../../utils/newRequest';
-import Loading from '../../components/Loading/Loading';
 import uploead from '../../utils/upload';
 import { useNavigate } from 'react-router-dom';
+import { Label, Loading } from '../../components/UtilComponents/Utils';
 
 function Register() {
   // State to hold the selected file
@@ -20,6 +20,7 @@ function Register() {
     isSeller: false,
     desc: '',
   });
+  const confirmed = user.username && user.email && user.password;
 
   const navigate = useNavigate();
 
@@ -38,16 +39,16 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
-
     try {
+      setIsLoading(true);
       const url = await uploead(file);
       await newRequest.post('auth/register', {
         ...user,
         img: url,
       });
       const res = await newRequest.post('auth/login', { username: user.username, password: user.password });
+      console.log(res);
       localStorage.setItem('currentUser', JSON.stringify(res.data));
       setIsLoading(false);
       navigate('/');
@@ -65,10 +66,11 @@ function Register() {
           <div className="lg:w-1/2 space-y-4">
             <h1 className="text-2xl font-bold">Create a new account</h1>
             <div className="space-y-2">
-              <label htmlFor="username" className="block">
+              <Label htmlFor="username" required>
                 Username
-              </label>
+              </Label>
               <input
+                id="username"
                 required
                 type="text"
                 name="username"
@@ -78,24 +80,26 @@ function Register() {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="email" className="block">
+              <Label htmlFor="email" required>
                 Email
-              </label>
+              </Label>
               <input
                 required
                 type="email"
                 name="email"
+                id="email"
                 placeholder="Type your email address."
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="password" className="block">
+              <Label htmlFor="password" required>
                 Password
-              </label>
+              </Label>
               <input
                 required
+                id="password"
                 type="password"
                 name="password"
                 placeholder="Enter a password"
@@ -110,29 +114,18 @@ function Register() {
               <input type="file" onChange={(e) => setFile(e.target.files[0])} className="block w-full border rounded p-2" />
             </div>
             <div className="space-y-2">
-              <label htmlFor="phone" className="block">
+              <Label htmlFor="phone" className="block">
                 Phone Number
-              </label>
+              </Label>
               <input
                 type="tel"
                 name="phone"
+                id="phone"
                 placeholder="Type your phone Number"
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               />
             </div>
-            {/* <div className="space-y-2">
-              <label htmlFor="country" className="block">
-                Country
-              </label>
-              <input
-                type="text"
-                name="country"
-                placeholder="country"
-                onChange={handleChange}
-                className="block w-full border rounded p-2"
-              />
-            </div> */}
           </div>
 
           {/* ************ */}
@@ -161,7 +154,13 @@ function Register() {
                 onChange={handleChange}
                 className="block w-full border rounded p-2"
               ></textarea>
-              <button type="submit" className="block w-full bg-green-500 text-white py-2 rounded">
+              <button
+                type="submit"
+                disabled={!confirmed}
+                className={`block w-full py-2 rounded  text-white ${
+                  confirmed ? 'bg-green-500 cursor-pointer' : 'bg-gray-300 cursor-default'
+                }`}
+              >
                 Register
               </button>
             </div>
