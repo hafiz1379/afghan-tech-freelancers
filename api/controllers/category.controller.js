@@ -49,3 +49,21 @@ export const getAllCategories = async (req, res) => {
     });
   }
 };
+
+export const getCategory = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        category,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 'fail',
+      message: 'Something went wrong',
+      error,
+    });
+  }
+};
