@@ -26,7 +26,7 @@ export default function Home() {
       <Featured />
       <Slide>
         {categories.map((category) => (
-          <CategoryCard item={category} key={category._id} />
+          <CategoryCard category={category} key={category._id} />
         ))}
       </Slide>
       <Features />

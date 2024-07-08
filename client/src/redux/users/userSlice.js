@@ -5,7 +5,6 @@ export const getUser = createAsyncThunk('users/getUser', async (id) => {
   try {
     const res = await newRequest.get(`users/${id}`);
     const data = res.data;
-    console.log(data);
     return data;
   } catch (error) {
     return error;
