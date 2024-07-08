@@ -88,7 +88,7 @@ const Gig = () => {
             <p className="text-gray-500 font-normal text-lg leading-7">{gig.desc}</p>
 
             {isLoadingUser ? 'Loading' : userError ? 'Something went wrong.' : <Seller data={userData} />}
-            {currentUser && currentUser._id !== userData._id && <ReviewContainer gigId={gig._id} />}
+            {currentUser && !currentUser.isSeller && currentUser._id !== userData._id ? <ReviewContainer gigId={gig._id} /> : ''}
           </div>
           {/* Right */}
           <div className="lg:col-span-1">
