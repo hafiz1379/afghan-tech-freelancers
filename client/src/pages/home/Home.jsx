@@ -1,35 +1,35 @@
-import React from "react";
-import Featured from "../../components/featured/Featured";
-import Slide from "../../components/Slide/Slide";
-import CategoryCard from "../../components/categoryCard/CategoryCard";
-import Features from "../../components/features/Features";
-import { useQuery } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
-import Alert from "../../components/alert/Alert";
+import React, { useEffect } from 'react';
+import Featured from '../../components/featured/Featured';
+import Slide from '../../components/Slide/Slide';
+import CategoryCard from '../../components/categoryCard/CategoryCard';
+import Features from '../../components/features/Features';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../../redux/categories/categorySlice';
+import Alert from '../../components/alert/Alert';
 
-const Home = () => {
-  const { isPending, error, data } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => newRequest.get(`categories`).then((res) => res.data),
-  });
+export default function Home() {
+  const { categories, isLoading, hasError } = useSelector((store) => store.categories);
+  const dispatch = useDispatch();
 
-  const categories = data?.data?.categories;
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
+  if (isLoading) {
+    return <Alert message="Please wait..." />;
+  }
+  if (hasError) {
+    return <Alert message="Something went wrong." />;
+  }
   return (
     <div>
       <Featured />
       <Slide>
-        {isPending ? (
-          <Alert message="Loading..." />
-        ) : error ? (
-          <Alert message="Something went wrong" />
-        ) : (
-          categories.map((item) => <CategoryCard item={item} key={item._id} />)
-        )}
+        {categories.map((category) => (
+          <CategoryCard item={category} key={category._id} />
+        ))}
       </Slide>
       <Features />
     </div>
   );
-};
-
-export default Home;
+}
