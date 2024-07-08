@@ -1,18 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaStar, FaHeart } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FaStar, FaHeart } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../../redux/users/userSlice';
 
 const GigCard = ({ item }) => {
-  const { isLoading, error, data } = useQuery({
-    queryKey: [item.userId],
-    queryFn: () =>
-      newRequest.get(`/users/${item.userId}`).then((res) => {
-        return res.data;
-      }),
-  });
-
+  const { users: data, isLoading, hasError: error } = useSelector((store) => store.users);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUser(item.userId));
+  }, [dispatch]);
   console.log(data);
 
   return (
@@ -22,13 +19,16 @@ const GigCard = ({ item }) => {
           <img src={item.cover} alt="" className="w-full h-40 object-cover" />
           <div className="px-6 py-4">
             {isLoading ? (
-              "Loading"
+              'Loading'
             ) : error ? (
-              "Something went wrong"
+              'Something went wrong'
             ) : (
               <div className="flex items-center mb-2">
                 <img
-                  src={data.img || "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"}
+                  src={
+                    data.img ||
+                    'https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg'
+                  }
                   alt=""
                   className="w-10 h-10 rounded-full mr-2"
                 />
@@ -40,7 +40,8 @@ const GigCard = ({ item }) => {
             <div className="flex items-center mt-4">
               <FaStar className="text-yellow-500 w-4 h-4 mr-1" />
               <span className="text-yellow-500">
-                {!isNaN(item.totalStars / item.starNumber) && Math.round(item.totalStars / item.starNumber)}
+                {!isNaN(item.totalStars / item.starNumber) &&
+                  Math.round(item.totalStars / item.starNumber)}
               </span>
             </div>
           </div>
