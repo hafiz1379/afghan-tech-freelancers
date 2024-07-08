@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { FaCheck } from 'react-icons/fa';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { useQuery } from '@tanstack/react-query';
@@ -10,6 +10,7 @@ import ReviewContainer from '../../components/reviews/ReviewContainer';
 import getCurrentUser from '../../utils/getCurentUser';
 
 const Gig = () => {
+  const navigate = useNavigate();
   const currentUser = getCurrentUser();
   const { id } = useParams();
   const {
@@ -136,7 +137,28 @@ const Price = ({ data, id }) => {
 };
 
 const Seller = ({ data }) => {
+  const navigate = useNavigate();
   const currentUser = getCurrentUser();
+  const handleContact = async () => {
+    const sellerId = data._id;
+    const buyerId = currentUser._id;
+
+    const conversationId = sellerId + buyerId;
+
+    try {
+      const res = await newRequest.get(`conversations/single/${conversationId}`);
+      navigate(`/message/${res.data.id}`);
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 404) {
+        const res = await newRequest.post(`conversations`, {
+          to: sellerId,
+        });
+
+        navigate(`/message/${res.data.id}`);
+      }
+    }
+  };
   return (
     <div className="mt-10 flex flex-col text-gray-600">
       <h2>About the seller</h2>
@@ -147,7 +169,10 @@ const Seller = ({ data }) => {
           <span className="font-semibold text-xl text-gray-700">{data.username}</span>
           <Stars />
           {currentUser && currentUser._id !== data._id ? (
-            <button className="bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold hover:bg-green-600 hover:text-white transition ease-in duration-75">
+            <button
+              className="bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold hover:bg-green-600 hover:text-white transition ease-in duration-75"
+              onClick={handleContact}
+            >
               Contact Me
             </button>
           ) : (
