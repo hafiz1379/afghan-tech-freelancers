@@ -3,14 +3,20 @@ import { Link } from 'react-router-dom';
 import { FaStar, FaHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/users/userSlice';
+import Alert from "../alert/Alert";
 
 const GigCard = ({ item }) => {
-  const { users: data, isLoading, hasError: error } = useSelector((store) => store.users);
+  const { user: data, isLoading, hasError: error } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser(item.userId));
   }, [dispatch]);
-  console.log(data);
+  if (isLoading) {
+    return <Alert message="Please wait..." />;
+  }
+  if (error) {
+    return <Alert message="Something went wrong." />;
+  }
 
   return (
     <div className="w-full sm:w-1/2 lg:w-1/4 py-4 sm:px-2">
@@ -26,13 +32,13 @@ const GigCard = ({ item }) => {
               <div className="flex items-center mb-2">
                 <img
                   src={
-                    data.img ||
+                    data?.img ||
                     'https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg'
                   }
                   alt=""
                   className="w-10 h-10 rounded-full mr-2"
                 />
-                <span className="text-sm font-semibold">{data.username}</span>
+                <span className="text-sm font-semibold">{data?.username || "Something"}</span>
               </div>
             )}
             <h1 className="font-bold leading-6">{item.title}</h1>

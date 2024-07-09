@@ -8,7 +8,6 @@ import Stars from '../../components/Stars/Stars';
 import ReviewContainer from '../../components/reviews/ReviewContainer';
 import getCurrentUser from '../../utils/getCurentUser';
 import { getGigs } from '../../redux/gigs/gigSlice';
-import { getUser } from '../../redux/users/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from '../../components/alert/Alert';
 const Gig = () => {
@@ -53,10 +52,6 @@ const Gig = () => {
     }
   }, [gig]);
 
-  console.log(gigs);
-  console.log(gig);
-  console.log(user);
-  console.log(category);
   if (isLoadingGigs || !gig || !user || !category) {
     return <Alert message="Please wait..." />;
   }
@@ -95,11 +90,10 @@ const Gig = () => {
         <h2 className="h2">About this job</h2>
         <p className="text-gray-500 font-normal text-lg leading-7">{gig.desc}</p>
         <Seller data={user} />
-        {currentUser && !currentUser.isSeller && currentUser._id !== user._id ? (
-          <ReviewContainer gigId={gig._id} />
-        ) : (
-          ''
-        )}
+        <ReviewContainer
+          gigId={gig._id}
+          showAddReview={currentUser && !currentUser.isSeller && currentUser._id !== user._id}
+        />
       </div>
       {/* Right */}
       <div className="lg:col-span-1">

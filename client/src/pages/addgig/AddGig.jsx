@@ -2,7 +2,6 @@ import { RiCloseLine } from 'react-icons/ri';
 import React, { useReducer, useState } from 'react';
 import { gigReducer, initialState } from '../../reducers/gigReducer';
 import upload from '../../utils/upload';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import newRequest from '../../utils/newRequest';
 import { Label } from '../../components/UtilComponents/Utils';
@@ -15,22 +14,12 @@ const Add = () => {
 
   const [state, dispatch] = useReducer(gigReducer, initialState);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: (gig) => {
-      return newRequest.post('gigs', gig);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries('myGigs');
-    },
-  });
 
   const handleChange = (e) => {
     dispatch({ type: 'CHANGE_INPUT', payload: { name: e.target.name, value: e.target.value } });
   };
 
-  const handleFeatures = (e) => {
+  const handleFeatures = () => {
     dispatch({ type: 'ADD_FEATURE', payload: feature });
     setFeature('');
   };
@@ -54,7 +43,7 @@ const Add = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    mutation.mutate(state);
+    await newRequest.post('gigs', state);
     navigate('/myGigs');
   };
   console.log(state);
@@ -128,11 +117,21 @@ const Add = () => {
           <div className="md:col-span-1 p-3 rounded flex flex-col">
             <div className="my-2 flex flex-col items-stretch">
               <label htmlFor="service">Service Title</label>
-              <input type="text" placeholder="(e.g): One page website" onChange={handleChange} name="shortTitle" />
+              <input
+                type="text"
+                placeholder="(e.g): One page website"
+                onChange={handleChange}
+                name="shortTitle"
+              />
             </div>
             <div className="my-2 flex flex-col items-stretch">
               <Label required>Short Description</Label>
-              <textarea placeholder="Short description of you service" name="shortDesc" onChange={handleChange} required></textarea>
+              <textarea
+                placeholder="Short description of you service"
+                name="shortDesc"
+                onChange={handleChange}
+                required
+              ></textarea>
             </div>
             <div className="my-2 flex flex-col items-stretch">
               <Label required>Delivery Time</Label>

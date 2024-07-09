@@ -1,20 +1,20 @@
-import React from "react";
-import { RiMessage2Fill } from "react-icons/ri";
-import { useQuery } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { RiMessage2Fill } from 'react-icons/ri';
+import newRequest from '../../utils/newRequest';
+import { useNavigate } from 'react-router-dom';
+import getCurrentUser from '../../utils/getCurentUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrders } from '../../redux/orders/orderSlice';
 
 const Orders = () => {
+  const { orders: data, isLoading, hasError } = useSelector((store) => store.orders);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["orders"],
-    queryFn: () =>
-      newRequest.get(`/orders`).then((res) => {
-        return res.data;
-      }),
-  });
+  const currentUser = getCurrentUser();
+  useEffect(() => {
+    dispatch(getOrders());
+  }, [dispatch]);
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   const handleContact = async (order) => {
     const sellerId = order.sellerId;
     const buyerId = order.buyerId;
@@ -39,9 +39,9 @@ const Orders = () => {
   return (
     <div className="flex justify-center px-2">
       {isLoading ? (
-        "loading"
-      ) : error ? (
-        "error"
+        'loading'
+      ) : hasError ? (
+        'error'
       ) : (
         <div className="md:px-8 py-6 w-full">
           <div className="flex justify-between items-center mb-4">
