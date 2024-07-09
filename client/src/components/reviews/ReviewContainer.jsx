@@ -26,7 +26,7 @@ export default function ReviewContainer({ gigId, showAddReview }) {
     await newRequest.post('reviews', { gigId, desc, star, userId: currentUser._id });
   };
 
-  const showForm = !reviews.find((r) => r.userId === currentUser._id) && showAddReview;
+  const showForm = !reviews.find((r) => r.userId === currentUser?._id) && showAddReview;
 
   if (isLoading) {
     return <Alert message="Please wait..." />;
