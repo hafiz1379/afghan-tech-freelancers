@@ -1,37 +1,45 @@
-import { RiCloseLine } from "react-icons/ri";
-import React, { useReducer, useState } from "react";
-import { gigReducer, initialState } from "../../reducers/gigReducer";
-import upload from "../../utils/upload";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import newRequest from "../../utils/newRequest";
+import { RiCloseLine } from 'react-icons/ri';
+import React, { useEffect, useReducer, useState } from 'react';
+import { gigReducer, initialState } from '../../reducers/gigReducer';
+import upload from '../../utils/upload';
+import { useNavigate } from 'react-router-dom';
+import newRequest from '../../utils/newRequest';
+import { Label, Loading } from '../../components/UtilComponents/Utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../../redux/categories/categorySlice';
+import Alert from '../../components/alert/Alert';
 
 const Add = () => {
   const [coverImg, setCoverImg] = useState(undefined);
   const [gigImages, setGigImages] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [feature, setFeature] = useState();
-
+  const [feature, setFeature] = useState('');
+  const { categories, isLoading, hasError } = useSelector((store) => store.categories);
+  const dispatchRedux = useDispatch();
   const [state, dispatch] = useReducer(gigReducer, initialState);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: (gig) => {
-      return newRequest.post("gigs", gig);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries("myGigs");
-    },
-  });
+  useEffect(() => {
+    dispatchRedux(getCategories());
+    if (categories.length) {
+      dispatch({ type: 'CHANGE_INPUT', payload: { name: 'categoryId', value: categories[0]._id } });
+    }
+  }, [dispatchRedux]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (hasError) {
+    return <Alert />;
+  }
 
   const handleChange = (e) => {
-    dispatch({ type: "CHANGE_INPUT", payload: { name: e.target.name, value: e.target.value } });
+    dispatch({ type: 'CHANGE_INPUT', payload: { name: e.target.name, value: e.target.value } });
   };
 
-  const handleFeatures = (e) => {
-    dispatch({ type: "ADD_FEATURE", payload: feature });
-    setFeature("");
+  const handleFeatures = () => {
+    dispatch({ type: 'ADD_FEATURE', payload: feature });
+    setFeature('');
   };
 
   const handleUpload = async () => {
@@ -45,7 +53,7 @@ const Add = () => {
         }),
       );
       setUploading(false);
-      dispatch({ type: "ADD_IMAGES", payload: { cover, images } });
+      dispatch({ type: 'ADD_IMAGES', payload: { cover, images } });
     } catch (error) {
       console.log(error);
     }
@@ -53,8 +61,8 @@ const Add = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    mutation.mutate(state);
-    navigate("/myGigs");
+    await newRequest.post('gigs', state);
+    navigate('/myGigs');
   };
   console.log(state);
 
@@ -64,7 +72,7 @@ const Add = () => {
       <div className="border rounded">
         <form onSubmit={handleSubmit} className="sections grid md:grid-cols-2 gap-8 ">
           <div className="md:col-span-1 p-3 rounded">
-            <div action="#" className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
               <div className="my-2 flex flex-col">
                 <Label required>Title</Label>
                 <input
@@ -77,13 +85,14 @@ const Add = () => {
               </div>
 
               <div className="my-2 flex flex-col">
-                <Label required>Categore</Label>
-                <select name="cat" id="cat" onChange={handleChange} required>
-                  <option value="---">___</option>
-                  <option value="design">Design</option>
-                  <option value="web">Web Development</option>
-                  <option value="animation">Animation</option>
-                  <option value="music">Music</option>
+                <Label required>Category</Label>
+                <select name="categoryId" id="cat" onChange={handleChange} required>
+                  <option value="">Select one...</option>
+                  {categories.map((c) => (
+                    <option value={c._id} key={c._id}>
+                      {c.title}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -102,10 +111,11 @@ const Add = () => {
 
                 <div className="my-2">
                   <button
+                    type="button"
                     className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300 w-full"
                     onClick={handleUpload}
                   >
-                    {uploading ? "Uploading" : "Upload"}
+                    {uploading ? 'Uploading' : 'Upload'}
                   </button>
                 </div>
               </div>
@@ -127,11 +137,21 @@ const Add = () => {
           <div className="md:col-span-1 p-3 rounded flex flex-col">
             <div className="my-2 flex flex-col items-stretch">
               <label htmlFor="service">Service Title</label>
-              <input type="text" placeholder="(e.g): One page website" onChange={handleChange} name="shortTitle" />
+              <input
+                type="text"
+                placeholder="(e.g): One page website"
+                onChange={handleChange}
+                name="shortTitle"
+              />
             </div>
             <div className="my-2 flex flex-col items-stretch">
               <Label required>Short Description</Label>
-              <textarea placeholder="Short description of you service" name="shortDesc" onChange={handleChange} required></textarea>
+              <textarea
+                placeholder="Short description of you service"
+                name="shortDesc"
+                onChange={handleChange}
+                required
+              ></textarea>
             </div>
             <div className="my-2 flex flex-col items-stretch">
               <Label required>Delivery Time</Label>
@@ -153,6 +173,7 @@ const Add = () => {
                   onChange={(e) => setFeature(e.target.value)}
                 />
                 <button
+                  type="button"
                   onClick={handleFeatures}
                   className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300"
                 >
@@ -163,13 +184,13 @@ const Add = () => {
               <div className="flex gap-2">
                 {state.features.map((f, index) => (
                   <div key={index + f}>
-                    <div className="h-8 text-sm bg-transparent text-red-600 border border-red-500 rounded-sm px-1 flex gap-3 items-center">
+                    <div className="h-8 text-sm bg-transparent text-black border border-gray-800 rounded-sm px-1 flex gap-3 items-center">
                       <span>{f}</span>
                       <RiCloseLine
                         cursor="pointer"
                         className="hover:bg-red-200"
                         size={22}
-                        onClick={() => dispatch({ type: "REMOVE_FEATURE", payload: f })}
+                        onClick={() => dispatch({ type: 'REMOVE_FEATURE', payload: f })}
                       />
                     </div>
                   </div>
@@ -192,14 +213,6 @@ const Add = () => {
         </form>
       </div>
     </div>
-  );
-};
-
-const Label = ({ children, required }) => {
-  return (
-    <label>
-      {children} <span className="text-red-500">{required && "*"}</span>
-    </label>
   );
 };
 

@@ -1,40 +1,41 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";
-import getCurrentUser from "../../utils/getCurentUser";
-import newRequest from "../../utils/newRequest";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FaTrash } from 'react-icons/fa';
+import getCurrentUser from '../../utils/getCurentUser';
+import newRequest from '../../utils/newRequest';
+import Alert from '../../components/alert/Alert';
+import { useDispatch, useSelector } from 'react-redux';
+import { getGigs } from '../../redux/gigs/gigSlice';
+import { Loading } from '../../components/UtilComponents/Utils';
 
 const MyGigs = () => {
   const currentUser = getCurrentUser();
-  const queryClient = useQueryClient();
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["myGigs"],
-    queryFn: () =>
-      newRequest.get(`gigs?userId=${currentUser.id}`).then((res) => {
-        return res.data;
-      }),
-  });
 
-  const mutation = useMutation({
-    mutationFn: (id) => {
-      return newRequest.delete(`gigs/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries("myGigs");
-    },
-  });
+  const { gigs: data, isLoading, hasError } = useSelector((store) => store.gigs);
+  const dispatch = useDispatch();
 
-  const handleDelete = (id) => {
-    mutation.mutate(id);
+  useEffect(() => {
+    dispatch(getGigs(`?userId=${currentUser._id}`));
+  }, [dispatch]);
+
+  const handleDelete = async (id) => {
+    await newRequest.delete(`gigs/${id}`);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (hasError) {
+    return <Alert message="Something went wrong" />;
+  }
 
   return (
     <div className="flex justify-center px-2">
       {isLoading ? (
-        "Loading"
-      ) : error ? (
-        "error"
+        <Alert message="Loading..." />
+      ) : hasError ? (
+        <Alert message="Something went wrong" />
       ) : (
         <div className="md:px-8 py-6 w-full">
           <div className="flex justify-between items-center mb-4">
@@ -67,7 +68,10 @@ const MyGigs = () => {
                   <td className="p-2 border-b border-gray-300">{gig.price}</td>
                   <td className="p-2 border-b border-gray-300">{gig.sales}</td>
                   <td className="p-2 pl-6 border-b border-gray-300">
-                    <FaTrash className="text-red-500  cursor-pointer hover:text-red-700" onClick={() => handleDelete(gig._id)} />
+                    <FaTrash
+                      className="text-red-500  cursor-pointer hover:text-red-700"
+                      onClick={() => handleDelete(gig._id)}
+                    />
                   </td>
                 </tr>
               ))}

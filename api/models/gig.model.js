@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const GigSchema = new Schema(
   {
     userId: {
@@ -23,7 +23,7 @@ const GigSchema = new Schema(
       type: Number,
       default: 0,
     },
-    cat: {
+    categoryId: {
       type: String,
       required: true,
     },
@@ -69,4 +69,4 @@ const GigSchema = new Schema(
   },
 );
 
-export default mongoose.model("Gig", GigSchema);
+export default mongoose.model('Gig', GigSchema);

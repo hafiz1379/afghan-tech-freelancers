@@ -3,7 +3,7 @@ import getCurrentUser from "../utils/getCurentUser";
 export const initialState = {
   userId: getCurrentUser()?._id,
   title: "",
-  cat: "",
+  categoryId: "",
   desc: "",
   cover: "",
   price: "",
@@ -20,7 +20,6 @@ export const gigReducer = (state, action) => {
     case "CHANGE_INPUT":
       return {
         ...state,
-        cat: state.cat === "---" ? "" : state.cat,
         [action.payload.name]: action.payload.value,
       };
     case "ADD_IMAGES":
