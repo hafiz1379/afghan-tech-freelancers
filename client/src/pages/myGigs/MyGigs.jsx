@@ -6,6 +6,7 @@ import newRequest from '../../utils/newRequest';
 import Alert from '../../components/alert/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGigs } from '../../redux/gigs/gigSlice';
+import { Loading } from '../../components/UtilComponents/Utils';
 
 const MyGigs = () => {
   const currentUser = getCurrentUser();
@@ -14,12 +15,20 @@ const MyGigs = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getGigs(`userId=${currentUser._id}`));
+    dispatch(getGigs(`?userId=${currentUser._id}`));
   }, [dispatch]);
 
   const handleDelete = async (id) => {
     await newRequest.delete(`gigs/${id}`);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (hasError) {
+    return <Alert message="Something went wrong" />;
+  }
 
   return (
     <div className="flex justify-center px-2">

@@ -1,19 +1,37 @@
 import { RiCloseLine } from 'react-icons/ri';
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { gigReducer, initialState } from '../../reducers/gigReducer';
 import upload from '../../utils/upload';
 import { useNavigate } from 'react-router-dom';
 import newRequest from '../../utils/newRequest';
-import { Label } from '../../components/UtilComponents/Utils';
+import { Label, Loading } from '../../components/UtilComponents/Utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../../redux/categories/categorySlice';
+import Alert from '../../components/alert/Alert';
 
 const Add = () => {
   const [coverImg, setCoverImg] = useState(undefined);
   const [gigImages, setGigImages] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [feature, setFeature] = useState();
-
+  const [feature, setFeature] = useState('');
+  const { categories, isLoading, hasError } = useSelector((store) => store.categories);
+  const dispatchRedux = useDispatch();
   const [state, dispatch] = useReducer(gigReducer, initialState);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatchRedux(getCategories());
+    if (categories.length) {
+      dispatch({ type: 'CHANGE_INPUT', payload: { name: 'categoryId', value: categories[0]._id } });
+    }
+  }, [dispatchRedux]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (hasError) {
+    return <Alert />;
+  }
 
   const handleChange = (e) => {
     dispatch({ type: 'CHANGE_INPUT', payload: { name: e.target.name, value: e.target.value } });
@@ -54,7 +72,7 @@ const Add = () => {
       <div className="border rounded">
         <form onSubmit={handleSubmit} className="sections grid md:grid-cols-2 gap-8 ">
           <div className="md:col-span-1 p-3 rounded">
-            <div action="#" className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
               <div className="my-2 flex flex-col">
                 <Label required>Title</Label>
                 <input
@@ -67,13 +85,14 @@ const Add = () => {
               </div>
 
               <div className="my-2 flex flex-col">
-                <Label required>Categore</Label>
-                <select name="cat" id="cat" onChange={handleChange} required>
-                  <option value="---">___</option>
-                  <option value="design">Design</option>
-                  <option value="web">Web Development</option>
-                  <option value="animation">Animation</option>
-                  <option value="music">Music</option>
+                <Label required>Category</Label>
+                <select name="categoryId" id="cat" onChange={handleChange} required>
+                  <option value="">Select one...</option>
+                  {categories.map((c) => (
+                    <option value={c._id} key={c._id}>
+                      {c.title}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -92,6 +111,7 @@ const Add = () => {
 
                 <div className="my-2">
                   <button
+                    type="button"
                     className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300 w-full"
                     onClick={handleUpload}
                   >
@@ -153,6 +173,7 @@ const Add = () => {
                   onChange={(e) => setFeature(e.target.value)}
                 />
                 <button
+                  type="button"
                   onClick={handleFeatures}
                   className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300"
                 >
