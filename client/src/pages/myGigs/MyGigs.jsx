@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa';
 import getCurrentUser from '../../utils/getCurentUser';
 import newRequest from '../../utils/newRequest';
@@ -10,16 +10,21 @@ import { Loading } from '../../components/UtilComponents/Utils';
 
 const MyGigs = () => {
   const currentUser = getCurrentUser();
-
   const { gigs: data, isLoading, hasError } = useSelector((store) => store.gigs);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getGigs(`?userId=${currentUser._id}`));
   }, [dispatch]);
 
   const handleDelete = async (id) => {
-    await newRequest.delete(`gigs/${id}`);
+    try {
+      await newRequest.delete(`gigs/${id}`);
+      dispatch(getGigs(`?userId=${currentUser._id}`)); // Refresh the list after deleting
+    } catch (error) {
+      console.error('Failed to delete the gig:', error);
+    }
   };
 
   if (isLoading) {
@@ -64,7 +69,12 @@ const MyGigs = () => {
                   <td className="p-2 border-b border-gray-300">
                     <img src={gig.cover} alt="Gig" className="w-12 h-12 object-cover rounded" />
                   </td>
-                  <td className="p-2 border-b border-gray-300">{gig.title}</td>
+                  <td
+                    className="p-2 border-b border-gray-300 hover:underline cursor-pointer"
+                    onClick={() => navigate(`/gig/${gig._id}`)}
+                  >
+                    {gig.title}
+                  </td>
                   <td className="p-2 border-b border-gray-300">{gig.price}</td>
                   <td className="p-2 border-b border-gray-300">{gig.sales}</td>
                   <td className="p-2 pl-6 border-b border-gray-300">
