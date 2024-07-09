@@ -12,7 +12,7 @@ import AddGig from './pages/addgig/AddGig';
 import Messages from './pages/messages/Messages';
 import Message from './pages/message/Message';
 import Login from './pages/login/Login';
-import Register from './pages/register/Register';
+import Register from './pages/register/register';
 import Pay from './pages/pay/Pay';
 import Success from './pages/success/Success';
 import store from './redux/store';
