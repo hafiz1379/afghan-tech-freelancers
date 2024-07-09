@@ -6,6 +6,7 @@ import Features from '../../components/features/Features';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../redux/categories/categorySlice';
 import Alert from '../../components/alert/Alert';
+import { Loading } from '../../components/UtilComponents/Utils';
 
 export default function Home() {
   const { categories, isLoading, hasError } = useSelector((store) => store.categories);
@@ -16,7 +17,7 @@ export default function Home() {
   }, [dispatch]);
 
   if (isLoading) {
-    return <Alert message="Please wait..." />;
+    return <Loading />;
   }
   if (hasError) {
     return <Alert message="Something went wrong." />;
@@ -25,7 +26,7 @@ export default function Home() {
     <div>
       <Featured />
       <Slide>
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <CategoryCard category={category} key={category._id} />
         ))}
       </Slide>

@@ -14,7 +14,6 @@ function Gigs() {
   const minRef = useRef();
   const maxRef = useRef();
   const { search } = useLocation();
-  console.log(search);
   useEffect(() => {
     dispatch(getGigs(search));
   }, [dispatch]);

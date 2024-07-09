@@ -184,7 +184,7 @@ const Add = () => {
               <div className="flex gap-2">
                 {state.features.map((f, index) => (
                   <div key={index + f}>
-                    <div className="h-8 text-sm bg-transparent text-red-600 border border-red-500 rounded-sm px-1 flex gap-3 items-center">
+                    <div className="h-8 text-sm bg-transparent text-black border border-gray-800 rounded-sm px-1 flex gap-3 items-center">
                       <span>{f}</span>
                       <RiCloseLine
                         cursor="pointer"
