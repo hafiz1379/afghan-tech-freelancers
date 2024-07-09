@@ -12,20 +12,20 @@ export const getUser = createAsyncThunk('users/getUser', async (id) => {
 });
 
 const initialState = {
-  users: [],
+  user: null,
   isLoading: false,
   hasError: false,
 };
 
 const userSlice = createSlice({
-  name: 'users',
+  name: 'user',
   initialState,
   extraReducers: (builder) =>
     builder
       .addCase(getUser.fulfilled, (state, action) => {
         return {
           ...state,
-          users: action.payload,
+          user: action.payload,
           hasError: false,
           isLoading: false,
         };
