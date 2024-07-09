@@ -1,5 +1,6 @@
-import createError from "../utils/createError.js";
-import Conversation from "../models/conversation.model.js";
+/* eslint-disable import/extensions */
+import createError from '../utils/createError.js';
+import Conversation from '../models/conversation.model.js';
 
 export const createConversation = async (req, res, next) => {
   const newConversation = new Conversation({
@@ -11,7 +12,7 @@ export const createConversation = async (req, res, next) => {
   });
   try {
     const savedConversation = await newConversation.save();
-    res.status(201).send(savedConversation);
+    return res.status(201).send(savedConversation);
   } catch (error) {
     return next(error);
   }
@@ -19,22 +20,24 @@ export const createConversation = async (req, res, next) => {
 
 export const getAllConversations = async (req, res, next) => {
   try {
-    const allConversations = await Conversation.find(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }).sort({
+    const allConversations = await Conversation.find(
+      req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId },
+    ).sort({
       updatedAt: -1,
     });
-    res.status(200).send(allConversations);
+    return res.status(200).send(allConversations);
   } catch (error) {
-    return next(createError(404, "Something went wrong from conversation"));
+    return next(createError(404, 'Something went wrong from conversation'));
   }
 };
 
 export const getSingleConversation = async (req, res, next) => {
   try {
     const conversation = await Conversation.findOne({ id: req.params.id });
-    if (!conversation) return next(createError(404, "There is no conversation"));
-    res.status(200).send(conversation);
+    if (!conversation) return next(createError(404, 'There is no conversation'));
+    return res.status(200).send(conversation);
   } catch (error) {
-    return next(createError(404, "Something went wrong from conversation"));
+    return next(createError(404, 'Something went wrong from conversation'));
   }
 };
 
@@ -53,8 +56,8 @@ export const updateConversation = async (req, res, next) => {
       },
     );
 
-    res.status(200).send(updatedConversation);
+    return res.status(200).send(updatedConversation);
   } catch (error) {
-    return next(createError(404, "Something went wrong from conversation"));
+    return next(createError(404, 'Something went wrong from conversation'));
   }
 };
