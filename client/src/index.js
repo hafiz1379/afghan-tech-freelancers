@@ -16,6 +16,7 @@ import Register from './pages/register/register';
 import Pay from './pages/pay/Pay';
 import Success from './pages/success/Success';
 import store from './redux/store';
+import i18n from './i18n';
 
 const router = createBrowserRouter([
   {
