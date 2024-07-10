@@ -1,0 +1,110 @@
+{
+  "signIn": "Sign in",
+  "join": "Join",
+  "logout": "Logout",
+  "myGigs": "My Gigs",
+  "addGig": "Add New Gig",
+  "orders": "Orders",
+  "messages": "Messages",
+
+  "createAccount": "Create a new account",
+  "username": "Username",
+  "typeUsername": "Type your username",
+  "email": "Email",
+  "typeEmail": "Type your email address",
+  "password": "Password",
+  "enterPassword": "Enter a password",
+  "profilePicture": "Profile Picture",
+  "phoneNumber": "Phone Number",
+  "typePhoneNumber": "Type your phone number",
+  "becomeSeller": "I want to become a seller",
+  "activateSeller": "Activate the seller account",
+  "description": "Description",
+  "typeDescription": "A short description of yourself",
+  "register": "Register",
+
+  "logIn": "Log in",
+  "invalidCredentials": "Invalid username or password",
+
+  "findService": "Find the right freelance service, right away",
+  "searchPlaceholder": "Try",
+  "search": "Search",
+  "popular": "Popular:",
+  "webDesign": "Web Design",
+  "aiService": "AI Service",
+  "uiux": "UI/UX",
+  "wordpress": "Wordpress",
+
+  "bestPlace": "Best place for Afghan developers and recruiters",
+  
+  "features": [
+    {
+      "title": "Basics of Web Development",
+      "desc": "Web development is exciting, offering opportunities to create dynamic and engaging websites and applications."
+    },
+    {
+      "title": "Top Freelance Platforms 2024",
+      "desc": "Upwork, Freelancer, and Toptal provide excellent projects and great opportunities for software developers."
+    },
+    {
+      "title": "Successful Freelance Career",
+      "desc": "Succeeding in freelancing is rewarding, with a strong portfolio and happy clients leading to numerous benefits."
+    },
+    {
+      "title": "Tools for Remote Dev Teams",
+      "desc": "Git, Jira, Trello, Slack, and Zoom ensure seamless collaboration and success for remote development teams."
+    }
+  ],
+  "title": "Add new gig",
+  "fields": {
+    "title": {
+      "label": "Title",
+      "placeholder": "I will do something that I'm very good at"
+    },
+    "category": {
+      "label": "Category",
+      "placeholder": "Select one..."
+    },
+    "coverImage": {
+      "label": "Cover Image"
+    },
+    "uploadImages": {
+      "label": "Upload Images"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "A brief description to introduce your product to customer"
+    },
+    "serviceTitle": {
+      "label": "Service Title",
+      "placeholder": "(e.g): One page website"
+    },
+    "shortDescription": {
+      "label": "Short Description",
+      "placeholder": "Short description of your service"
+    },
+    "deliveryTime": {
+      "label": "Delivery Time"
+    },
+    "revisionNumber": {
+      "label": "Revision Number"
+    },
+    "addFeatures": {
+      "label": "Add Features",
+      "placeholder": "e.g page design",
+      "createButton": "Add"
+    },
+    "price": {
+      "label": "Price"
+    },
+    "createButton": "Create"
+  },
+  "uploadButton": {
+    "uploading": "Uploading",
+    "upload": "Upload"
+  },
+  
+  "footer": {
+    "copyright": "Afghan Tech Freelancers. All rights reserved."
+  }
+}
