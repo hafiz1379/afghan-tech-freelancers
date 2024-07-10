@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../redux/categories/categorySlice';
 import Alert from '../../components/alert/Alert';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
-import LanguageSwitcher from '../../components/langSwitch/LanguageSwitcher';
 
 const Add = () => {
   const [coverImg, setCoverImg] = useState(undefined);
@@ -80,7 +79,7 @@ const Add = () => {
                 <Label required>{t('fields.title.label')}</Label>
                 <input
                   type="text"
-                  placeholder="I will do something that I'm very good at"
+                  placeholder={t('fields.title.placeholder')}
                   name="title"
                   onChange={handleChange}
                   required
@@ -126,7 +125,7 @@ const Add = () => {
               <div className="my-2 flex flex-col">
                 <Label required>{t('fields.description.label')}</Label>
                 <textarea
-                  placeholder="A brief description to introduce your product to customer"
+                  placeholder={t('fields.description.placeholder')}
                   className="h-52"
                   onChange={handleChange}
                   name="desc"
@@ -142,7 +141,7 @@ const Add = () => {
               <label htmlFor="service">{t('fields.serviceTitle.label')}</label>
               <input
                 type="text"
-                placeholder="(e.g): One page website"
+                placeholder={t('fields.serviceTitle.placeholder')}
                 onChange={handleChange}
                 name="shortTitle"
               />
@@ -150,7 +149,7 @@ const Add = () => {
             <div className="my-2 flex flex-col items-stretch">
               <Label required>{t('fields.shortDescription.label')}</Label>
               <textarea
-                placeholder="Short description of you service"
+                placeholder={t('fields.shortDescription.placeholder')}
                 name="shortDesc"
                 onChange={handleChange}
                 required
@@ -171,7 +170,7 @@ const Add = () => {
                 <input
                   value={feature}
                   type="text"
-                  placeholder="e.g page design"
+                  placeholder={t('fields.addFeatures.placeholder')}
                   className="flex-grow"
                   onChange={(e) => setFeature(e.target.value)}
                 />
