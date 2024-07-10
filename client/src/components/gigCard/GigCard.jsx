@@ -52,7 +52,7 @@ const GigCard = ({ item }) => {
             </div>
 
             <h1 className="font-bold leading-6">{item.title}</h1>
-            <p className="text-gray-700 text-base">{item.desc}</p>
+            <p className="text-gray-700 text-base">{item.shortDesc}</p>
             <div className="flex items-center mt-4">
               <FaStar className="text-yellow-500 w-4 h-4 mr-1" />
               <span className="text-yellow-500">
