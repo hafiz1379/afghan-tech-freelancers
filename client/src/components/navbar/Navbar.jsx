@@ -5,12 +5,16 @@ import { Link } from 'react-router-dom';
 import newRequest from '../../utils/newRequest';
 import { useNavigate } from 'react-router-dom';
 import getCurrentUser from '../../utils/getCurentUser';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
+import LanguageSwitcher from '../langSwitch/LanguageSwitcher';
 
 const Navbar = () => {
+  const { t } = useTranslation(); // Initialize useTranslation hook
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUsername, setIsUsername] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const navigate = useNavigate();
+  
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -44,21 +48,22 @@ const Navbar = () => {
         </div>
         {/* Menu Items */}
         <div className="hidden sm:flex gap-4 text-white items-center md:text-xl font-medium flex-row-reverse">
-          {/* {!currentUser?.isSeller && <span className="cursor-pointer">Become a Seller</span>} */}
+        <LanguageSwitcher />
+          {/* {!currentUser?.isSeller && <span className="cursor-pointer">{t('becomeSeller')}</span>} */}
           {!currentUser && (
             <Link to="/login" className="cursor-pointer">
-              Sign in
+              {t('signIn')}
             </Link>
           )}
           {!currentUser && (
             <Link to="/register" className="bg-main hover:bg-accent text-white px-4 py-2 rounded-lg">
-              Join
+              {t('join')}
             </Link>
           )}
           {currentUser && (
             <>
               <Link className="text-red-500 border border-red-500 px-2 py-1 hover:text-white hover:bg-red-500 rounded" onClick={handleLogout}>
-                Logout
+                {t('logout')}
               </Link>
               <div className="relative">
                 <img
@@ -80,44 +85,44 @@ const Navbar = () => {
                   {currentUser?.isSeller && (
                     <>
                       <Link className="hover:bg-gray-300 p-2" to="/myGigs">
-                        My Gigs
+                        {t('myGigs')}
                       </Link>
                       <Link className="hover:bg-gray-300 p-2" to="/addGig">
-                        Add New Gig
+                        {t('addGig')}
                       </Link>
                     </>
                   )}
                   <Link className="hover:bg-gray-300 p-2" to="/orders">
-                    Orders
+                    {t('orders')}
                   </Link>
                   <Link className="hover:bg-gray-300 p-2" to="/messages">
-                    Messages
+                    {t('messages')}
                   </Link>
                 </>
               )}
             </>
           )}
         </div>
-        {/* Mobile Menu Button */}
-        <div className="sm:hidden flex items-center">
+           {/* Mobile Menu Button */}
+           <div className="sm:hidden flex items-center">
           <button onClick={toggleMenu} className="text-white focus:outline-none">
             {isMenuOpen ? <CgClose size={25} /> : <RxHamburgerMenu size={25} />}
           </button>
         </div>
       </div>
       {/* Mobile Menu */}
+ 
       {isMenuOpen && (
         <div className="sm:hidden flex flex-col gap-4 p-4 text-white">
-          <span className="cursor-pointer">Home</span>
-          <span className="cursor-pointer">Become a Seller</span>
-          {!currentUser?.isSeller && (
+          <LanguageSwitcher />
+          {!currentUser && (
             <Link to="/login" className="cursor-pointer">
-              Sign in
+              {t('signIn')}
             </Link>
           )}
           {!currentUser && (
             <Link to="/register" className="bg-main hover:bg-accent px-4 py-2 rounded-lg">
-              Join
+              {t('join')}
             </Link>
           )}
           {currentUser && (
@@ -125,7 +130,7 @@ const Navbar = () => {
               <div className="flex gap-2 items-center cursor-pointer" onClick={toggleUserMenu}>
                 <img
                   className="h-8 w-8 rounded-2xl"
-                  src="https://avatars.githubusercontent.com/u/117447018?v=4"
+                  src={currentUser.img || '/images/no avatar.jpg'}
                   alt="Profile picture"
                 />
                 <span>{currentUser?.username}</span>
@@ -134,14 +139,14 @@ const Navbar = () => {
                 <div className="mt-2 p-4 bg-white border-gray-500 border-2 rounded-lg flex flex-col gap-2 text-gray-600 w-full font-light">
                   {currentUser?.isSeller && (
                     <>
-                      <Link to="/myGigs">Gigs</Link>
-                      <Link to="/addGig">Add New Gigs</Link>
+                      <Link to="/myGigs">{t('myGigs')}</Link>
+                      <Link to="/addGig">{t('addGig')}</Link>
                     </>
                   )}
-                  <Link to="/orders">Orders</Link>
-                  <Link to="/messages">Messages</Link>
+                  <Link to="/orders">{t('orders')}</Link>
+                  <Link to="/messages">{t('messages')}</Link>
                   <Link to="/" onClick={handleLogout}>
-                    Logout
+                    {t('logout')}
                   </Link>
                 </div>
               )}

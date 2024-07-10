@@ -8,6 +8,7 @@ import { Label, Loading } from '../../components/UtilComponents/Utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../redux/categories/categorySlice';
 import Alert from '../../components/alert/Alert';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 const Add = () => {
   const [coverImg, setCoverImg] = useState(undefined);
@@ -18,6 +19,7 @@ const Add = () => {
   const dispatchRedux = useDispatch();
   const [state, dispatch] = useReducer(gigReducer, initialState);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatchRedux(getCategories());
@@ -68,16 +70,16 @@ const Add = () => {
 
   return (
     <div className="p-4 lg:p-12">
-      <h2 className="h2">Add new gig</h2>
+      <h2 className="h2">{t('title')}</h2>
       <div className="border rounded">
         <form onSubmit={handleSubmit} className="sections grid md:grid-cols-2 gap-8 ">
           <div className="md:col-span-1 p-3 rounded">
             <div className="flex flex-col gap-2">
               <div className="my-2 flex flex-col">
-                <Label required>Title</Label>
+                <Label required>{t('fields.title.label')}</Label>
                 <input
                   type="text"
-                  placeholder="I will do something that I'm very good at"
+                  placeholder={t('fields.title.placeholder')}
                   name="title"
                   onChange={handleChange}
                   required
@@ -85,9 +87,9 @@ const Add = () => {
               </div>
 
               <div className="my-2 flex flex-col">
-                <Label required>Category</Label>
+                <Label required>{t('fields.category.label')}</Label>
                 <select name="categoryId" id="cat" onChange={handleChange} required>
-                  <option value="">Select one...</option>
+                  <option value="">{t('fields.category.placeholder')}</option>
                   {categories.map((c) => (
                     <option value={c._id} key={c._id}>
                       {c.title}
@@ -99,12 +101,12 @@ const Add = () => {
               <div className="grid grid-cols-2 items-end gap-2">
                 <div>
                   <div className="my-2 flex flex-col">
-                    <Label required>Cover Image</Label>
+                    <Label required>{t('fields.coverImage.label')}</Label>
                     <input type="file" onChange={(e) => setCoverImg(e.target.files[0])} required />
                   </div>
 
-                  <div className="my-2 flex flex-col">
-                    <label htmlFor="upload-image">Upload Images</label>
+                  <div className="my-2 flex flex-col ">
+                    <label htmlFor="upload-image">{t('fields.uploadImages.label')}</label>
                     <input type="file" multiple onChange={(e) => setGigImages(e.target.files)} />
                   </div>
                 </div>
@@ -115,15 +117,15 @@ const Add = () => {
                     className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300 w-full"
                     onClick={handleUpload}
                   >
-                    {uploading ? 'Uploading' : 'Upload'}
+                    {uploading ? t('uploadButton.uploading') : t('uploadButton.upload')}
                   </button>
                 </div>
               </div>
 
               <div className="my-2 flex flex-col">
-                <Label required>Description</Label>
+                <Label required>{t('fields.description.label')}</Label>
                 <textarea
-                  placeholder="A brief description to introduce your product to customer"
+                  placeholder={t('fields.description.placeholder')}
                   className="h-52"
                   onChange={handleChange}
                   name="desc"
@@ -136,39 +138,39 @@ const Add = () => {
           {/* RIGHT PART */}
           <div className="md:col-span-1 p-3 rounded flex flex-col">
             <div className="my-2 flex flex-col items-stretch">
-              <label htmlFor="service">Service Title</label>
+              <label htmlFor="service">{t('fields.serviceTitle.label')}</label>
               <input
                 type="text"
-                placeholder="(e.g): One page website"
+                placeholder={t('fields.serviceTitle.placeholder')}
                 onChange={handleChange}
                 name="shortTitle"
               />
             </div>
             <div className="my-2 flex flex-col items-stretch">
-              <Label required>Short Description</Label>
+              <Label required>{t('fields.shortDescription.label')}</Label>
               <textarea
-                placeholder="Short description of you service"
+                placeholder={t('fields.shortDescription.placeholder')}
                 name="shortDesc"
                 onChange={handleChange}
                 required
               ></textarea>
             </div>
             <div className="my-2 flex flex-col items-stretch">
-              <Label required>Delivery Time</Label>
+              <Label required>{t('fields.deliveryTime.label')}</Label>
               <input type="number" min={1} onChange={handleChange} name="deliveryTime" required />
             </div>
             <div className="my-2 flex flex-col items-stretch">
-              <Label required>Revision Number</Label>
+              <Label required>{t('fields.revisionNumber.label')}</Label>
               <input type="number" min={1} onChange={handleChange} name="revisionNumber" required />
             </div>
 
             <div className="my-2 flex flex-col items-stretch gap-1">
-              <label htmlFor="add-features">Add Features</label>
+              <label htmlFor="add-features">{t('fields.addFeatures.label')}</label>
               <div className="flex gap-2">
                 <input
                   value={feature}
                   type="text"
-                  placeholder="e.g page design"
+                  placeholder={t('fields.addFeatures.placeholder')}
                   className="flex-grow"
                   onChange={(e) => setFeature(e.target.value)}
                 />
@@ -177,7 +179,7 @@ const Add = () => {
                   onClick={handleFeatures}
                   className="p-2 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300"
                 >
-                  Add
+                  {t('fields.addFeatures.createButton')}
                 </button>
               </div>
 
@@ -198,7 +200,7 @@ const Add = () => {
               </div>
             </div>
             <div className="my-2 flex flex-col items-stretch">
-              <Label required>Price</Label>
+              <Label required>{t('fields.price.label')}</Label>
               <input type="number" min={1} onChange={handleChange} name="price" required />
             </div>
             <div className="my-2 flex flex-col">
@@ -206,7 +208,7 @@ const Add = () => {
                 type="submit"
                 className="p-3 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300"
               >
-                Create
+                {t('fields.createButton')}
               </button>
             </div>
           </div>
