@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 const ConversationSchema = new Schema(
   {
     id: {
@@ -34,4 +34,4 @@ const ConversationSchema = new Schema(
   },
 );
 
-export default mongoose.model("Conversation", ConversationSchema);
+export default mongoose.model('Conversation', ConversationSchema);
