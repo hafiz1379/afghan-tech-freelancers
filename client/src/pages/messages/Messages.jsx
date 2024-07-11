@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import newRequest from '../../utils/newRequest';
@@ -13,12 +13,10 @@ const Messages = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getConversations);
+    dispatch(getConversations());
   }, [dispatch]);
 
-  const handleClick = async (id) => {
-    await newRequest.put(`conversations/${id}`);
-  };
+  console.log(conversations);
 
   return (
     <div className="flex justify-center px-2">
@@ -42,46 +40,9 @@ const Messages = () => {
                 </tr>
               </thead>
               <tbody className="">
-                {conversations.map((c) => {
-                  return (
-                    <tr
-                      className={`${
-                        (currentUser.isSeller && !c.readBySeller) ||
-                        (!currentUser.isSeller && !c.readByBuyer)
-                          ? 'bg-green-100'
-                          : ''
-                      } hover:bg-gray-100 block md:table-row border-b-2`}
-                      key={c.id}
-                    >
-                      <td className="px-4 py-2 block md:table-cell text-nowrap">
-                        {currentUser.isSeller ? c.buyerId : c.sellerId}
-                      </td>
-                      <td className="px-4 py-2 block md:table-cell">
-                        <Link
-                          to={`/message/${c.id}`}
-                          className="text-blue-500 hover:underline"
-                          onClick={() => handleClick(c.id)}
-                        >
-                          {c?.lastMessage?.substring(0, 100)}...
-                        </Link>
-                      </td>
-                      <td className="px-4 py-2 block md:table-cell text-nowrap">
-                        {moment(c.updatedAt).fromNow()}
-                      </td>
-                      <td className="px-4 py-2 block md:table-cell">
-                        {((currentUser.isSeller && !c.readBySeller) ||
-                          (!currentUser.isSeller && !c.readByBuyer)) && (
-                          <button
-                            className="bg-green-500 text-white py-1 px-2 rounded-md hover:bg-green-600 text-nowrap"
-                            onClick={() => handleClick(c.id)}
-                          >
-                            Mark as Read
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {conversations.map((c) => (
+                  <ConversationItem conversation={c} key={c._id} />
+                ))}
               </tbody>
             </table>
           </div>
@@ -90,5 +51,82 @@ const Messages = () => {
     </div>
   );
 };
+
+function ConversationItem({ conversation }) {
+  const currentUser = getCurrentUser();
+  const [oppositeUser, setOppositeUser] = useState();
+
+  const oppositeUserId = conversation.id.replace(currentUser._id, '');
+
+  useEffect(() => {
+    const getOppositeUser = async () => {
+      try {
+        const res = await newRequest.get(`users/${oppositeUserId}`);
+        setOppositeUser(res.data);
+      } catch (error) {
+        return error;
+      }
+    };
+    getOppositeUser();
+  }, [oppositeUserId]);
+
+  if (!oppositeUser) {
+    return (
+      <tr>
+        <td>
+          <Alert message="Please wait" />
+        </td>
+      </tr>
+    );
+  }
+
+  const handleClick = async (id) => {
+    await newRequest.put(`conversations/${id}`);
+  };
+
+  return (
+    <tr
+      className={`${
+        (currentUser.isSeller && !conversation.readBySeller) ||
+        (!currentUser.isSeller && !conversation.readByBuyer)
+          ? 'bg-green-100'
+          : ''
+      } hover:bg-gray-100 block md:table-row border-b-2`}
+      key={conversation.id}
+    >
+      <td className="px-4 py-2  flex gap-2">
+        <img
+          className="h-6 w-6 rounded-full overflow-hidden"
+          src={oppositeUser.img}
+          alt={oppositeUser.username}
+        />
+        <span className="text-lg font-semibold">{oppositeUser.username}</span>
+      </td>
+      <td className="px-4 py-2 block md:table-cell">
+        <Link
+          to={`/message/${conversation.id}`}
+          className="text-blue-500 hover:underline"
+          onClick={() => handleClick(conversation.id)}
+        >
+          {conversation?.lastMessage?.substring(0, 100)}...
+        </Link>
+      </td>
+      <td className="px-4 py-2 block md:table-cell text-nowrap">
+        {moment(conversation.updatedAt).fromNow()}
+      </td>
+      <td className="px-4 py-2 block md:table-cell">
+        {((currentUser.isSeller && !conversation.readBySeller) ||
+          (!currentUser.isSeller && !conversation.readByBuyer)) && (
+          <button
+            className="bg-green-500 text-white py-1 px-2 rounded-md hover:bg-green-600 text-nowrap"
+            onClick={() => handleClick(conversation.id)}
+          >
+            Mark as Read
+          </button>
+        )}
+      </td>
+    </tr>
+  );
+}
 
 export default Messages;
