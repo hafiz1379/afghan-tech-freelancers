@@ -141,25 +141,34 @@ const Price = ({ data, id }) => {
 };
 
 const Seller = ({ data }) => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
   const handleContact = async () => {
-    const sellerId = data._id;
-    const buyerId = currentUser._id;
+    const sellerId = currentUser?.isSeller ? currentUser?._id : data?._id;
+    const buyerId = currentUser?.isSeller ? data._id : currentUser?._id;
 
     const conversationId = sellerId + buyerId;
 
+    console.log(conversationId);
+
     try {
+      setLoading(true);
       const res = await newRequest.get(`conversations/single/${conversationId}`);
-      navigate(`/message/${res.data.id}`);
+      console.log(res.data);
+      navigate(`/message/${conversationId}`);
     } catch (error) {
       console.log(error);
       if (error.response.status === 404) {
-        const res = await newRequest.post(`conversations`, {
-          to: sellerId,
+        await newRequest.post(`conversations`, {
+          id: conversationId,
+          sellerId,
+          buyerId,
+          readBySeller: currentUser?.isSeller,
+          readByBuyer: !currentUser?.isSeller,
         });
 
-        navigate(`/message/${res.data.id}`);
+        navigate(`/message/${conversationId}`);
       }
     }
   };
@@ -176,7 +185,7 @@ const Seller = ({ data }) => {
         <div className="flex flex-col gap-1 items-start">
           <span className="font-semibold text-xl text-gray-700">{data.username}</span>
           <Stars />
-          {currentUser && currentUser._id !== data._id ? (
+          {currentUser && !currentUser?.isSeller && currentUser._id !== data._id ? (
             <button
               className="bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold hover:bg-green-600 hover:text-white transition ease-in duration-75"
               onClick={handleContact}

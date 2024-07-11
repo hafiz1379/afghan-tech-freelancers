@@ -11,7 +11,7 @@ const CategoryCard = ({ category }) => {
           <span className="font-semibold text-lg inline-block mb-3 drop-shadow-lg bg-main px-3 rounded-full">
             {category.title}
           </span>
-          <span className="font-normal block drop-shadow-lg bg-black bg-opacity-80 px-2 rounded-full">
+          <span className="font-normal block drop-shadow-lg bg-black bg-opacity-80 px-2 rounded">
             {category.desc}
           </span>
         </div>

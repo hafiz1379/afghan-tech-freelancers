@@ -4,21 +4,39 @@ import { FaChevronDown } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from '../../components/alert/Alert';
 import { getGigs } from './../../redux/gigs/gigSlice';
-import { useLocation } from 'react-router-dom';
+import { useFetcher, useLocation } from 'react-router-dom';
+import newRequest from '../../utils/newRequest';
 
 function Gigs() {
   const { gigs, isLoading, hasError } = useSelector((store) => store.gigs);
   const dispatch = useDispatch();
-  const [sort, setSort] = useState('sales');
-  const [open, setOpen] = useState(false);
-  const minRef = useRef();
-  const maxRef = useRef();
+  const [categoryLoading, setCategoryLoading] = useState();
+  const [category, setCategory] = useState();
   const { search } = useLocation();
   useEffect(() => {
     dispatch(getGigs(search));
   }, [dispatch]);
 
-  if (isLoading) {
+  let catID = '';
+  if (search) {
+    catID = search.split('=')[1];
+  }
+
+  useEffect(() => {
+    setCategoryLoading(true);
+    const fetchCategory = async () => {
+      try {
+        const res = await newRequest.get(`categories/${catID}`);
+        setCategory(res.data.data.category);
+      } catch (error) {
+        return error;
+      }
+      setCategoryLoading(false);
+    };
+    fetchCategory();
+  }, [dispatch]);
+
+  if (isLoading || categoryLoading) {
     return <Alert message="Please wait..." />;
   }
   if (hasError) {
@@ -27,17 +45,14 @@ function Gigs() {
 
   return (
     <div className="p-4 lg:p-12">
-      {gigs?.length ? (
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
+        {category && (
           <div className="sm:px-1">
-            <span className="font-semibold text-gray-500 text-md">Afghan Tech Freelancers</span>
-            <h1 className="text-2xl font-bold">AI Artists</h1>
-            <p className="text-gray-600 font-semibold">
-              Explore the world of AI-generated art and find the perfect piece for your home or
-              office.
-            </p>
+            <h1 className="text-2xl font-bold mb-8 text-center">{category.title}</h1>
+            <p className="text-gray-600  max-w-[500px] font-semibold">{category.desc}</p>
           </div>
-          <div className="flex items-center justify-between flex-col sm:flex-row sm:pr-2 ">
+        )}
+        {/* <div className="flex items-center justify-between flex-col sm:flex-row sm:pr-2 ">
             <div className="flex flex-col md:flex-row w-full gap-3 text-gray-500 font-normal lg:mb-0 sm:px-1">
               <span className="sm:mt-1">Budget</span>
               <input
@@ -79,16 +94,17 @@ function Gigs() {
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
+        {gigs?.length ? (
           <div className="flex flex-wrap">
             {gigs.map((gig) => (
               <GigCard key={gig._id} item={gig} />
             ))}
           </div>
-        </div>
-      ) : (
-        <Alert message="There isn't any gig yet" />
-      )}
+        ) : (
+          <Alert message={'This category does not have any service'} />
+        )}
+      </div>
     </div>
   );
 }

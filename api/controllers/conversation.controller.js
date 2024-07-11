@@ -3,13 +3,7 @@ import createError from '../utils/createError.js';
 import Conversation from '../models/conversation.model.js';
 
 export const createConversation = async (req, res, next) => {
-  const newConversation = new Conversation({
-    id: req.isSeller ? req.userId + req.body.to : req.body.to + req.userId,
-    sellerId: req.isSeller ? req.userId : req.body.to,
-    buyerId: req.isSeller ? req.body.to : req.userId,
-    readBySeller: req.isSeller,
-    readByBuyer: !req.isSeller,
-  });
+  const newConversation = new Conversation(req.body);
   try {
     const savedConversation = await newConversation.save();
     return res.status(201).send(savedConversation);
@@ -19,10 +13,19 @@ export const createConversation = async (req, res, next) => {
 };
 
 export const getAllConversations = async (req, res, next) => {
+  let query = {};
+
+  if (req.isSeller) {
+    query = {
+      sellerId: req.userId,
+    };
+  } else {
+    query = {
+      buyerId: req.userId,
+    };
+  }
   try {
-    const allConversations = await Conversation.find(
-      req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId },
-    ).sort({
+    const allConversations = await Conversation.find(query).sort({
       updatedAt: -1,
     });
     return res.status(200).send(allConversations);
@@ -61,3 +64,11 @@ export const updateConversation = async (req, res, next) => {
     return next(createError(404, 'Something went wrong from conversation'));
   }
 };
+
+// const temp = {
+//   id: req.isSeller ? req.userId + req.body.to : req.body.to + req.userId,
+//   sellerId: req.isSeller ? req.userId : req.body.to,
+//   buyerId: req.isSeller ? req.body.to : req.userId,
+//   readBySeller: req.isSeller,
+//   readByBuyer: !req.isSeller,
+// }

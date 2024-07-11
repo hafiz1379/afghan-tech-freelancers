@@ -3,7 +3,7 @@ import newRequest from '../../utils/newRequest';
 
 export const getMessages = createAsyncThunk('messages/getMessages', async (conversationId) => {
   try {
-    const res = await newRequest.get(`messages${conversationId}`);
+    const res = await newRequest.get(`messages/${conversationId}`);
     return res.data;
   } catch (error) {
     return error;
@@ -12,6 +12,7 @@ export const getMessages = createAsyncThunk('messages/getMessages', async (conve
 
 const initialState = {
   messages: [],
+  oppositeUser: null,
   isLoading: false,
   hasError: false,
 };
