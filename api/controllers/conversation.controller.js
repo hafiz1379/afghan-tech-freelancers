@@ -13,7 +13,6 @@ export const createConversation = async (req, res, next) => {
 };
 
 export const getAllConversations = async (req, res, next) => {
-  console.log(req.body);
   let query = {};
 
   if (req.isSeller) {
