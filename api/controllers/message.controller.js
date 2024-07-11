@@ -1,14 +1,10 @@
+/* eslint-disable import/extensions */
 import createError from '../utils/createError.js';
-import Message from './../models/message.model.js';
-import Conversation from './../models/conversation.model.js';
+import Message from '../models/message.model.js';
+import Conversation from '../models/conversation.model.js';
 
 export const createMessage = async (req, res, next) => {
-  console.log(req.userId);
-  const newMessage = new Message({
-    conversationId: req.body.conversationId,
-    userId: req.userId,
-    desc: req.body.desc,
-  });
+  const newMessage = new Message(req.body);
   try {
     const savedMessage = await newMessage.save();
     await Conversation.findOneAndUpdate(
@@ -24,7 +20,7 @@ export const createMessage = async (req, res, next) => {
         new: true,
       },
     );
-    res.status(201).send(savedMessage);
+    return res.status(201).send(savedMessage);
   } catch (error) {
     return next(error);
   }
@@ -33,7 +29,7 @@ export const createMessage = async (req, res, next) => {
 export const getMessages = async (req, res, next) => {
   try {
     const messages = await Message.find({ conversationId: req.params.id });
-    res.status(200).send(messages);
+    return res.status(200).send(messages);
   } catch (error) {
     return next(createError(404, 'Problem from message controller (getMessages)'));
   }
