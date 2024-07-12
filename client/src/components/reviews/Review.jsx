@@ -4,11 +4,13 @@ import { BiDislike, BiLike } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/users/userSlice';
 import Alert from '../alert/Alert';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 function Review({ reviewData }) {
   const { user: userData, isLoading, hasError } = useSelector((store) => store.user);
   const dispatch = useDispatch();
-
+  const { t } = useTranslation(); // Initialize useTranslation hook
+  
   useEffect(() => {
     dispatch(getUser(reviewData.userId));
   }, [dispatch]);
@@ -35,13 +37,13 @@ function Review({ reviewData }) {
       <Stars amount={reviewData.star} />
       <p className="mt-2">{reviewData.desc}</p>
       <div className="flex items-center gap-3 text-gray-500">
-        <span className="font-semibold">Helpful? </span>
+        <span className="font-semibold">{t('helpful?')}</span>
         <div className="flex items-center gap-1 cursor-pointer hover:text-gray-700 hover:scale-110 transition  duration-100">
-          <span>Yes</span>
+          <span>{t('yes')}</span>
           <BiLike size={24} />
         </div>
         <div className="flex items-center gap-1 cursor-pointer hover:text-gray-700 hover:scale-110 transition  duration-100">
-          <span>NO</span>
+          <span>{t('no')}</span>
           <BiDislike size={24} />
         </div>
       </div>
