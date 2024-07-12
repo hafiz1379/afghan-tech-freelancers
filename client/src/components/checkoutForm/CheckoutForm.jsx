@@ -4,10 +4,12 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { useTranslation } from 'react-i18next';
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const { t } = useTranslation();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +100,7 @@ const CheckoutForm = () => {
         {isLoading ? (
           <div className="spinner" id="spinner"></div>
         ) : (
-          "Pay now"
+          t('payNow')
         )}
       </span>
     </button>
