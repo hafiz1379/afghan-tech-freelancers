@@ -10,7 +10,10 @@ import getCurrentUser from '../../utils/getCurentUser';
 import { getGigs } from '../../redux/gigs/gigSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from '../../components/alert/Alert';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
+
 const Gig = () => {
+  const { t } = useTranslation(); // Initialize useTranslation hook
   const dispatch = useDispatch();
   const [gig, setGig] = useState();
   const [user, setUser] = useState();
@@ -53,17 +56,17 @@ const Gig = () => {
   }, [gig]);
 
   if (isLoadingGigs || !gig || !user || !category) {
-    return <Alert message="Please wait..." />;
+    return <Alert message={t('Please wait...')} />;
   }
   if (hasErrorGigs) {
-    return <Alert message="Something went wrong." />;
+    return <Alert message={t('Something went wrong.')} />;
   }
 
   return (
     <div className="grid lg:grid-cols-3 px-4 md:px-10 sm:p-6 md:mt-6 lg:gap-8 relative">
       {/* Left */}
       <div className="lg:col-span-2 flex flex-col gap-4">
-        <span className="breadcrumb">ATF &gt;&gt; {category.title}</span>
+        <span className="breadcrumb">{t('ATF >>')} {category.title}</span>
         <h1 className="text-2xl font-bold font-poppins">{`${gig.title}`}</h1>
         <div className="flex items-center gap-2 h-12">
           <div className="h-12 w-12 rounded-full overflow-hidden">
@@ -87,7 +90,7 @@ const Gig = () => {
             alt="Gig Image"
           />
         </div>
-        <h2 className="h2">About this job</h2>
+        <h2 className="h2">{t('aboutThisJob')}</h2>
         <p className="text-gray-500 font-normal text-lg leading-7">{gig.desc}</p>
         <Seller data={user} />
         <ReviewContainer
@@ -104,6 +107,8 @@ const Gig = () => {
 };
 
 const Price = ({ data, id }) => {
+  const { t } = useTranslation(); // Initialize useTranslation hook
+
   return (
     <div className="border rounded p-5 flex flex-col gap-2 md:sticky md:top-32">
       <div className="price font-bold font-poppins text-gray-600 flex justify-between mb-2.5 ">
@@ -114,11 +119,11 @@ const Price = ({ data, id }) => {
       <div className="details flex items-center justify-between my-3">
         <div className="item flex gap-1 items-center">
           <MdAccessTime size={24} />
-          <p className="font-semibold">{data.deliveryTime} days delivery</p>
+          <p className="font-semibold">{data.deliveryTime} {t('daysDelivery')}</p>
         </div>
         <div className="item flex gap-1 items-center justify-center">
           <HiOutlineRefresh size={24} />
-          <p className="font-semibold">{data.revisionNumber} Revisions</p>
+          <p className="font-semibold">{data.revisionNumber} {t('revisions')}</p>
         </div>
       </div>
       <div className="features">
@@ -133,7 +138,7 @@ const Price = ({ data, id }) => {
       </div>
       <Link to={`/pay/${id}`}>
         <button className="w-full p-3 bg-green-500 hover:bg-green-600 transition duration-200 text-white rounded">
-          Continue
+          {t('continue')}
         </button>
       </Link>
     </div>
@@ -141,6 +146,7 @@ const Price = ({ data, id }) => {
 };
 
 const Seller = ({ data }) => {
+  const { t } = useTranslation(); // Initialize useTranslation hook
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
@@ -174,7 +180,7 @@ const Seller = ({ data }) => {
   };
   return (
     <div className="mt-10 flex flex-col text-gray-600">
-      <h2>About the seller</h2>
+      <h2>{t('About the seller')}</h2>
       <div className="flex items-center gap-8">
         <img
           className="max-w-24 max-h-24 rounded-full object-cover"
@@ -190,7 +196,7 @@ const Seller = ({ data }) => {
               className="bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold hover:bg-green-600 hover:text-white transition ease-in duration-75"
               onClick={handleContact}
             >
-              Contact Me
+              {t('contactMe')}
             </button>
           ) : (
             ''
