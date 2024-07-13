@@ -16,7 +16,7 @@ import Register from './pages/register/register';
 import Pay from './pages/pay/Pay';
 import Success from './pages/success/Success';
 import store from './redux/store';
-import i18n from './i18n';
+import OnCashPay from "./pages/pay/OnCashPay";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +33,8 @@ const router = createBrowserRouter([
       { path: '/message/:id', element: <Message /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
-      { path: '/pay/:id', element: <Pay /> },
+      { path: '/pay/bank-account/:id', element: <Pay /> },
+      { path: '/pay/on-cash/:id', element: <OnCashPay /> },
       { path: '/success', element: <Success /> },
     ],
   },
