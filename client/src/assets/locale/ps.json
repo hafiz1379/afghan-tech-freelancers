@@ -1,0 +1,153 @@
+{
+  "signIn": "ننوتل",
+  "join": "ملتیا",
+  "logout": "وتل",
+  "myGigs": "زما ګیګونه",
+  "addGig": "نوی ګیګ اضافه کړئ",
+  "orders": "فرمایشونه",
+  "messages": "پیغامونه",
+
+  "createAccount": "نوی حساب جوړ کړئ",
+  "username": "کارن نوم",
+  "typeUsername": "خپل کارن نوم ولیکئ",
+  "email": "بریښنالیک",
+  "typeEmail": "خپل بریښنالیک پته ولیکئ",
+  "password": "پټ نوم",
+  "enterPassword": "پټ نوم دننه کړئ",
+  "profilePicture": "د پروفایل انځور",
+  "phoneNumber": "د تلیفون شمېره",
+  "typePhoneNumber": "خپل تلیفون شمېره ولیکئ",
+  "becomeSeller": "زه غواړم پلورونکی شم",
+  "activateSeller": "د پلورونکي حساب فعال کړئ",
+  "description": "تشریح",
+  "typeDescription": "د خپل ځان لنډه تشریح",
+  "register": "راجستر",
+
+  "logIn": "ننوتل",
+  "invalidCredentials": "ناسم کارن نوم یا پټ نوم",
+
+  "findService": "سمه فری لانس خدمت پیدا کړئ",
+  "searchPlaceholder": "ځواب",
+  "search": "پلټنه",
+  "popular": "مشهور:",
+  "webDesign": "ویب ډیزاین",
+  "aiService": "AI خدمت",
+  "uiux": "UI/UX",
+  "wordpress": "ورڈپریس",
+
+  "bestPlace": "د افغان پرمختګ کونکو او کار ګمارونکو لپاره غوره ځای",
+
+  "features": [
+    {
+      "title": "د ویب پرمختګ اساسات",
+      "desc": "ویب پرمختګ زړه راښکونکی دی، فرصتونه برابروي چې متحرک او جذاب ویب سایټونه او غوښتنلیکونه جوړ کړي."
+    },
+    {
+      "title": "د ۲۰۲۴ غوره فری لانس پلیټ فارمونه",
+      "desc": "Upwork، Freelancer او Toptal غوره پروژې او ښه فرصتونه د سافټویر پرمختګ کونکو لپاره برابروي."
+    },
+    {
+      "title": "بریالۍ فری لانس کارکونکي",
+      "desc": "په فری لانس کې بریالي کیدل ګټور دي، یو قوي پورټ فولیو او خوشحاله پیرودونکي ډیرې ګټې رامنځته کوي."
+    },
+    {
+      "title": "د لرې پرمختیايي ټیمونو لپاره وسایل",
+      "desc": "Git، Jira، Trello، Slack او Zoom د لرې پرمختیايي ټیمونو لپاره بې ستونزې همکارۍ او بریا یقیني کوي."
+    }
+  ],
+  "title": "نوی ګیګ اضافه کړئ",
+  "fields": {
+    "title": {
+      "label": "سرلیک",
+      "placeholder": "زه به یو څه وکړم چې زه په کې ډیر ښه یم"
+    },
+    "category": {
+      "label": "کټګورۍ",
+      "placeholder": "یو انتخاب کړئ..."
+    },
+    "coverImage": {
+      "label": "پوښ انځور"
+    },
+    "uploadImages": {
+      "label": "انځورونه پورته کړئ"
+    },
+    "description": {
+      "label": "تشریح",
+      "placeholder": "یو لنډ تشریح ترڅو خپل محصول پیرودونکي ته معرفي کړئ"
+    },
+    "serviceTitle": {
+      "label": "د خدمت سرلیک",
+      "placeholder": "(لکه): یو مخ ویب سایټ"
+    },
+    "shortDescription": {
+      "label": "لنډه تشریح",
+      "placeholder": "د خپل خدمت لنډه تشریح"
+    },
+    "deliveryTime": {
+      "label": "تحویلي وخت"
+    },
+    "revisionNumber": {
+      "label": "د بیاکتنې شمېره"
+    },
+    "addFeatures": {
+      "label": "برخې اضافه کړئ",
+      "placeholder": "لکه د مخ ډیزاین",
+      "createButton": "اضافه کول"
+    },
+    "price": {
+      "label": "بیه"
+    },
+    "createButton": "جوړول"
+  },
+  "uploadButton": {
+    "uploading": "پورته کول",
+    "upload": "پورته کول"
+  },
+  
+  "footer": {
+    "copyright": "د افغان ټیک فری لانسونه. ټول حقوق خوندي دي."
+  },
+
+  "pleaseWait": "لطفاً صبر وکړئ...",
+  "somethingWentWrong": "یو څه خطا شوې ده.",
+  "aboutThisJob": "د دې کار په اړه",
+  "daysDelivery": "ورځې تحویلي",
+  "revisions": "بیاکتنې",
+  "continue": "ادامه ورکړئ",
+  "aboutTheSeller": "د پلورونکي په اړه",
+  "contactMe": "ما سره اړیکه ونیسئ",
+
+  "writeMessage": "یو پیغام ولیکئ",
+  "send": "لیږل",
+
+  "loading": "په چالانولو کې...",
+  "buyer": "پیرودونکی",
+  "seller": "پلورونکی",
+  "lastMessage": "وروستی پیغام",
+  "date": "نیټه",
+  "action": "عملیات",
+  "markAsRead": "لکه چې لوستل شوي",
+
+  "gigs": "ګیګونه",
+  "addNewGig": "نوی ګیګ اضافه کړئ",
+  "image": "انځور",
+  "price": "بیه",
+  "sales": "فروشونه",
+  "delete": "پاکول",
+
+  "paymentSuccess": "پیسی بریالی ترسره شو!",
+  "redirectMessage": "تاسو د فرمایشونو پاڼې ته لیږل کیږئ. لطفاً پاڼه مه تړئ.",
+
+  "payNow": "اوس پیسې ورکړئ",
+
+  "reviews": "بیاکتنې",
+  "noReviews": "هیڅ بیاکتنه د دې ګیګ لپاره نه ده اضافه شوې.",
+  "addReview": "یوه بیاکتنه اضافه کړئ",
+  "writeOpinion": "خپله نظر ولیکئ",
+
+  "helpful?": "ایا دا مرسته کړې ده؟",
+  "yes": "هو",
+  "no": "نه",
+
+  "gig": "ګیګ"
+}

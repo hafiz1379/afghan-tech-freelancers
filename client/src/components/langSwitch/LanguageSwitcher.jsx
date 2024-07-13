@@ -6,7 +6,7 @@ function LanguageSwitcher() {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    const direction = lng === 'fa' ? 'rtl' : 'ltr'; // Determine text direction
+    const direction = lng === 'fa' || lng === 'ps' ? 'rtl' : 'ltr'; // Determine text direction
     document.documentElement.dir = direction; // Set text direction
     setIsMenuOpen(false); // Close the dropdown menu after changing language
     localStorage.setItem('appLanguage', lng); // Save language preference to localStorage
@@ -21,7 +21,7 @@ function LanguageSwitcher() {
             className="dropdown-toggle bg-transparent text-white border-none outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {i18n.language === 'en' ? 'English' : 'فارسی'}
+            {i18n.language === 'en' ? 'English' : i18n.language === 'fa' ? 'فارسی' : 'پښتو'}
           </button>
           {isMenuOpen && (
             <div className="dropdown-menu absolute bg-white shadow-lg rounded-lg mt-1 w-26">
@@ -36,6 +36,12 @@ function LanguageSwitcher() {
                 className="block w-full text-left py-2 px-4 text-gray-800 hover:bg-gray-200 focus:outline-none"
               >
                 فارسی
+              </button>
+              <button
+                onClick={() => changeLanguage('ps')}
+                className="block w-full text-left py-2 px-4 text-gray-800 hover:bg-gray-200 focus:outline-none"
+              >
+                پښتو
               </button>
             </div>
           )}

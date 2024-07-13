@@ -4,11 +4,13 @@ import newRequest from '../../utils/newRequest';
 export const getConversations = createAsyncThunk('conversations/getConversations', async () => {
   try {
     const res = await newRequest.get('conversations');
-    return res.data;
+    return res.data; // Make sure this is an array
   } catch (error) {
-    return error;
+    console.error('Error fetching conversations:', error);
+    return []; // Return an empty array in case of an error
   }
 });
+
 
 const initialState = {
   conversations: [],

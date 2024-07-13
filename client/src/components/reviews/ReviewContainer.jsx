@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Review from './Review';
 import newRequest from '../../utils/newRequest';
 import Alert from '../alert/Alert';
@@ -10,6 +11,7 @@ export default function ReviewContainer({ gigId, showAddReview }) {
   const { reviews, isLoading, hasError } = useSelector((store) => store.reviews);
   const dispatch = useDispatch();
   const currentUser = getCurrentUser();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -29,32 +31,30 @@ export default function ReviewContainer({ gigId, showAddReview }) {
   const showForm = !reviews.find((r) => r.userId === currentUser?._id) && showAddReview;
 
   if (isLoading) {
-    return <Alert message="Please wait..." />;
+    return <Alert message={t('pleaseWait')} />;
   }
   if (hasError) {
-    return <Alert message="Something went wrong." />;
+    return <Alert message={t('somethingWentWrong')} />;
   }
   console.log(reviews);
 
   return (
     <div className="mt-12">
-      <h2>Reviews</h2>
+      <h2>{t('reviews')}</h2>
 
       {reviews.length ? (
         reviews.map((review) => <Review key={review._id} reviewData={review} />)
       ) : (
-        <Alert message="No review has been added to this Gig." />
+        <Alert message={t('noReviews')} />
       )}
-
-      {/* Add a review form */}
 
       {showForm && (
         <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">Add a review</h3>
+          <h3 className="text-lg font-semibold mb-2">{t('addReview')}</h3>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
               type="text"
-              placeholder="Write your opinion"
+              placeholder={t('writeOpinion')}
               className="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
               required
             />
@@ -74,7 +74,7 @@ export default function ReviewContainer({ gigId, showAddReview }) {
               type="submit"
               className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-200"
             >
-              Send
+              {t('send')}
             </button>
           </form>
         </div>

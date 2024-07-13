@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import newRequest from '../../utils/newRequest';
 import Alert from '../../components/alert/Alert';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +8,7 @@ import { getMessages } from '../../redux/messages/messageSlice';
 import getCurrentUser from '../../utils/getCurentUser';
 
 const Message = () => {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const { messages, isLoading, hasError } = useSelector((store) => store.messages);
   const dispatch = useDispatch();
@@ -53,16 +55,18 @@ const Message = () => {
   };
 
   if (isLoading || !oppositUser) {
-    return <Alert message="Please wait..." />;
+    return <Alert message={t('pleaseWait')} />;
   }
   if (hasError) {
-    return <Alert message="Something went wrong." />;
+    return <Alert message={t('somethingWentWrong')} />;
   }
 
+  const isRTL = i18n.language === 'fa';
+
   return (
-    <div className="message p-4 lg:p-12">
+    <div className={`message p-4 lg:p-12 ${isRTL ? 'text-right' : ''}`}>
       <span className="breadcrumb">
-        <Link to="/messages">Messages</Link> &gt; {oppositUser.username}
+        <Link to="/messages">{t('messages')}</Link> &gt; {oppositUser.username}
       </span>
       <div className="flex flex-col gap-4 max-w-[900px] mx-auto">
         <div
@@ -74,6 +78,7 @@ const Message = () => {
               key={message._id}
               message={message}
               isOwner={message.userId === currentUser._id}
+              isRTL={isRTL}
             />
           ))}
           <div ref={messagesEndRef}></div>
@@ -81,32 +86,34 @@ const Message = () => {
 
         <hr className="h-0 border-b border-gray-100 mb-5" />
 
-        <Write onSubmit={handleSubmit} />
+        <Write onSubmit={handleSubmit} isRTL={isRTL} />
       </div>
     </div>
   );
 };
 
-const Write = ({ onSubmit }) => {
+const Write = ({ onSubmit, isRTL }) => {
+  const { t } = useTranslation();
   return (
-    <form onSubmit={onSubmit} className="flex flex-col sm:flex-row items-end gap-2 justify-between">
+    <form onSubmit={onSubmit} className={`flex flex-col sm:flex-row items-end gap-2 justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
       <textarea
         className="h-[100px] border rounded p-3 w-full flex-1"
         name="write"
         id="write"
-        placeholder="write a message"
+        placeholder={t('writeMessage')}
       ></textarea>
       <button
         type="submit"
         className="bg-[#1dbf73] px-4 py-1 text-white rounded border-gray-500 border"
       >
-        Send
+        {t('send')}
       </button>
     </form>
   );
 };
 
-const MessageItem = ({ isOwner, message }) => {
+const MessageItem = ({ isOwner, message, isRTL }) => {
+  const { t } = useTranslation();
   const [user, setUser] = useState(null);
 
   const currentUser = getCurrentUser();
@@ -127,15 +134,15 @@ const MessageItem = ({ isOwner, message }) => {
   }, [message]);
 
   if (!user) {
-    return <Alert message="Please wait..." />;
+    return <Alert message={t('pleaseWait')} />;
   }
 
   console.log(user);
   return (
     <div
-      className={`flex gap-[2px] sm:gap-2  flex-col sm:flex-row sm:max-w-[500px] ${
-        isOwner && 'ml-auto sm:flex-row-reverse items-end sm:items-start'
-      }`}
+      className={`flex gap-[2px] sm:gap-2 flex-col sm:flex-row sm:max-w-[500px] ${
+        isOwner ? 'ml-auto sm:flex-row-reverse items-end sm:items-start' : 'mr-auto'
+      } ${isRTL ? (isOwner ? 'text-left' : 'text-right') : ''}`}
     >
       <img
         className="h-8 w-8 lg:h-12 lg:w-12 rounded-full border border-gray-500 p-[1px] object-cover"
@@ -143,7 +150,7 @@ const MessageItem = ({ isOwner, message }) => {
         alt={user?.username}
       />
       <p
-        className={`text-sm md:text-base leading-6 p-5 rounded-2xl  ${
+        className={`text-sm md:text-base leading-6 p-5 rounded-2xl ${
           isOwner ? 'rounded-tr-none bg-blue-200' : 'rounded-tl-none bg-gray-200'
         }`}
       >

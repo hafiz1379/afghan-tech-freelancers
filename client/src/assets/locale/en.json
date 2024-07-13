@@ -106,5 +106,48 @@
   
   "footer": {
     "copyright": "Afghan Tech Freelancers. All rights reserved."
-  }
+  },
+
+  "pleaseWait": "Please wait...",
+  "somethingWentWrong": "Something went wrong.",
+  "aboutThisJob": "About this job",
+  "daysDelivery": "days delivery",
+  "revisions": "Revisions",
+  "continue": "Continue",
+  "aboutTheSeller": "About the seller",
+  "contactMe": "Contact Me",
+
+  "writeMessage": "Write a message",
+  "send": "Send",
+
+  "loading": "Loading...",
+  "buyer": "Buyer",
+  "seller": "Seller",
+  "lastMessage": "Last Message",
+  "date": "Date",
+  "action": "Action",
+  "markAsRead": "Mark as Read",
+
+  "gigs": "Gigs",
+  "addNewGig": "Add New Gig",
+  "image": "Image",
+  "price": "Price",
+  "sales": "Sales",
+  "delete": "Delete",
+
+  "paymentSuccess": "Payment successful!",
+  "redirectMessage": "You are being redirected to the orders page. Please do not close the page.",
+
+   "payNow": "Pay now",
+
+  "reviews": "Reviews",
+  "noReviews": "No review has been added to this Gig.",
+  "addReview": "Add a review",
+  "writeOpinion": "Write your opinion",
+
+  "helpful?": "Was this helpful?",
+  "yes": "Yes",
+  "no": "No",
+
+  "gig": "Gig"
 }
