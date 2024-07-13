@@ -113,14 +113,15 @@ const Price = ({ data }) => {
   const { t } = useTranslation(); // Initialize useTranslation hook
   const [paymentType, setPaymentType] = useState('');
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handleSelect = (e) => {
     setPaymentType(e.target?.value);
   };
 
   const handleClick = () => {
-    if (paymentType === 'on-cash') navigate('/pay/on-cash/:id');
-    if (paymentType === 'bank-account') navigate('/pay/bank-account/:id');
+    if (paymentType === 'on-cash') navigate(`/pay/on-cash/${id}`);
+    if (paymentType === 'bank-account') navigate(`/pay/bank-account/${id}`);
   };
 
   return (
