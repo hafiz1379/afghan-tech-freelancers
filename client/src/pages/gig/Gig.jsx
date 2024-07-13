@@ -11,6 +11,7 @@ import { getGigs } from '../../redux/gigs/gigSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Alert from '../../components/alert/Alert';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
+import { Label } from '../../components/UtilComponents/Utils';
 
 const Gig = () => {
   const { t } = useTranslation(); // Initialize useTranslation hook
@@ -66,7 +67,9 @@ const Gig = () => {
     <div className="grid lg:grid-cols-3 px-4 md:px-10 sm:p-6 md:mt-6 lg:gap-8 relative">
       {/* Left */}
       <div className="lg:col-span-2 flex flex-col gap-4">
-        <span className="breadcrumb">{t('ATF >>')} {category.title}</span>
+        <span className="breadcrumb">
+          {t('ATF >>')} {category.title}
+        </span>
         <h1 className="text-2xl font-bold font-poppins">{`${gig.title}`}</h1>
         <div className="flex items-center gap-2 h-12">
           <div className="h-12 w-12 rounded-full overflow-hidden">
@@ -106,8 +109,19 @@ const Gig = () => {
   );
 };
 
-const Price = ({ data, id }) => {
+const Price = ({ data }) => {
   const { t } = useTranslation(); // Initialize useTranslation hook
+  const [paymentType, setPaymentType] = useState('');
+  const navigate = useNavigate();
+
+  const handleSelect = (e) => {
+    setPaymentType(e.target?.value);
+  };
+
+  const handleClick = () => {
+    if (paymentType === 'on-cash') navigate('/pay/on-cash/:id');
+    if (paymentType === 'bank-account') navigate('/pay/bank-account/:id');
+  };
 
   return (
     <div className="border rounded p-5 flex flex-col gap-2 md:sticky md:top-32">
@@ -119,11 +133,15 @@ const Price = ({ data, id }) => {
       <div className="details flex items-center justify-between my-3">
         <div className="item flex gap-1 items-center">
           <MdAccessTime size={24} />
-          <p className="font-semibold">{data.deliveryTime} {t('daysDelivery')}</p>
+          <p className="font-semibold">
+            {data.deliveryTime} {t('daysDelivery')}
+          </p>
         </div>
         <div className="item flex gap-1 items-center justify-center">
           <HiOutlineRefresh size={24} />
-          <p className="font-semibold">{data.revisionNumber} {t('revisions')}</p>
+          <p className="font-semibold">
+            {data.revisionNumber} {t('revisions')}
+          </p>
         </div>
       </div>
       <div className="features">
@@ -136,11 +154,23 @@ const Price = ({ data, id }) => {
           );
         })}
       </div>
-      <Link to={`/pay/${id}`}>
-        <button className="w-full p-3 bg-green-500 hover:bg-green-600 transition duration-200 text-white rounded">
-          {t('continue')}
-        </button>
-      </Link>
+
+      <Label required htmlFor="payment-type">
+        Payment type
+      </Label>
+      <select name="pay-ment-type" id="payment-type" onChange={handleSelect}>
+        <option value="">Select one Option</option>
+        <option value="bank-account">Bank Account</option>
+        <option value="on-cash">On cash</option>
+      </select>
+
+      <button
+        className={paymentType ? 'enabled-button' : 'disabled-button'}
+        disabled={!paymentType}
+        onClick={handleClick}
+      >
+        {t('continue')}
+      </button>
     </div>
   );
 };
@@ -178,6 +208,10 @@ const Seller = ({ data }) => {
       }
     }
   };
+
+  if (loading) {
+    return <Alert message="Please wait" />;
+  }
   return (
     <div className="mt-10 flex flex-col text-gray-600">
       <h2>{t('About the seller')}</h2>
