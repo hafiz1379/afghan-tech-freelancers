@@ -1,25 +1,37 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import newRequest from '../../utils/newRequest';
 
-export const getOrders = createAsyncThunk('Orders/getOrders', async () => {
-  try {
-    const res = await newRequest.get('orders');
-    return res.data;
-  } catch (error) {
-    return error;
+export const getOrders = createAsyncThunk(
+  'orders/getOrders',
+  async () => {
+    const response = await newRequest.get('/orders');
+    return response.data;
   }
-});
-
-const initialState = {
-  orders: [],
-  isLoading: false,
-  hasError: false,
-};
+);
 
 const orderSlice = createSlice({
-  name: 'Orders',
-  initialState,
-  extraReducers: (builder) => builder.addCase,
+  name: 'orders',
+  initialState: {
+    orders: [],
+    isLoading: false,
+    hasError: false,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getOrders.pending, (state) => {
+        state.isLoading = true;
+        state.hasError = false;
+      })
+      .addCase(getOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+        state.isLoading = false;
+        state.hasError = false;
+      })
+      .addCase(getOrders.rejected, (state) => {
+        state.isLoading = false;
+        state.hasError = true;
+      });
+  },
 });
 
 export default orderSlice.reducer;
