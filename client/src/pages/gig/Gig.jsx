@@ -165,13 +165,17 @@ const Price = ({ data }) => {
         <option value="on-cash">On cash</option>
       </select>
 
-      <button
-        className={paymentType ? 'enabled-button' : 'disabled-button'}
-        disabled={!paymentType}
+      <Link
+        to={`/pay/${paymentType}/${id}`}
+        className={`mt-4 py-2 px-4 rounded-md text-white font-semibold transition duration-200 text-center ${
+          paymentType
+            ? 'bg-green-500 hover:bg-green-600'
+            : 'bg-gray-400 cursor-not-allowed'
+        }`}
         onClick={handleClick}
       >
         {t('continue')}
-      </button>
+      </Link>
     </div>
   );
 };
