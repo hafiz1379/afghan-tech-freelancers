@@ -37,6 +37,7 @@ const router = createBrowserRouter([
       { path: '/pay/bank-account/:id', element: <Pay /> },
       { path: '/pay/on-cash/:id', element: <OnCashPay /> },
       { path: '/success', element: <Success /> },
+      { path: '/pay/on-cash/:id', element: <OnCashPay /> },
     ],
   },
 ]);
