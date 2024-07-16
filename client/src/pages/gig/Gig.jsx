@@ -157,12 +157,12 @@ const Price = ({ data }) => {
       </div>
 
       <Label required htmlFor="payment-type">
-        Payment type
+        {t('paymentType')}
       </Label>
       <select name="pay-ment-type" id="payment-type" onChange={handleSelect}>
-        <option value="">Select one Option</option>
-        <option value="bank-account">Bank Account</option>
-        <option value="on-cash">On cash</option>
+        <option value="">{t('selectOneOption')}</option>
+        <option value="bank-account">{t('bankAccount')}</option>
+        <option value="on-cash">{t('onCash')}</option>
       </select>
 
       <Link
