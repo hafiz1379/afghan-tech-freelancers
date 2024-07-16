@@ -9,10 +9,11 @@ import { getConversations } from '../../redux/conversations/conversationSlice';
 import { useTranslation } from 'react-i18next';
 
 const Messages = () => {
-  const { t } = useTranslation();
+  const { t, i18n  } = useTranslation();
   const currentUser = getCurrentUser();
   const { conversations, isLoading, hasError } = useSelector((store) => store.conversations);
   const dispatch = useDispatch();
+  const isRTL = i18n.dir() === 'rtl';
 
   useEffect(() => {
     dispatch(getConversations());
@@ -35,7 +36,7 @@ const Messages = () => {
             <table className="w-full">
               <thead className="hidden md:table-header-group">
                 <tr className="bg-gray-200">
-                  <th className="px-4 py-2">{currentUser.isSeller ? t('buyer') : t('seller')}</th>
+                <th className={`px-4 py-2 ${isRTL ? 'text-right' : 'text-left'}`}>{currentUser.isSeller ? t('buyer') : t('seller')}</th>
                   <th className="px-4 py-2">{t('lastMessage')}</th>
                   <th className="px-4 py-2">{t('date')}</th>
                   <th className="px-4 py-2">{t('action')}</th>
