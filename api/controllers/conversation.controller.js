@@ -1,22 +1,14 @@
+/* eslint-disable import/extensions */
 import createError from '../utils/createError.js';
 import Conversation from '../models/conversation.model.js';
 
 export const createConversation = async (req, res, next) => {
-  // Construct the conversation object based on the request data
-  const newConversation = new Conversation({
-    id: req.isSeller ? req.userId + req.body.to : req.body.to + req.userId,
-    sellerId: req.isSeller ? req.userId : req.body.to,
-    buyerId: req.isSeller ? req.body.to : req.userId,
-    readBySeller: req.isSeller,
-    readByBuyer: !req.isSeller,
-  });
-
+  const newConversation = new Conversation(req.body);
   try {
     const savedConversation = await newConversation.save();
     return res.status(201).send(savedConversation);
   } catch (error) {
-    console.error('Error saving new conversation:', error); // Add logging
-    return next(createError(500, 'Error creating conversation'));
+    return next(error);
   }
 };
 
@@ -45,7 +37,8 @@ export const getAllConversations = async (req, res, next) => {
 export const getSingleConversation = async (req, res, next) => {
   try {
     const conversation = await Conversation.findOne({ id: req.params.id });
-    if (!conversation) return next(createError(404, 'There is no conversation'));
+    if (!conversation)
+      return next(createError(404, 'There is no conversation'));
     return res.status(200).send(conversation);
   } catch (error) {
     return next(createError(404, 'Something went wrong from conversation'));
@@ -64,7 +57,7 @@ export const updateConversation = async (req, res, next) => {
       },
       {
         new: true,
-      },
+      }
     );
 
     return res.status(200).send(updatedConversation);
@@ -72,3 +65,11 @@ export const updateConversation = async (req, res, next) => {
     return next(createError(404, 'Something went wrong from conversation'));
   }
 };
+
+// const temp = {
+//   id: req.isSeller ? req.userId + req.body.to : req.body.to + req.userId,
+//   sellerId: req.isSeller ? req.userId : req.body.to,
+//   buyerId: req.isSeller ? req.body.to : req.userId,
+//   readBySeller: req.isSeller,
+//   readByBuyer: !req.isSeller,
+// }
