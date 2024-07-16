@@ -152,7 +152,7 @@ function Register() {
               <button
                 type="submit"
                 disabled={!confirmed}
-                className={`block w-full py-2 rounded text-white ${confirmed ? 'bg-green-500 cursor-pointer' : 'bg-gray-300 cursor-default'}`}
+                className={` ${confirmed ? 'enabled-button' : 'disabled-button'}`}
               >
                 {t('register')}
               </button>

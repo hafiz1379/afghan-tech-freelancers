@@ -149,5 +149,28 @@
   "yes": "Yes",
   "no": "No",
 
-  "gig": "Gig"
+  "gig": "Gig",
+
+  "paymentType": "Payment type",
+  "selectOneOption": "Select one Option",
+  "bankAccount": "Bank Account",
+  "onCash": "On cash",
+
+  "Order placed successfully!": "Order placed successfully!",
+  "Something went wrong. Please try again.": "Something went wrong. Please try again.",
+  "On Cash Payment": "On Cash Payment",
+  "Full Name": "Full Name",
+  "Phone": "Phone",
+  "Address": "Address",
+  "Passport Photo": "Passport or Electronic Tazkera Photo",
+  "Placing Order...": "Placing Order...",
+  "Place Order": "Place Order",
+
+  "Orders": "Orders",
+  "Image": "Image",
+  "Title": "Title",
+  "Price": "Price",
+  "Contact": "Contact",
+
+  "fullname": "Please write your full name"
 }

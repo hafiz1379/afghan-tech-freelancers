@@ -66,7 +66,11 @@ const MyGigs = () => {
                   <td className="p-2 border-b border-gray-300">
                     <img src={gig.cover} alt={t('gig')} className="w-12 h-12 object-cover rounded" />
                   </td>
-                  <td className={`${textAlignment} p-2 border-b border-gray-300`}>{gig.title}</td>
+                  <td className={`${textAlignment} p-2 border-b border-gray-300`}>
+                    <Link to={`/gig/${gig._id}`} className="hover:text-green-400">
+                    {gig.title}
+                    </Link>
+                    </td>
                   <td className={`${textAlignment} p-2 border-b border-gray-300`}>{gig.price}</td>
                   <td className={`${textAlignment} p-2 border-b border-gray-300`}>{gig.sales}</td>
                   <td className={`${textAlignment} p-2 pl-6 border-b border-gray-300`}>

@@ -137,7 +137,7 @@
   "delete": "حذف",
 
    "paymentSuccess": "پرداخت با موفقیت انجام شد!",
-  "redirectMessage": "شما به صفحه سفارشات هدایت می‌شوید. لطفا صفحه را ببندید.",
+  "redirectMessage": "شما به صفحه سفارشات هدایت می‌شوید. لطفا صفحه را نبندید.",
 
   "payNow": "اکنون پرداخت کنید",
 
@@ -150,5 +150,28 @@
   "yes": "بله",
   "no": "خیر",
 
-  "gig": "گیگ"
+  "gig": "گیگ",
+
+  "paymentType": "نوع پرداخت",
+  "selectOneOption": "یک گزینه انتخاب کنید",
+  "bankAccount": "حساب بانکی",
+  "onCash": "نقدی",
+
+  "Order placed successfully!": "سفارش با موفقیت ثبت شد!",
+  "Something went wrong. Please try again.": "مشکلی پیش آمد. لطفا دوباره امتحان کنید.",
+  "On Cash Payment": "پرداخت نقدی",
+  "Full Name": "اسم کامل",
+  "Phone": "شماره تماس",
+  "Address": "آدرس",
+  "Passport Photo": "عکس پاسپورت یا تذکره الکترونیکی",
+  "Placing Order...": "در حال ثبت سفارش...",
+  "Place Order": "ثبت سفارش",
+
+  "Orders": "سفارش‌ها",
+  "Image": "تصویر",
+  "Title": "عنوان",
+  "Price": "قیمت",
+  "Contact": "تماس",
+
+  "fullname": "لطفا اسم کامل خود را بنویسید"
 }

@@ -1,7 +1,7 @@
 {
   "signIn": "ننوتل",
   "join": "ملتیا",
-  "logout": "وتل",
+  "logout": "خروج",
   "myGigs": "زما ګیګونه",
   "addGig": "نوی ګیګ اضافه کړئ",
   "orders": "فرمایشونه",
@@ -103,7 +103,7 @@
     "uploading": "پورته کول",
     "upload": "پورته کول"
   },
-  
+
   "footer": {
     "copyright": "د افغان ټیک فری لانسونه. ټول حقوق خوندي دي."
   },
@@ -149,5 +149,28 @@
   "yes": "هو",
   "no": "نه",
 
-  "gig": "ګیګ"
+  "gig": "ګیګ",
+
+  "paymentType": "د پیسې ورکولو ډول",
+  "selectOneOption": "یو گزینه انتخاب کړئ",
+  "bankAccount": "بانک حساب",
+  "onCash": "نقد",
+
+  "Order placed successfully!": "د لږ ته دا د کار پورې شوې!",
+  "Something went wrong. Please try again.": "څه ښه نه شو، مهرباني وکړئ بیا کوشش وکړئ.",
+  "On Cash Payment": "د پیسې وروسته ادائیه",
+  "Full Name": "پوره نوم",
+  "Phone": "تلیفون",
+  "Address": "پته",
+  "Passport Photo": "پاسپورت یا الکترونیکي ټازکیره عکس",
+  "Placing Order...": "د کار پورته کول...",
+  "Place Order": "ثبت کول",
+
+  "Orders": "فرمایشونه",
+  "Image": "انځور",
+  "Title": "عنوان",
+  "Price": "قیمت",
+  "Contact": "اتصال",
+
+  "fullname": "مهرباني وکړئ خپل پوره نوم ولیکئ"
 }

@@ -24,3 +24,12 @@ select,
 textarea {
   @apply p-2 border rounded border-gray-400;
 }
+
+.enabled-button {
+  @apply block w-full py-2 rounded text-white bg-green-500 cursor-pointer;
+}
+
+.disabled-button {
+  @apply bg-gray-300 cursor-default block w-full py-2 rounded text-white;
+}
+
