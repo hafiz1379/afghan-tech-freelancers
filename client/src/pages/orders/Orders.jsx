@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import getCurrentUser from '../../utils/getCurentUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrders } from '../../redux/orders/orderSlice';
+import { useTranslation } from 'react-i18next';
 
 const Orders = () => {
+  const { t, i18n } = useTranslation();
   const { orders: data, isLoading, hasError } = useSelector((store) => store.orders);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
+  const isRTL = i18n.dir() === 'rtl';
+
   useEffect(() => {
     dispatch(getOrders());
   }, [dispatch]);
@@ -18,7 +22,6 @@ const Orders = () => {
   const handleContact = async (order) => {
     const sellerId = order.sellerId;
     const buyerId = order.buyerId;
-
     const conversationId = sellerId + buyerId;
 
     try {
@@ -39,28 +42,28 @@ const Orders = () => {
   return (
     <div className="flex justify-center px-2">
       {isLoading ? (
-        'loading'
+        t('loading')
       ) : hasError ? (
-        'error'
+        t('error')
       ) : (
         <div className="md:px-8 py-6 w-full">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">Orders</h1>
+            <h1 className="text-2xl font-bold">{t('Orders')}</h1>
           </div>
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-100 h-12">
-                <th className="text-left p-2 border-b border-gray-300">Image</th>
-                <th className="text-left p-2 border-b border-gray-300">Title</th>
-                <th className="text-left p-2 border-b border-gray-300">Price</th>
-                <th className="text-left p-2 border-b border-gray-300">Contact</th>
+                <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Image')}</th>
+                <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Title')}</th>
+                <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Price')}</th>
+                <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Contact')}</th>
               </tr>
             </thead>
             <tbody>
               {data.map((order) => (
                 <tr className="h-12 hover:bg-gray-50" key={order._id}>
                   <td className="p-2 border-b border-gray-300">
-                    <img src={order.img} alt="Gig" className="w-12 h-12 object-cover rounded" />
+                    <img src={order.img} alt={t('Gig')} className="w-12 h-12 object-cover rounded" />
                   </td>
                   <td className="p-2 border-b border-gray-300">{order.title}</td>
                   <td className="p-2 border-b border-gray-300">{order.price}</td>
