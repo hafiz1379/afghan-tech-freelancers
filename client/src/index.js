@@ -18,6 +18,7 @@ import Success from './pages/success/Success';
 import store from './redux/store';
 import i18n from './i18n';
 import OnCashPay from "./pages/pay/OnCashPay";
+import OnCashSuccess from './pages/success/OnCashSuccess';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: '/pay/on-cash/:id', element: <OnCashPay /> },
       { path: '/success', element: <Success /> },
       { path: '/pay/on-cash/:id', element: <OnCashPay /> },
+      { path:'/on-cash-success', element: <OnCashSuccess /> }
     ],
   },
 ]);
