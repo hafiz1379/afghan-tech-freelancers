@@ -37,8 +37,7 @@ export const getAllConversations = async (req, res, next) => {
 export const getSingleConversation = async (req, res, next) => {
   try {
     const conversation = await Conversation.findOne({ id: req.params.id });
-    if (!conversation)
-      return next(createError(404, 'There is no conversation'));
+    if (!conversation) return next(createError(404, 'There is no conversation'));
     return res.status(200).send(conversation);
   } catch (error) {
     return next(createError(404, 'Something went wrong from conversation'));
@@ -57,7 +56,7 @@ export const updateConversation = async (req, res, next) => {
       },
       {
         new: true,
-      }
+      },
     );
 
     return res.status(200).send(updatedConversation);
