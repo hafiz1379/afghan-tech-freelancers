@@ -50,7 +50,7 @@ export default function AddUser() {
   return (
     <div className='card'>
       <div className='card-body'>
-        <h5 className='card-title'>Vertical Form</h5>
+        <h5 className='card-title'>Add new User</h5>
 
         <form className='row g-3' onSubmit={handleSubmit}>
           <div className='col-12'>

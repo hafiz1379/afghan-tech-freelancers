@@ -50,7 +50,7 @@ export default function Categories() {
             </thead>
             <tbody>
               {categories.map((category, index) => (
-                <Category category={category} index={index} />
+                <Category category={category} index={index} key={category._id} />
               ))}
             </tbody>
           </table>
