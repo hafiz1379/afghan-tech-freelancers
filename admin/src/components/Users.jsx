@@ -59,7 +59,7 @@ export default function Users() {
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <User user={user} index={index} />
+                <User user={user} index={index} key={user._id} />
               ))}
             </tbody>
           </table>
@@ -81,13 +81,13 @@ const User = ({ user, index }) => {
       <td>{user.phone}</td>
       <td>{user.isSeller ? 'Seller' : 'Client'}</td>
       <td>
-        <button type='button' class='btn btn-danger btn-sm me-2'>
+        <button type='button' className='btn btn-danger btn-sm me-2'>
           Delete
         </button>
-        <button type='button' class='btn btn-primary btn-sm me-2'>
+        <button type='button' className='btn btn-primary btn-sm me-2'>
           Update
         </button>
-        <button type='button' class='btn btn-info btn-sm'>
+        <button type='button' className='btn btn-info btn-sm'>
           Detail
         </button>
       </td>
