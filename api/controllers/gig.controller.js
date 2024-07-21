@@ -86,3 +86,12 @@ export const getBasedOnCategory = async (req, res) => {
     });
   }
 };
+
+export const getGigsAsAdmin = async (req, res, next) => {
+  try {
+    const gigs = await Gig.find();
+    return res.status(200).send(gigs);
+  } catch (error) {
+    return next(createError(500, 'Something went wrong from'));
+  }
+};
