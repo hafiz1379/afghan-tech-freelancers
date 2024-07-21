@@ -13,6 +13,11 @@ export const getAllGigs = async (req, res, next) => {
   }
 };
 
+export const createGigAsAdmin = async (req, res) => {
+  await Gig.create(req.body);
+  return res.status(200).send('successfully created');
+};
+
 // CREATE A NEW GIG
 export const createGig = async (req, res, next) => {
   try {
