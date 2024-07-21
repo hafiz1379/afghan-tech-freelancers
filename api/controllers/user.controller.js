@@ -21,3 +21,10 @@ export const getUser = async (req, res, next) => {
   if (!user) return next(createError(404, 'User not found'));
   return res.status(200).send(user);
 };
+
+export const getUserAllUsers = async (req, res) => {
+  const users = await User.find();
+  res.status(200).json({
+    users,
+  });
+};
