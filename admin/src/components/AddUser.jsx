@@ -93,7 +93,7 @@ export default function AddUser() {
             <label htmlFor='desc' className='form-label'>
               Description
             </label>
-            <textarea required type='text' className='form-control' id='desc' name='desc' maxLength='10' rows='10' value={formData.desc} onChange={handleChange}></textarea>
+            <textarea required type='text' className='form-control' id='desc' name='desc' rows='10' value={formData.desc} onChange={handleChange}></textarea>
           </div>
           <div className='text-center'>
             <button type='submit' className='btn btn-primary'>

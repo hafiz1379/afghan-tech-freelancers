@@ -24,12 +24,18 @@ export default function Users() {
     getUsers();
   }, []);
 
-  /* 
-  
-  
-  
-
-  */
+  const handleDelete = async (id) => {
+    try {
+      const response = await newRequest.delete(`users/admin/${id}`);
+      if (response.status === 200) {
+        setUsers(users.filter((user) => user._id !== id));
+      } else {
+        console.error('Failed to delete the user');
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
 
   if (loading) {
     return <p>Please Wait...</p>;
@@ -39,7 +45,6 @@ export default function Users() {
     return <p>Something went wrong</p>;
   }
 
-  console.log(users);
   return (
     <div>
       <div className='card'>
@@ -59,7 +64,7 @@ export default function Users() {
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <User user={user} index={index} key={user._id} />
+                <User user={user} index={index} key={user._id} onDelete={handleDelete} />
               ))}
             </tbody>
           </table>
@@ -72,7 +77,14 @@ export default function Users() {
   );
 }
 
-const User = ({ user, index }) => {
+const User = ({ user, index, onDelete }) => {
+  const handleClick = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to delete this user?');
+    if (confirmed) {
+      onDelete(id);
+    }
+  };
+
   return (
     <tr>
       <th scope='row'>{index + 1}</th>
@@ -81,7 +93,7 @@ const User = ({ user, index }) => {
       <td>{user.phone}</td>
       <td>{user.isSeller ? 'Seller' : 'Client'}</td>
       <td>
-        <button type='button' className='btn btn-danger btn-sm me-2'>
+        <button type='button' className='btn btn-danger btn-sm me-2' onClick={() => handleClick(user._id)}>
           Delete
         </button>
         <button type='button' className='btn btn-primary btn-sm me-2'>
