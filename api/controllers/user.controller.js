@@ -12,6 +12,15 @@ export const deleteAsAdmin = async (req, res, next) => {
   }
 };
 
+export const updateUser = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.params.id, req.body);
+    return res.status(200).send('updated successfully');
+  } catch (error) {
+    return next(createError(404, 'Internel server error'));
+  }
+};
+
 export const deleteUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import newRequest from '../utils/newRequest';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import UserDetailModal from './UserDetailModal';
 
 export default function Users() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -37,6 +40,11 @@ export default function Users() {
     }
   };
 
+  const handleDetail = (user) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+
   if (loading) {
     return <p>Please Wait...</p>;
   }
@@ -64,7 +72,7 @@ export default function Users() {
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <User user={user} index={index} key={user._id} onDelete={handleDelete} />
+                <User user={user} index={index} key={user._id} onDelete={handleDelete} onDetail={handleDetail} />
               ))}
             </tbody>
           </table>
@@ -73,17 +81,13 @@ export default function Users() {
           </Link>
         </div>
       </div>
+      <UserDetailModal user={selectedUser} show={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 }
 
-const User = ({ user, index, onDelete }) => {
-  const handleClick = async (id) => {
-    const confirmed = window.confirm('Are you sure you want to delete this user?');
-    if (confirmed) {
-      onDelete(id);
-    }
-  };
+const User = ({ user, index, onDelete, onDetail }) => {
+  const navigate = useNavigate();
 
   return (
     <tr>
@@ -93,13 +97,21 @@ const User = ({ user, index, onDelete }) => {
       <td>{user.phone}</td>
       <td>{user.isSeller ? 'Seller' : 'Client'}</td>
       <td>
-        <button type='button' className='btn btn-danger btn-sm me-2' onClick={() => handleClick(user._id)}>
+        <button
+          type='button'
+          className='btn btn-danger btn-sm me-2'
+          onClick={() => {
+            const confirmed = window.confirm('Are you sure you want to delete this user?');
+            if (confirmed) {
+              onDelete(user._id);
+            }
+          }}>
           Delete
         </button>
-        <button type='button' className='btn btn-primary btn-sm me-2'>
+        <button type='button' className='btn btn-primary btn-sm me-2' onClick={() => navigate(`/users/update-user/${user._id}`)}>
           Update
         </button>
-        <button type='button' className='btn btn-info btn-sm'>
+        <button type='button' className='btn btn-info btn-sm' onClick={() => onDetail(user)}>
           Detail
         </button>
       </td>
