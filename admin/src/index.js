@@ -9,6 +9,7 @@ import AddCategory from './components/AddCategory';
 import Gigs from './components/Gigs';
 import AddGig from './components/AddGig';
 import UpdateUser from './components/UpdateUser';
+import UpdateCategory from './components/UpdateCategory';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: '/users/add-user', element: <AddUser /> },
       { path: '/users/update-user/:id', element: <UpdateUser /> },
       { path: '/categories', element: <Categories /> },
+      { path: '/categories/update-category/:id', element: <UpdateCategory /> },
       { path: '/categories/add-category', element: <AddCategory /> },
       { path: '/services', element: <Gigs /> },
       { path: '/services/add-service', element: <AddGig /> },

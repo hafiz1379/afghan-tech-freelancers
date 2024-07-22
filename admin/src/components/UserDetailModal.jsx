@@ -5,7 +5,7 @@ export default function UserDetailModal({ user, show, onClose }) {
 
   return (
     <div className={`modal ${show ? 'd-block' : 'd-none'}`} style={{ backdropFilter: 'blur(5px)' }} tabIndex='-1' role='dialog'>
-      <div className='modal-dialog' style={{ width: '90vh' }} role='document'>
+      <div className='modal-dialog' style={{ width: '90vw' }} role='document'>
         <div className='modal-content'>
           <div className='modal-header d-flex space-between items-center'>
             <h5 className='modal-title'>User Details</h5>
