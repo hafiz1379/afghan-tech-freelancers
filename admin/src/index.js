@@ -12,9 +12,14 @@ import UpdateUser from './components/UpdateUser';
 import UpdateCategory from './components/UpdateCategory';
 import UpdateGig from './components/UpdateGig.jsx';
 import Dashboard from './components/Dashboard.jsx';
+import Login from './components/Login.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <Login />,
+  },
   {
     path: '/',
     element: <App />,
