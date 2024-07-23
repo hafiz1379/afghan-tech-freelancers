@@ -11,6 +11,7 @@ import AddGig from './components/AddGig';
 import UpdateUser from './components/UpdateUser';
 import UpdateCategory from './components/UpdateCategory';
 import UpdateGig from './components/UpdateGig.jsx';
+import Dashboard from './components/Dashboard.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { path: '/', element: <p>Home</p> },
+      { path: '/', element: <Dashboard /> },
       { path: '/users', element: <Users /> },
       { path: '/users/add-user', element: <AddUser /> },
       { path: '/users/update-user/:id', element: <UpdateUser /> },
