@@ -22,6 +22,17 @@ export default function Gigs() {
     fetchData();
   }, []);
 
+  // Function to remove a gig from the state
+  const handleDelete = async (gigId) => {
+    try {
+      await newRequest.delete(`gigs/admin/${gigId}`);
+      setGigs((prevGigs) => prevGigs.filter((gig) => gig._id !== gigId));
+    } catch (error) {
+      console.error('Failed to delete gig:', error);
+      alert('Error deleting the gig. Please try again later.');
+    }
+  };
+
   if (loading) {
     return <p>Please wait...</p>;
   }
@@ -47,12 +58,12 @@ export default function Gigs() {
             </thead>
             <tbody>
               {gigs.map((gig, index) => (
-                <Gig index={index} gig={gig} key={gig._id} />
+                <Gig key={gig._id} index={index} gig={gig} onDelete={handleDelete} />
               ))}
             </tbody>
           </table>
           <Link className='btn btn-primary' to='/services/add-service'>
-            Create new category
+            Create new service
           </Link>
         </div>
       </div>
@@ -60,7 +71,7 @@ export default function Gigs() {
   );
 }
 
-const Gig = ({ gig, index }) => {
+const Gig = ({ gig, index, onDelete }) => {
   const [user, setUser] = useState(null);
   const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -75,34 +86,61 @@ const Gig = ({ gig, index }) => {
         setCategory(categoryRes.data.data.category);
       } catch (error) {
         setError(error);
-        console.log(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
 
-    // Cleanup function to cancel the async request if the component unmounts
-    return () => {
-      // Some logic to cancel async request
-    };
+    // Optionally handle request cancellation here if needed
+    // const source = new Axios.CancelToken.source();
+    // fetchData();
+    // return () => {
+    //   source.cancel('Operation canceled by the user.');
+    // };
   }, [gig.userId, gig.categoryId]);
 
+  const handleDeleteClick = () => {
+    if (window.confirm('Are you sure you want to delete this gig?')) {
+      onDelete(gig._id);
+    }
+  };
+
   if (loading) {
-    return;
+    return (
+      <tr>
+        <td colSpan='5'>Loading...</td>
+      </tr>
+    );
   }
 
   if (error) {
-    return;
+    return (
+      <tr>
+        <td colSpan='5'>Error loading data: {error.message}</td>
+      </tr>
+    );
   }
 
   return (
     <tr>
       <td>{index + 1}</td>
-      <td>{user?.username}</td>
-      <td>{category.title}</td>
+      <td>{user?.username || 'Unknown User'}</td>
+      <td>{category?.title || 'Unknown Category'}</td>
       <td>{gig.title}</td>
-      <td>Actions</td>
+      <td>
+        <button type='button' className='btn btn-danger btn-sm me-2' onClick={handleDeleteClick}>
+          Delete
+        </button>
+        <button type='button' className='btn btn-primary btn-sm me-2'>
+          Update
+        </button>
+        <button type='button' className='btn btn-info btn-sm'>
+          Detail
+        </button>
+      </td>
     </tr>
   );
 };

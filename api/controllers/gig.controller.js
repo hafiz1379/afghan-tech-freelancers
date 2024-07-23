@@ -95,3 +95,12 @@ export const getGigsAsAdmin = async (req, res, next) => {
     return next(createError(500, 'Something went wrong from'));
   }
 };
+
+export const deleteAsAdmin = async (req, res, next) => {
+  try {
+    await Gig.findByIdAndDelete(req.params.id);
+    return res.status(200).send('Deleted successfully');
+  } catch (error) {
+    return next(createError(500, 'Internal server error'));
+  }
+};
