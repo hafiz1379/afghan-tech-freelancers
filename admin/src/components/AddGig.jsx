@@ -26,7 +26,7 @@ export default function AddGig() {
     const fetchData = async () => {
       try {
         const usersRes = await newRequest.get('users');
-        setUsers(usersRes.data.users);
+        setUsers(usersRes.data.users.filter((user) => user.isSeller));
 
         const categoryRes = await newRequest.get('categories');
         setCategories(categoryRes.data.data.categories);

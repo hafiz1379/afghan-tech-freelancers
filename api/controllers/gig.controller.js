@@ -104,3 +104,12 @@ export const deleteAsAdmin = async (req, res, next) => {
     return next(createError(500, 'Internal server error'));
   }
 };
+
+export const updateAsAdmin = async (req, res, next) => {
+  try {
+    await Gig.findByIdAndUpdate(req.params.id, req.body);
+    return res.status(200).send('Updated successfully');
+  } catch (error) {
+    return next(error);
+  }
+};

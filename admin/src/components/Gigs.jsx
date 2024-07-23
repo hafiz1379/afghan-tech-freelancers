@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import newRequest from '../utils/newRequest';
 
 export default function Gigs() {
@@ -76,6 +76,7 @@ const Gig = ({ gig, index, onDelete }) => {
   const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,13 +94,6 @@ const Gig = ({ gig, index, onDelete }) => {
     };
 
     fetchData();
-
-    // Optionally handle request cancellation here if needed
-    // const source = new Axios.CancelToken.source();
-    // fetchData();
-    // return () => {
-    //   source.cancel('Operation canceled by the user.');
-    // };
   }, [gig.userId, gig.categoryId]);
 
   const handleDeleteClick = () => {
@@ -134,7 +128,7 @@ const Gig = ({ gig, index, onDelete }) => {
         <button type='button' className='btn btn-danger btn-sm me-2' onClick={handleDeleteClick}>
           Delete
         </button>
-        <button type='button' className='btn btn-primary btn-sm me-2'>
+        <button type='button' className='btn btn-primary btn-sm me-2' onClick={() => navigate(`/services/update-service/${gig._id}`)}>
           Update
         </button>
         <button type='button' className='btn btn-info btn-sm'>
