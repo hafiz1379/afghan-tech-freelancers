@@ -151,7 +151,7 @@ const Add = () => {
             </div>
             <div className='my-2 flex flex-col'>
               <button type='submit' className='p-3 bg-[#1dbf73] rounded text-white text-lg hover:bg-green-600 transition duration-300'>
-                {t('fields.create')}
+                {t('fields.createButton')}
               </button>
             </div>
           </div>
