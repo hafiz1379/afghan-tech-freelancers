@@ -19,6 +19,10 @@ export default function UpdateGig() {
   });
   const [users, setUsers] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [errors, setErrors] = useState({
+    userId: '',
+    categoryId: '',
+  });
   const navigate = useNavigate();
   const { id } = useParams(); // Get gig ID from URL parameters
 
@@ -43,7 +47,7 @@ export default function UpdateGig() {
           deliveryTime: gigData.deliveryTime,
           revisionNumber: gigData.revisionNumber,
         });
-        setUsers(usersRes.data.users.filter((user) => user.isSeller));
+        setUsers(usersRes.data.users);
         setCategories(categoryRes.data.data.categories);
 
         setIsLoading(false);
@@ -63,8 +67,25 @@ export default function UpdateGig() {
     }));
   };
 
+  const validateForm = () => {
+    let formErrors = {};
+    if (!formData.userId) {
+      formErrors.userId = 'Please select a user.';
+    }
+    if (!formData.categoryId) {
+      formErrors.categoryId = 'Please select a category.';
+    }
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       setIsLoading(true);
       let updatedData = { ...formData };
@@ -77,7 +98,7 @@ export default function UpdateGig() {
 
       updatedData.images = [updatedData.cover]; // Assuming images array needs to be updated
 
-      await newRequest.put(`gigs/admin/${id}`, updatedData);
+      await newRequest.put(`gigs/${id}`, updatedData);
       setIsLoading(false);
       navigate('/services');
     } catch (err) {
@@ -101,7 +122,7 @@ export default function UpdateGig() {
             <label htmlFor='userId' className='form-label'>
               The Service Owner
             </label>
-            <select id='userId' className='form-select' name='userId' value={formData.userId} onChange={handleChange}>
+            <select id='userId' className={`form-select ${errors.userId ? 'is-invalid' : ''}`} name='userId' value={formData.userId} onChange={handleChange}>
               <option value=''>Select a user</option>
               {users.map((user) => (
                 <option key={user._id} value={user._id}>
@@ -109,6 +130,7 @@ export default function UpdateGig() {
                 </option>
               ))}
             </select>
+            {errors.userId && <div className='invalid-feedback'>{errors.userId}</div>}
           </div>
 
           {/* Select a category */}
@@ -116,7 +138,7 @@ export default function UpdateGig() {
             <label htmlFor='categoryId' className='form-label'>
               Category
             </label>
-            <select id='categoryId' className='form-select' name='categoryId' value={formData.categoryId} onChange={handleChange}>
+            <select id='categoryId' className={`form-select ${errors.categoryId ? 'is-invalid' : ''}`} name='categoryId' value={formData.categoryId} onChange={handleChange}>
               <option value=''>Select a Category</option>
               {categories.map((category) => (
                 <option key={category._id} value={category._id}>
@@ -124,6 +146,7 @@ export default function UpdateGig() {
                 </option>
               ))}
             </select>
+            {errors.categoryId && <div className='invalid-feedback'>{errors.categoryId}</div>}
           </div>
 
           <div className='col-12'>
