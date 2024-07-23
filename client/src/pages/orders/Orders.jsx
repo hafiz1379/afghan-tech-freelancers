@@ -47,6 +47,19 @@ const Orders = () => {
       setLoading(false);
     }
   };
+
+  const handleAction = async (orderId, status) => {
+    try {
+      setLoading(true);
+      await newRequest.patch(`orders/${orderId}`, { status: status });
+      dispatch(getOrders());
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading || isLoading) {
     return <Loading />;
   }
@@ -87,7 +100,35 @@ const Orders = () => {
                       <RiMessage2Fill className='text-blue-500 cursor-pointer hover:text-blue-700' onClick={() => handleContact(order.sellerId, order.buyerId)} />
                     </td>
                     <td className='p-2 border-b border-gray-300'>{order?.status || 'Unknown'}</td>
-                    <td className='p-2 border-b border-gray-300'>{order?.status || 'Unknown'}</td>
+                    <td className='p-2 border-b border-gray-300'>
+                      {currentUser.isSeller ? (
+                        <>
+                          {order?.status === 'pending' && (
+                            <button className='order rounded px-2 bg-blue-500 me-2' onClick={() => handleAction(order._id, 'accepted')}>
+                              Approve
+                            </button>
+                          )}
+                          {order?.status === 'pending' && (
+                            <button className='order rounded px-2 bg-red-600 me-2' onClick={() => handleAction(order._id, 'rejected')}>
+                              Reject
+                            </button>
+                          )}
+                          {order?.status === 'accepted' && (
+                            <button className='order rounded px-2 bg-green-700 me-2' onClick={() => handleAction(order._id, 'completed')}>
+                              Complete
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {order?.status === 'completed' && (
+                            <button className='order rounded px-2 bg-lime-300 me-2' onClick={() => handleAction(order._id, 'final')}>
+                              Confirm Approval
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </td>
                   </tr>
                 ))}
             </tbody>

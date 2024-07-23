@@ -98,3 +98,13 @@ export const createOnCashOrder = async (req, res) => {
     res.status(500).send({ message: 'Something went wrong. Please try again.' });
   }
 };
+
+export const updateOrder = async (req, res, next) => {
+  console.log('Reqest receidfd');
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true });
+    return res.status(200).json(updatedOrder);
+  } catch (error) {
+    return next(createError(500, 'Internel server error'));
+  }
+};
