@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import newRequest from '../utils/newRequest';
+import GigDetailModal from './GigDetailModal'; // Import the GigDetailModal
 
 export default function Gigs() {
   const [gigs, setGigs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedGig, setSelectedGig] = useState(null); // State for selected gig
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +36,12 @@ export default function Gigs() {
     }
   };
 
+  // Function to handle the closing of the modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedGig(null);
+  };
+
   if (loading) {
     return <p>Please wait...</p>;
   }
@@ -58,7 +67,17 @@ export default function Gigs() {
             </thead>
             <tbody>
               {gigs.map((gig, index) => (
-                <Gig key={gig._id} index={index} gig={gig} onDelete={handleDelete} />
+                <Gig
+                  key={gig._id}
+                  index={index}
+                  gig={gig}
+                  onDelete={handleDelete}
+                  onViewDetails={(gig) => {
+                    // Pass down the function to view details
+                    setSelectedGig(gig);
+                    setShowModal(true);
+                  }}
+                />
               ))}
             </tbody>
           </table>
@@ -67,11 +86,14 @@ export default function Gigs() {
           </Link>
         </div>
       </div>
+
+      {/* Render the GigDetailModal */}
+      {selectedGig && <GigDetailModal gig={selectedGig} user={selectedGig.user} category={selectedGig.category} show={showModal} onClose={handleCloseModal} />}
     </div>
   );
 }
 
-const Gig = ({ gig, index, onDelete }) => {
+const Gig = ({ gig, index, onDelete, onViewDetails }) => {
   const [user, setUser] = useState(null);
   const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -131,7 +153,11 @@ const Gig = ({ gig, index, onDelete }) => {
         <button type='button' className='btn btn-primary btn-sm me-2' onClick={() => navigate(`/services/update-service/${gig._id}`)}>
           Update
         </button>
-        <button type='button' className='btn btn-info btn-sm'>
+        <button
+          type='button'
+          className='btn btn-info btn-sm'
+          onClick={() => onViewDetails({ ...gig, user, category })} // Pass gig with user and category
+        >
           Detail
         </button>
       </td>
