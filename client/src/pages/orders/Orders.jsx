@@ -88,7 +88,7 @@ const Orders = () => {
             </thead>
             <tbody>
               {data
-                .filter((d) => d?.status !== 'final')
+                .filter((d) => d?.status !== 'final' && d?.status !== 'rejected')
                 .map((order) => (
                   <tr className='h-12 hover:bg-gray-50' key={order._id}>
                     <td className='p-2 border-b border-gray-300'>
