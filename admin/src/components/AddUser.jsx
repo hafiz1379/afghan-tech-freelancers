@@ -55,7 +55,7 @@ export default function AddUser() {
         <form className='row g-3' onSubmit={handleSubmit}>
           <div className='col-12'>
             <label htmlFor='username' className='form-label'>
-              Your Name
+              User Name
             </label>
             <input required type='text' className='form-control' id='username' name='username' value={formData.username} onChange={handleChange} />
           </div>
