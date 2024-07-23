@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import newRequest from '../utils/newRequest';
 import GigDetailModal from './GigDetailModal'; // Import the GigDetailModal
-import { Loading } from '../../../client/src/components/UtilComponents/Utils';
 
 export default function Gigs() {
   const [gigs, setGigs] = useState([]);
@@ -42,10 +41,6 @@ export default function Gigs() {
     setShowModal(false);
     setSelectedGig(null);
   };
-
-  if (loading) {
-    return <Loading />;
-  }
 
   if (error) {
     return <p>Something went wrong: {error.message}</p>;

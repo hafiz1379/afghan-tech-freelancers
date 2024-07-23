@@ -35,9 +35,15 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ['pending', 'rejected', 'accepted', 'completed', 'final'],
+      default: 'pending',
+      required: true,
+    },
   },
   {
-    timeseries: true,
+    timestamps: true,
   },
 );
 
