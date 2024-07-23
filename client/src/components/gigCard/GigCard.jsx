@@ -45,7 +45,7 @@ const GigCard = ({ item }) => {
             </div>
 
             <h1 className='font-bold leading-6'>{item.title}</h1>
-            <p className='text-gray-700 text-base'>{item.shortDesc}</p>
+            <p className='text-gray-700 text-base h-[100px] overflow-hidden'>{item.shortDesc}</p>
             <div className='flex items-center mt-4'>
               <FaStar className='text-yellow-500 w-4 h-4 mr-1' />
               <span className='text-yellow-500'>{!isNaN(item.totalStars / item.starNumber) && Math.round(item.totalStars / item.starNumber)}</span>
@@ -53,7 +53,6 @@ const GigCard = ({ item }) => {
           </div>
           <hr className='border-gray-200' />
           <div className='px-6 py-4 flex justify-between items-center'>
-            <FaHeart className='text-gray-500 w-6 h-6' />
             <div className='text-right'>
               <span className='text-gray-500 text-sm'>STARTING AT</span>
               <h2 className='text-lg font-semibold'>{item.price} AF</h2>

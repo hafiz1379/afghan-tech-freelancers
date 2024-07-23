@@ -37,19 +37,19 @@ function Gigs() {
   }, [dispatch]);
 
   if (isLoading || categoryLoading) {
-    return <Alert message="Please wait..." />;
+    return <Alert message='Please wait...' />;
   }
   if (hasError) {
-    return <Alert message="Something went wrong." />;
+    return <Alert message='Something went wrong.' />;
   }
 
   return (
-    <div className="p-4 lg:p-12">
-      <div className="flex flex-col gap-4">
+    <div className='p-4 lg:p-12'>
+      <div className='flex flex-col gap-4'>
         {category && (
-          <div className="sm:px-1">
-            <h1 className="text-2xl font-bold mb-8 text-center">{category.title}</h1>
-            <p className="text-gray-600 font-semibold">{category.desc}</p>
+          <div className='sm:px-1'>
+            <h1 className='text-2xl font-bold mb-8 text-center'>{category.title}</h1>
+            <p className='text-gray-600 font-semibold'>{category.desc}</p>
           </div>
         )}
         {/* <div className="flex items-center justify-between flex-col sm:flex-row sm:pr-2 ">
@@ -96,10 +96,12 @@ function Gigs() {
             </div>
           </div> */}
         {gigs?.length ? (
-          <div className="flex flex-wrap">
-            {gigs.map((gig) => (
-              <GigCard key={gig._id} item={gig} />
-            ))}
+          <div className='flex flex-wrap'>
+            {gigs
+              .filter((g) => g.userId && g.categoryId)
+              .map((gig) => (
+                <GigCard key={gig._id} item={gig} />
+              ))}
           </div>
         ) : (
           <Alert message={'This category does not have any service'} />

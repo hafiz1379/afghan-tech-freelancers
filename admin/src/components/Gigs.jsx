@@ -45,6 +45,9 @@ export default function Gigs() {
   if (error) {
     return <p>Something went wrong: {error.message}</p>;
   }
+  if (loading) {
+    return <p>Please wait.</p>;
+  }
 
   return (
     <div>
