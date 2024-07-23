@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import newRequest from '../utils/newRequest';
 import GigDetailModal from './GigDetailModal'; // Import the GigDetailModal
+import { Loading } from '../../../client/src/components/UtilComponents/Utils';
 
 export default function Gigs() {
   const [gigs, setGigs] = useState([]);
@@ -15,7 +16,7 @@ export default function Gigs() {
       try {
         setLoading(true);
         const gigRes = await newRequest.get('gigs/all');
-        setGigs(gigRes.data);
+        setGigs(gigRes.data.filter((gig) => gig.userId && gig.categoryId));
       } catch (error) {
         setError(error);
       } finally {
@@ -43,7 +44,7 @@ export default function Gigs() {
   };
 
   if (loading) {
-    return <p>Please wait...</p>;
+    return <Loading />;
   }
 
   if (error) {
