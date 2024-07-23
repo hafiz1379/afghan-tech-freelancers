@@ -49,7 +49,7 @@ function Gigs() {
         {category && (
           <div className="sm:px-1">
             <h1 className="text-2xl font-bold mb-8 text-center">{category.title}</h1>
-            <p className="text-gray-600  max-w-[500px] font-semibold">{category.desc}</p>
+            <p className="text-gray-600 font-semibold">{category.desc}</p>
           </div>
         )}
         {/* <div className="flex items-center justify-between flex-col sm:flex-row sm:pr-2 ">
