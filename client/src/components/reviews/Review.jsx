@@ -10,39 +10,35 @@ function Review({ reviewData }) {
   const { user: userData, isLoading, hasError } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const { t } = useTranslation(); // Initialize useTranslation hook
-  
+
   useEffect(() => {
     dispatch(getUser(reviewData.userId));
-  }, [dispatch]);
+  }, [dispatch, reviewData.userId]);
 
   if (isLoading) {
-    return <Alert message="Please wait..." />;
+    return <Alert message='Please wait...' />;
   }
   if (hasError) {
-    return <Alert message="Something went wrong." />;
+    return <Alert message='Something went wrong.' />;
   }
 
   return (
-    <div className="flex flex-col gap-3 mb-10">
-      <div className="flex items-center gap-4">
-        <img
-          className="w-12 h-12 rounded-full"
-          src={userData?.img || '/images/no avatar.jpg'}
-          alt="Reza Merzaee"
-        />
-        <div className="flex flex-col gap-1 text-gray-500">
+    <div className='flex flex-col gap-3 mb-10'>
+      <div className='flex items-center gap-4'>
+        <img className='w-12 h-12 rounded-full' src={userData?.img || '/images/no avatar.jpg'} alt='Reza Merzaee' />
+        <div className='flex flex-col gap-1 text-gray-500'>
           <h4>{userData?.username}</h4>
         </div>
       </div>
       <Stars amount={reviewData.star} />
-      <p className="mt-2">{reviewData.desc}</p>
-      <div className="flex items-center gap-3 text-gray-500">
-        <span className="font-semibold">{t('helpful?')}</span>
-        <div className="flex items-center gap-1 cursor-pointer hover:text-gray-700 hover:scale-110 transition  duration-100">
+      <p className='mt-2'>{reviewData.desc}</p>
+      <div className='flex items-center gap-3 text-gray-500'>
+        <span className='font-semibold'>{t('helpful?')}</span>
+        <div className='flex items-center gap-1 cursor-pointer hover:text-gray-700 hover:scale-110 transition  duration-100'>
           <span>{t('yes')}</span>
           <BiLike size={24} />
         </div>
-        <div className="flex items-center gap-1 cursor-pointer hover:text-gray-700 hover:scale-110 transition  duration-100">
+        <div className='flex items-center gap-1 cursor-pointer hover:text-gray-700 hover:scale-110 transition  duration-100'>
           <span>{t('no')}</span>
           <BiDislike size={24} />
         </div>
