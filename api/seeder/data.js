@@ -2,7 +2,7 @@ export const users = [
   {
     username: 'HafizullahRasa',
     email: 'hafizrasa1379@gmail.com',
-    password: '0000',
+    password: '123456',
     img: 'https://avatars.githubusercontent.com/u/117447018?v=4',
     country: 'Afghanistan',
     phone: '+93 74 858 2320',
@@ -12,7 +12,7 @@ export const users = [
   {
     username: 'QurbanSafari',
     email: 'qurbanali@gmail.com',
-    password: '0000',
+    password: '123456',
     img: 'https://avatars.githubusercontent.com/u/73581663?v=4',
     country: 'Afghanistan',
     phone: '+93 74 ddd 2320',
@@ -22,7 +22,7 @@ export const users = [
   {
     username: 'MahramHussainNazari',
     email: 'mhnazari2020@gmail.com',
-    password: '0000',
+    password: '123456',
     img: 'https://avatars.githubusercontent.com/u/77242944?v=4',
     country: 'Afghanistan',
     phone: '+93 74 858 2320',
@@ -33,13 +33,14 @@ export const users = [
   {
     username: 'RezaMerzaie',
     email: 'ghreza97@gmail.com',
-    password: '0000',
+    password: '123456',
     img: 'https://avatars.githubusercontent.com/u/76435157?v=4',
     country: 'Afghanistan',
     phone: '+93 877 8843',
     desc: 'I am an experienced Full-Stack Web Developer specializing in Next.js, a React-based framework for building modern web applications. With a strong background in creating scalable and performant web solutions, I leverage both front-end and back-end skills to deliver seamless user experiences. Proficient in JavaScript, React, Node.js, and MongoDB, I am adept at handling diverse project requirements with efficiency and precision.',
     isSeller: true,
   },
+  
 ];
 
 export const gigs = [
