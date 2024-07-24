@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -10,9 +10,9 @@ export default function Header() {
   return (
     <header id='header' class='header fixed-top d-flex align-items-center'>
       <div className='d-flex align-items-center justify-content-between'>
-        <a href='index.html' className='logo d-flex align-items-center'>
+        <Link to='/' className='logo d-flex align-items-center'>
           <span className='d-none d-lg-block'>ATF</span>
-        </a>
+        </Link>
         {/* <i className="bi bi-list toggle-sidebar-btn"></i> */}
       </div>
       {/* <!-- End Logo --> */}
