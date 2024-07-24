@@ -32,7 +32,7 @@ function Review({ reviewData }) {
       </div>
       <Stars amount={reviewData.star} />
       <p className='mt-2'>{reviewData.desc}</p>
-      <div className='flex items-center gap-3 text-gray-500'>
+      {/* <div className='flex items-center gap-3 text-gray-500'>
         <span className='font-semibold'>{t('helpful?')}</span>
         <div className='flex items-center gap-1 cursor-pointer hover:text-gray-700 hover:scale-110 transition  duration-100'>
           <span>{t('yes')}</span>
@@ -42,7 +42,7 @@ function Review({ reviewData }) {
           <span>{t('no')}</span>
           <BiDislike size={24} />
         </div>
-      </div>
+      </div> */}
       <hr />
     </div>
   );
