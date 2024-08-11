@@ -84,18 +84,18 @@ const Navbar = () => {
                 <>
                   {currentUser?.isSeller && (
                     <>
-                      <Link className="hover:bg-gray-300 p-2" to="/myGigs">
+                      <Link className="hover:bg-gray-300 hover:text-black  p-2" to="/myGigs">
                         {t('myGigs')}
                       </Link>
-                      <Link className="hover:bg-gray-300 p-2" to="/addGig">
+                      <Link className="hover:bg-gray-300 hover:text-black p-2" to="/addGig">
                         {t('addGig')}
                       </Link>
                     </>
                   )}
-                  <Link className="hover:bg-gray-300 p-2" to="/orders">
+                  <Link className="hover:bg-gray-300 hover:text-black p-2" to="/orders">
                     {t('orders')}
                   </Link>
-                  <Link className="hover:bg-gray-300 p-2" to="/messages">
+                  <Link className="hover:bg-gray-300 hover:text-black p-2" to="/messages">
                     {t('messages')}
                   </Link>
                 </>
