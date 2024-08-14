@@ -3,6 +3,24 @@
 import User from '../models/user.model.js';
 import createError from '../utils/createError.js';
 
+export const deleteAsAdmin = async (req, res, next) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    return res.status(200).send('user was delete');
+  } catch (error) {
+    return next(createError(404, 'User could not be deleted'));
+  }
+};
+
+export const updateUser = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.params.id, req.body);
+    return res.status(200).send('updated successfully');
+  } catch (error) {
+    return next(createError(404, 'Internel server error'));
+  }
+};
+
 export const deleteUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
@@ -20,4 +38,11 @@ export const getUser = async (req, res, next) => {
   const user = await User.findById(req.params.id);
   if (!user) return next(createError(404, 'User not found'));
   return res.status(200).send(user);
+};
+
+export const getUserAllUsers = async (req, res) => {
+  const users = await User.find();
+  return res.status(200).json({
+    users,
+  });
 };

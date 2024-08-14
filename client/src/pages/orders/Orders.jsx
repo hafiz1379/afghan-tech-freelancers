@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiMessage2Fill } from 'react-icons/ri';
 import newRequest from '../../utils/newRequest';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import getCurrentUser from '../../utils/getCurentUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrders } from '../../redux/orders/orderSlice';
 import { useTranslation } from 'react-i18next';
+import { Loading } from '../../components/UtilComponents/Utils';
 
 const Orders = () => {
   const { t, i18n } = useTranslation();
@@ -13,68 +14,123 @@ const Orders = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
+  const [loading, setLoading] = useState(false);
   const isRTL = i18n.dir() === 'rtl';
 
   useEffect(() => {
     dispatch(getOrders());
   }, [dispatch]);
 
-  const handleContact = async (order) => {
-    const sellerId = order.sellerId;
-    const buyerId = order.buyerId;
+  const handleContact = async (sellerId, buyerId) => {
     const conversationId = sellerId + buyerId;
-
+    console.log(conversationId);
+    console.log(conversationId);
     try {
+      setLoading(true);
       const res = await newRequest.get(`conversations/single/${conversationId}`);
-      navigate(`/message/${res.data.id}`);
+      console.log(res.data);
+      navigate(`/message/${conversationId}`);
     } catch (error) {
       console.log(error);
       if (error.response.status === 404) {
-        const res = await newRequest.post(`conversations`, {
-          to: currentUser.isSeller ? buyerId : sellerId,
+        await newRequest.post(`conversations`, {
+          id: conversationId,
+          sellerId,
+          buyerId,
+          readBySeller: currentUser?.isSeller,
+          readByBuyer: !currentUser?.isSeller,
         });
 
-        navigate(`/message/${res.data.id}`);
+        navigate(`/message/${conversationId}`);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleAction = async (orderId, status) => {
+    try {
+      setLoading(true);
+      await newRequest.patch(`orders/${orderId}`, { status: status });
+      dispatch(getOrders());
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading || isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <div className="flex justify-center px-2">
+    <div className='flex justify-center px-2'>
       {isLoading ? (
         t('loading')
       ) : hasError ? (
         t('error')
       ) : (
-        <div className="md:px-8 py-6 w-full">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">{t('Orders')}</h1>
+        <div className='md:px-8 py-6 w-full'>
+          <div className='flex justify-between items-center mb-4'>
+            <h1 className='text-2xl font-bold'>{t('Orders')}</h1>
           </div>
-          <table className="w-full border-collapse">
+          <table className='w-full border-collapse'>
             <thead>
-              <tr className="bg-gray-100 h-12">
+              <tr className='bg-gray-100 h-12'>
                 <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Image')}</th>
                 <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Title')}</th>
                 <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Price')}</th>
                 <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>{t('Contact')}</th>
+                <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>Status</th>
+                <th className={`p-2 border-b border-gray-300 ${isRTL ? 'text-right' : 'text-left'}`}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((order) => (
-                <tr className="h-12 hover:bg-gray-50" key={order._id}>
-                  <td className="p-2 border-b border-gray-300">
-                    <img src={order.img} alt={t('Gig')} className="w-12 h-12 object-cover rounded" />
-                  </td>
-                  <td className="p-2 border-b border-gray-300">{order.title}</td>
-                  <td className="p-2 border-b border-gray-300">{order.price}</td>
-                  <td className="p-2 pl-7 border-b border-gray-300">
-                    <RiMessage2Fill
-                      className="text-blue-500 cursor-pointer hover:text-blue-700"
-                      onClick={() => handleContact(order)}
-                    />
-                  </td>
-                </tr>
-              ))}
+              {data
+                .filter((d) => d?.status !== 'final' && d?.status !== 'rejected')
+                .map((order) => (
+                  <tr className='h-12 hover:bg-gray-50' key={order._id}>
+                    <td className='p-2 border-b border-gray-300'>
+                      <img src={order.img} alt={t('Gig')} className='w-12 h-12 object-cover rounded' />
+                    </td>
+                    <td className='p-2 border-b border-gray-300'>{order.title}</td>
+                    <td className='p-2 border-b border-gray-300'>{order.price}</td>
+                    <td className='p-2 pl-7 border-b border-gray-300'>
+                      <RiMessage2Fill className='text-blue-500 cursor-pointer hover:text-blue-700' onClick={() => handleContact(order.sellerId, order.buyerId)} />
+                    </td>
+                    <td className='p-2 border-b border-gray-300'>{order?.status || 'Unknown'}</td>
+                    <td className='p-2 border-b border-gray-300'>
+                      {currentUser.isSeller ? (
+                        <>
+                          {order?.status === 'pending' && (
+                            <button className='order rounded px-2 bg-blue-500 me-2' onClick={() => handleAction(order._id, 'accepted')}>
+                              Approve
+                            </button>
+                          )}
+                          {order?.status === 'pending' && (
+                            <button className='order rounded px-2 bg-red-600 me-2' onClick={() => handleAction(order._id, 'rejected')}>
+                              Reject
+                            </button>
+                          )}
+                          {order?.status === 'accepted' && (
+                            <button className='order rounded px-2 bg-green-700 me-2' onClick={() => handleAction(order._id, 'completed')}>
+                              Complete
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {order?.status === 'completed' && (
+                            <button className='order rounded px-2 bg-lime-300 me-2' onClick={() => handleAction(order._id, 'final')}>
+                              Confirm Approval
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
