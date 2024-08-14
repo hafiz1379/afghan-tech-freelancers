@@ -43,7 +43,6 @@ const GigCard = ({ item }) => {
               <img src={user?.img || 'https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg'} alt={user?.username} className='w-10 h-10 rounded-full mr-2' />
               <span className='text-sm font-semibold'>{user?.username}</span>
             </div>
-
             <h1 className='font-bold leading-6'>{item.title}</h1>
             <p className='text-gray-700 text-base h-[100px] overflow-hidden'>{item.shortDesc}</p>
             <div className='flex items-center mt-4'>
