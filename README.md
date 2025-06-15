@@ -162,14 +162,13 @@ Special thanks to the Afghan developer community and all open-source contributor
 ## 🧑‍💻 Authors
 
 **Hafizullah Rasa**  
-📧 [hafizrasa.dev@gmail.com](hafizrasa1379@gmail.com)  
+📧 [hafizrasa1379@gmail.com](hafizrasa1379@gmail.com)  
 🌐 [Portfolio Website](https://hafiz1379.github.io/Portfolio/)  
 🔗 [LinkedIn](https://www.linkedin.com/in/hafiz1379)
 
 **Anwar Hussaini**  
-📧 [Anwar.dev@gmail.com](anwarhussaini160@gmail.com)  
+📧 [anwarhussaini160@gmail.com](anwarhussaini160@gmail.com)  
 🌐 [Portfolio Website](https://github.com/M-Anwar-Hussaini)
 🔗 [LinkedIn](https://www.linkedin.com/in/anwar-hussaini/)
----
 
 > “This platform is not just a technological solution — it's a step toward digital inclusion and economic empowerment for Afghan developers.”
