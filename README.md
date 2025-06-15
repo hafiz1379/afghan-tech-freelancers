@@ -60,25 +60,22 @@ By providing a secure, scalable, and user-friendly environment, Afghan Tech Free
 
 ## 📁 Project Structure
 
-\`\`\`
-afghan-tech-freelancers/
-│
-├── client/          # React Frontend
-│   ├── components/
-│   ├── pages/
-│   ├── context/
-│   └── i18n/
-│
-├── api/             # Node.js Backend
+```
+├── client/               # Frontend (React)
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       ├── redux/
+│       └── ...
+├── api/                  # Backend (Node + Express)
 │   ├── controllers/
 │   ├── models/
 │   ├── routes/
-│   └── middleware/
-│
-├── .env             # Environment Variables
-├── README.md        # Project Documentation
-└── package.json     # Project Config
-\`\`\`
+│   ├── middlewares/
+│   ├── config/
+│   └── ...
+└── README.md
+```
 
 ---
 
