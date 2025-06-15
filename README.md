@@ -163,12 +163,12 @@ Special thanks to the Afghan developer community and all open-source contributor
 
 **Hafizullah Rasa**  
 📧 [hafizrasa.dev@gmail.com](hafizrasa1379@gmail.com)  
-🌐 [Portfolio Website](https://hafiz1379.github.io/Portfolio/) *(if available)*  
+🌐 [Portfolio Website](https://hafiz1379.github.io/Portfolio/)  
 🔗 [LinkedIn](https://www.linkedin.com/in/hafiz1379)
 
 **Anwar Hussaini**  
-📧 [hafizrasa.dev@gmail.com](anwarhussaini160@gmail.com)  
-🌐 [Portfolio Website](https://github.com/M-Anwar-Hussaini) *(if available)*  
+📧 [Anwar.dev@gmail.com](anwarhussaini160@gmail.com)  
+🌐 [Portfolio Website](https://github.com/M-Anwar-Hussaini)
 🔗 [LinkedIn](https://www.linkedin.com/in/anwar-hussaini/)
 ---
 
