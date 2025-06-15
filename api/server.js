@@ -14,12 +14,26 @@ import reviewRoute from './routes/review.route.js';
 import authRoute from './routes/auth.route.js';
 import categoryRoute from './routes/category.route.js';
 
+const allowedOrigins = ['http://localhost:4000', 'http://localhost:3000'];
+
 dotenv.config();
 const app = express();
 
 // MIDDLEWARES
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(
+  cors({
+    // eslint-disable-next-line func-names, object-shorthand
+    origin: function (origin, callback) {
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 
 // ROUTES

@@ -78,14 +78,7 @@ const Gig = () => {
         </div>
 
         <div className='max-w-[500px] mx-auto my-6 rounded overflow-hidden'>
-          <img
-            src={
-              gig.images.length
-                ? gig.images[0]
-                : 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'
-            }
-            alt='Gig Image'
-          />
+          <img src={gig.images.length ? gig.images[0] : 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt='Gig Image' />
         </div>
         <h2 className='h2'>{t('aboutThisJob')}</h2>
         <p className='text-gray-500 font-normal text-lg leading-7'>{gig.desc}</p>
@@ -120,7 +113,7 @@ const Price = ({ data }) => {
     <div className='border rounded p-5 flex flex-col gap-2 md:sticky md:top-32'>
       <div className='price font-bold font-poppins text-gray-600 flex justify-between mb-2.5 '>
         <h3>{data.shortTitle}</h3>
-        <span>{data.price}</span>
+        <span>{data.price} AF</span>
       </div>
       <p>{data.shortDesc}</p>
       <div className='details flex items-center justify-between my-3'>
@@ -160,11 +153,8 @@ const Price = ({ data }) => {
 
           <Link
             to={`/pay/${paymentType}/${id}`}
-            className={`mt-4 py-2 px-4 rounded-md text-white font-semibold transition duration-200 text-center ${
-              paymentType ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'
-            }`}
-            onClick={handleClick}
-          >
+            className={`mt-4 py-2 px-4 rounded-md text-white font-semibold transition duration-200 text-center ${paymentType ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'}`}
+            onClick={handleClick}>
             {t('continue')}
           </Link>
         </>
@@ -222,10 +212,7 @@ const Seller = ({ data }) => {
           <span className='font-semibold text-xl text-gray-700'>{data.username}</span>
           <Stars />
           {currentUser && !currentUser?.isSeller && currentUser._id !== data._id ? (
-            <button
-              className='bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold hover:bg-green-600 hover:text-white transition ease-in duration-75'
-              onClick={handleContact}
-            >
+            <button className='bg-white rounded-md border-gray-400 border py-1 px-5 font-semibold hover:bg-green-600 hover:text-white transition ease-in duration-75' onClick={handleContact}>
               {t('contactMe')}
             </button>
           ) : (

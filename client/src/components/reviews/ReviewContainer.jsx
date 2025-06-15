@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Review from './Review';
 import newRequest from '../../utils/newRequest';
@@ -11,6 +11,8 @@ export default function ReviewContainer({ gigId, showAddReview }) {
   const { reviews, isLoading, hasError } = useSelector((store) => store.reviews);
   const dispatch = useDispatch();
   const currentUser = getCurrentUser();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -18,62 +20,52 @@ export default function ReviewContainer({ gigId, showAddReview }) {
       dispatch(getReviews(gigId));
     };
     fetchReviews();
-  }, [dispatch]);
+  }, [dispatch, gigId]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const desc = e.target[0].value;
-    const star = e.target[1].value;
-
-    await newRequest.post('reviews', { gigId, desc, star, userId: currentUser._id });
+    try {
+      setLoading(false);
+      e.preventDefault();
+      const desc = e.target[0].value;
+      const star = e.target[1].value;
+      await newRequest.post('reviews', { gigId, desc, star, userId: currentUser._id });
+      dispatch(getReviews(gigId));
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const showForm = !reviews.find((r) => r.userId === currentUser?._id) && showAddReview;
 
-  if (isLoading) {
+  if (isLoading || loading) {
     return <Alert message={t('pleaseWait')} />;
   }
-  if (hasError) {
+  if (hasError || error) {
     return <Alert message={t('somethingWentWrong')} />;
   }
   console.log(reviews);
 
   return (
-    <div className="mt-12">
+    <div className='mt-12'>
       <h2>{t('reviews')}</h2>
 
-      {reviews.length ? (
-        reviews.map((review) => <Review key={review._id} reviewData={review} />)
-      ) : (
-        <Alert message={t('noReviews')} />
-      )}
+      {reviews.length ? reviews.map((review) => <Review key={review._id} reviewData={review} />) : <Alert message={t('noReviews')} />}
 
       {showForm && (
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">{t('addReview')}</h3>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <input
-              type="text"
-              placeholder={t('writeOpinion')}
-              className="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
-              required
-            />
-            <select
-              name="star"
-              id="star"
-              className="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-green-500"
-              required
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
+        <div className='mt-8'>
+          <h3 className='text-lg font-semibold mb-2'>{t('addReview')}</h3>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+            <input type='text' placeholder={t('writeOpinion')} className='border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500' required />
+            <select name='star' id='star' className='border border-gray-300 p-2 rounded-md focus:outline-none focus:border-green-500' required>
+              <option value='1'>1</option>
+              <option value='2'>2</option>
+              <option value='3'>3</option>
+              <option value='4'>4</option>
+              <option value='5'>5</option>
             </select>
-            <button
-              type="submit"
-              className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-200"
-            >
+            <button type='submit' className='bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-200'>
               {t('send')}
             </button>
           </form>

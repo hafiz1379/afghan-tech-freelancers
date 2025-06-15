@@ -13,6 +13,11 @@ export const getAllGigs = async (req, res, next) => {
   }
 };
 
+export const createGigAsAdmin = async (req, res) => {
+  await Gig.create(req.body);
+  return res.status(200).send('successfully created');
+};
+
 // CREATE A NEW GIG
 export const createGig = async (req, res, next) => {
   try {
@@ -79,5 +84,32 @@ export const getBasedOnCategory = async (req, res) => {
       message: 'Something went wrong from the getBasedOnCategory',
       error,
     });
+  }
+};
+
+export const getGigsAsAdmin = async (req, res, next) => {
+  try {
+    const gigs = await Gig.find();
+    return res.status(200).send(gigs);
+  } catch (error) {
+    return next(createError(500, 'Something went wrong from'));
+  }
+};
+
+export const deleteAsAdmin = async (req, res, next) => {
+  try {
+    await Gig.findByIdAndDelete(req.params.id);
+    return res.status(200).send('Deleted successfully');
+  } catch (error) {
+    return next(createError(500, 'Internal server error'));
+  }
+};
+
+export const updateAsAdmin = async (req, res, next) => {
+  try {
+    await Gig.findByIdAndUpdate(req.params.id, req.body);
+    return res.status(200).send('Updated successfully');
+  } catch (error) {
+    return next(error);
   }
 };

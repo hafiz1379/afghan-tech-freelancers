@@ -67,3 +67,21 @@ export const getCategory = async (req, res) => {
     });
   }
 };
+
+export const deleteCategory = async (req, res, next) => {
+  try {
+    await Category.findByIdAndDelete(req.params.id);
+    return res.status(200).send('successfully delete');
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const updateCategory = async (req, res, next) => {
+  try {
+    await Category.findByIdAndUpdate(req.params.id, req.body);
+    return res.status(200).send('Updated successfully');
+  } catch (error) {
+    return next(error);
+  }
+};

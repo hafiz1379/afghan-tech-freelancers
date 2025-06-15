@@ -26,7 +26,7 @@ const Login = () => {
 
   return (
     <div>
-      <form className="max-w-[400px] rounded border p-5 mx-auto my-auto mt-20" onSubmit={handleSubmit}>
+      <form className="max-w-[400px] rounded border p-5 mx-auto mt-20 mb-20" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-semibold mb-2.5">{t('signIn')}</h1>
         <div className="my-4">
           <label htmlFor="username" className="block">

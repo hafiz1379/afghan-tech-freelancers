@@ -3,7 +3,7 @@ import { Bars } from 'react-loader-spinner';
 
 export function Loading() {
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className='w-screen h-screen flex items-center justify-center fixed top-0 left-0'>
       <Bars />
     </div>
   );
@@ -12,7 +12,7 @@ export function Loading() {
 export function Label({ children, required, htmlFor }) {
   return (
     <label htmlFor={htmlFor}>
-      {children} <span className="text-red-500">{required && '*'}</span>
+      {children} <span className='text-red-500'>{required && '*'}</span>
     </label>
   );
 }
