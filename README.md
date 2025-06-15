@@ -35,9 +35,9 @@ By providing a secure, scalable, and user-friendly environment, Afghan Tech Free
 
 ## 🖼️ Screenshots
 
-| Home Page | Gig Listing | Profile Page |
+| Home Page | Gig Listing | Sign Up Page |
 |-----------|-------------|--------------|
-| ![Home](![alt text](image.png)) | ![Gigs](![alt text](image-1.png)) | ![Sign UP](![alt text](image-2.png)) |
+| [Home]![alt text](image.png) | [Gigs]![alt text](image-1.png) | [Sign UP]![alt text](image-2.png) |
 
 ## 🛠️ Tech Stack
 
