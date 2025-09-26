@@ -1,25 +1,26 @@
 services:
-  # --- سرویس بک‌اند (Node.js) ---
   - type: web
-    name: your-backend-name
+    name: afghan-tech-freelancers-b 
     env: node
-    buildCommand: npm install
+    buildCommand: npm install 
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
-    envFrom:
-      - type: file
-        path: .env.production
+      - key: MONGO
+        sync: false
+      - key: JWT_KEY
+        sync: false
+      - key: STRIPE
+        sync: false
 
-  # --- سرویس فرونت‌اند (React) ---
   - type: web
-    name: your-frontend-name
+    name: afghan-tech-freelancers-f 
     env: node
-    buildCommand: cd client && npm install && npm run build
-    startCommand: cd client && npm install -g serve && serve -s build
+    buildCommand: cd client && npm install && npm run build 
+    startCommand: cd client && npm install -g serve && serve -s build -l 10000 
     envVars:
       - key: NODE_ENV
         value: production
       - key: REACT_APP_API_URL
-        value: https://your-backend-name.onrender.com
+        value: https://afghan-tech-freelancers-b.onrender.com
