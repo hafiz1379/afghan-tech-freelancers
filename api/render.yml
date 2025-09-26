@@ -1,0 +1,26 @@
+services:
+  # --- سرویس بک‌اند (Node.js) ---
+  - type: web
+    name: your-backend-name # یک نام منحصر به فرد برای بک‌اند خود انتخاب کنید
+    env: node
+    buildCommand: npm install # دستور نصب دیپندنسی‌ها
+    startCommand: npm start # دستور شروع برنامه
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO
+        sync: false # مقدار واقعی را در داشبورد Render وارد کنید
+      - key: JWT_KEY
+        sync: false # مقدار واقعی را در داشبورد Render وارد کنید
+      - key: STRIPE
+        sync: false # مقدار واقعی را در داشبورد Render وارد کنید
+
+  # --- سرویس فرونت‌اند (React) ---
+  - type: web
+    name: your-frontend-name # یک نام منحصر به فرد برای فرونت‌اند خود انتخاب کنید
+    env: node
+    buildCommand: cd client && npm install && npm run build
+    startCommand: cd client && npm install -g serve && serve -s build
+    envVars:
+      - key: NODE_ENV
+        value: production
