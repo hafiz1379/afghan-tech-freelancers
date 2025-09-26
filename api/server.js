@@ -17,7 +17,7 @@ import categoryRoute from "./routes/category.route.js";
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://your-frontend-name.onrender.com",
+  "https://afghan-tech-freelancers-f.onrender.com",
 ];
 
 dotenv.config();
