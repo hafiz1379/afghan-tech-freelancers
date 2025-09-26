@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 
+// وارد کردن روت‌ها
 import userRoute from "./routes/user.route.js";
 import conversationRoute from "./routes/conversation.route.js";
 import gigRoute from "./routes/gig.route.js";
@@ -27,13 +28,11 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    // eslint-disable-next-line func-names, object-shorthand
     origin: function (origin, callback) {
-      if (!origin) return callback(new Error("Not allowed by CORS"));
-
-      if (allowedOrigins.indexOf(origin) !== -1) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
+        console.error("CORS blocked origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -52,11 +51,18 @@ app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/categories", categoryRoute);
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong";
 
-  return res.status(errorStatus).send(errorMessage);
+  const errorDetails = process.env.NODE_ENV === "development" ? err.stack : {};
+
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMessage,
+    stack: errorDetails,
+  });
 });
 
 const connect = async () => {
@@ -64,7 +70,7 @@ const connect = async () => {
     await mongoose.connect(process.env.MONGO);
     console.log("Connected to MongoDB");
   } catch (error) {
-    console.log(error);
+    console.log("MongoDB Connection Error:", error);
   }
 };
 
