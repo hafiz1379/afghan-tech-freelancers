@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const baseURL =
-  import.meta.env.MODE === "production"
+  process.env.NODE_ENV === "production"
     ? "https://afghan-tech-freelancers-b.onrender.com/api/v1/"
     : "http://localhost:8000/api/v1/";
 
 const newRequest = axios.create({
-  baseURL,
-  withCredentials: true, // 🔥 برای ارسال کوکی
+  baseURL: baseURL,
+  withCredentials: true,
 });
 
 export default newRequest;
